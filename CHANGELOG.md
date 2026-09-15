@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.2] - Unreleased
+
+### Added
+
+* Rails 7.1 and 7.2 are supported alongside 8.x (Ruby 3.2+); CI runs every
+  supported Ruby × Rails pair through `gemfiles/`.
+
+### Fixed
+
+* CI resolves the bundle per Ruby (no committed `Gemfile.lock`) and pins
+  `json < 3` for development: activesupport 8.1 calls `JSON.parse(json,
+  options)`, a signature json 3.0 dropped.
+
 ## [0.1.1] - 2026-09-15
 
 ### Added
@@ -33,8 +46,6 @@
   given, and its globs now expand.
 * Three-resource examples (`customers`, `users`, `tasks`) in both
   `examples/test-app` and `examples/spec-app`.
-* Rails 7.1 and 7.2 are supported alongside 8.x (Ruby 3.2+); CI runs every
-  supported Ruby × Rails pair through `gemfiles/`.
 
 ### Changed
 
