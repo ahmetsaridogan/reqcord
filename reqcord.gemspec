@@ -24,16 +24,21 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = spec.homepage
   spec.metadata["rubygems_mfa_required"] = "true"
 
+  # What ships: lib/, the rake task, the docs and the annotated config. Tests,
+  # CI files and the example apps (with their generated output) stay on
+  # GitHub — `git ls-files` runs against the checkout, so `gem build` must be
+  # run from the repository root.
   spec.files = Dir.chdir(__dir__) do
     `git ls-files -z`.split("\x0").reject do |file|
       file.start_with?(
         "test/",
         "spec/",
         "features/",
-        ".git/",
+        "examples/",
+        ".git",
         ".github/"
       ) || file.end_with?(".gem")
-    end
+    end + ["examples/reqcord.yml"]
   end
 
   spec.require_paths = ["lib"]
@@ -43,4 +48,12 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "minitest"
   spec.add_development_dependency "rake"
+
+  # The test suite serves the dummy app over HTTP to replay the generated
+  # cURL and Postman collection, validates the collection against the
+  # Postman schema, and runs the RSpec example apps.
+  spec.add_development_dependency "puma"
+  spec.add_development_dependency "json-schema"
+  spec.add_development_dependency "rspec-core"
+  spec.add_development_dependency "rspec-expectations"
 end

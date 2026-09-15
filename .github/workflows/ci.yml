@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Ruby ${{ matrix.ruby }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Everything the gemspec allows: required_ruby_version >= 3.2.
+        ruby: ["3.2", "3.3", "3.4"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      # Unit tests, the dummy Rails app end to end (real test run, capture,
+      # exporters), the generated cURL and Postman collection replayed against
+      # a live Puma, and every example app in examples/.
+      - name: Run the test suite
+        run: bundle exec rake test
+
+  build:
+    name: Build gem
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+
+      # The gemspec ships `git ls-files`; building from a checkout proves the
+      # package is complete and installable.
+      - name: Build
+        run: gem build reqcord.gemspec
+
+      - name: Install the built gem outside the bundle
+        run: gem install --local reqcord-*.gem
+
+      - name: Smoke test the installed gem
+        run: ruby -e 'require "reqcord"; puts "reqcord #{Reqcord::VERSION}: #{Reqcord::Exporters.names.join(", ")}"'

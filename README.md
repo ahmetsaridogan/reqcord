@@ -1,5 +1,7 @@
 # Reqcord
 
+[![CI](https://github.com/ahmetsaridogan/reqcord/actions/workflows/ci.yml/badge.svg)](https://github.com/ahmetsaridogan/reqcord/actions/workflows/ci.yml)
+
 **Turn your Rails integration tests into living API documentation.**
 
 Reqcord observes real HTTP requests and responses executed by your Rails test suite and converts them into static, readable API documentation.

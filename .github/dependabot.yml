@@ -1,0 +1,33 @@
+version: 2
+
+updates:
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+    open-pull-requests-limit: 5
+    # Rails major versions are a deliberate decision (the gemspec pins
+    # railties/actionpack to < 9), not a bot PR.
+    ignore:
+      - dependency-name: "railties"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "actionpack"
+        update-types: ["version-update:semver-major"]
+    groups:
+      development:
+        dependency-type: development
+    reviewers:
+      - "ahmetsaridogan"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns: ["*"]
