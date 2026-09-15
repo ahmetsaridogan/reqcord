@@ -1,0 +1,7 @@
+/.bundle/
+/pkg/
+/tmp/
+*.gem
+/test/dummy/tmp/
+/test/dummy/docs/
+/test/dummy/log/
