@@ -54,8 +54,10 @@ jobs:
       - name: Build
         run: gem build reqcord.gemspec
 
+      # Not --local: the runtime dependencies (railties, actionpack) come from
+      # rubygems.org, exactly as they would for a user.
       - name: Install the built gem outside the bundle
-        run: gem install --local reqcord-*.gem
+        run: gem install ./reqcord-*.gem
 
       - name: Smoke test the installed gem
         run: ruby -e 'require "reqcord"; puts "reqcord #{Reqcord::VERSION}: #{Reqcord::Exporters.names.join(", ")}"'

@@ -2,6 +2,9 @@
 /pkg/
 /tmp/
 *.gem
+# A library resolves its bundle per Ruby version; a committed lock would pin
+# every CI runner to whatever the maintainer's Ruby resolved.
+Gemfile.lock
 /test/dummy/tmp/
 /test/dummy/docs/
 /test/dummy/log/

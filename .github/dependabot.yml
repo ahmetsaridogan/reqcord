@@ -1,26 +1,9 @@
 version: 2
 
+# No bundler entry: the gem declares open-ended dependencies in the gemspec
+# and commits no Gemfile.lock, so there is nothing for Dependabot to bump.
+# Rails major versions are a deliberate decision (railties/actionpack < 9).
 updates:
-  - package-ecosystem: bundler
-    directory: "/"
-    schedule:
-      interval: weekly
-      day: monday
-      time: "08:00"
-    open-pull-requests-limit: 5
-    # Rails major versions are a deliberate decision (the gemspec pins
-    # railties/actionpack to < 9), not a bot PR.
-    ignore:
-      - dependency-name: "railties"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "actionpack"
-        update-types: ["version-update:semver-major"]
-    groups:
-      development:
-        dependency-type: development
-    reviewers:
-      - "ahmetsaridogan"
-
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
