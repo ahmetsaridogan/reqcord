@@ -19,9 +19,7 @@ Minitest Integration Tests
           ↓
    Canonical Dataset
           ↓
-   Markdown API Docs
-          ↓
-     cURL Examples
+   Markdown · cURL · Postman
 ```
 
 ## Why Reqcord?
@@ -92,13 +90,22 @@ It can generate documentation such as:
 | X-Account-Id | `{{account_id}}` |
 | Content-Type | `application/json` |
 
-## Request Body
+## Body Parameters
+
+| Field | Type | Required | Values |
+| --- | --- | --- | --- |
+| `customer.name` | string | yes | `"John Doe"` |
+| `customer.email` | string | yes | `"john@example.com"` |
+| `customer.status` | string | yes | `"active"` \| `"passive"` |
+
+## Example Request
 
 ```json
 {
   "customer": {
     "name": "John Doe",
-    "email": "john@example.com"
+    "email": "john@example.com",
+    "status": "active"
   }
 }
 ```
@@ -107,27 +114,34 @@ It can generate documentation such as:
 
 ```bash
 curl --request POST \
-  --url "{{base_url}}/api/v2/customers" \
+  --url "http://localhost:3000/api/v2/customers" \
   --header "Authorization: Bearer {{token}}" \
   --header "X-Account-Id: {{account_id}}" \
   --header "Content-Type: application/json" \
   --data '{
-    "customer": {
-      "name": "John Doe",
-      "email": "john@example.com"
-    }
-  }'
+  "customer": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "status": "active"
+  }
+}'
 ```
 
 ## Responses
 
 ### 201 Created
 
+#### Fields
+
+| Field | Type | Required | Values |
+| --- | --- | --- | --- |
+| `id` | integer | yes | `42` |
+| `name` | string | yes | `"John Doe"` |
+
 ```json
 {
   "id": 42,
-  "name": "John Doe",
-  "email": "john@example.com"
+  "name": "John Doe"
 }
 ```
 
@@ -139,7 +153,7 @@ curl --request POST \
 }
 ```
 
-### 422 Unprocessable Entity
+### 422 Unprocessable Content
 
 ```json
 {
@@ -151,6 +165,28 @@ curl --request POST \
 }
 ```
 ````
+
+The parameter tables are inferred from the requests the application
+**accepted**: two passing tests sent `"active"` and `"passive"`, a third sent
+`"inactive"` and got a `422`, so the documentation lists the two values that
+work and keeps the rejection only as a response example. The same run also
+writes a runnable `curl/api/v2/customers/create.sh` and a Postman collection
+with this request and its three saved responses.
+
+## Examples
+
+Two runnable examples live in [`examples/`](examples):
+
+| Example | Test framework | What it shows |
+| --- | --- | --- |
+| [`examples/test-app`](examples/test-app) | Minitest | three small resources: auth, closed value sets, PATCH/PUT folding, a member action |
+| [`examples/spec-app`](examples/spec-app) | RSpec | the same API, documented from request specs |
+| [`examples/complex-test-app`](examples/complex-test-app) | Minitest | a store API: products, cart, orders, nested notes, array bodies, `filter[category]`, a form login, `X-Api-Key` admin namespace, two API versions, 400/403/404/409 |
+| [`examples/complex-spec-app`](examples/complex-spec-app) | RSpec | the store API from request specs |
+
+Each one ships the documentation it generates, so you can read the output
+before running anything. [`examples/reqcord.yml`](examples/reqcord.yml) is an
+annotated configuration file.
 
 ## Core Idea
 
@@ -167,12 +203,9 @@ Minitest ──────► Test Adapter
                        ▼
                 Reqcord Dataset
                        │
-             ┌─────────┴─────────┐
-             ▼                   ▼
-         Markdown              JSON
-             │
-             ▼
-           cURL
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+      Markdown       cURL        Postman
 ```
 
 The internal dataset is framework-independent and output-independent.
@@ -211,13 +244,15 @@ docs/
 
 ## Configuration
 
-Reqcord reads its configuration from `reqcord.yml` in the project root.
+Reqcord reads its configuration from `reqcord.yml` in the project root. Every
+key, default and environment override is described in
+[docs/configuration.md](docs/configuration.md); the short version:
 
 ```yaml
 version: 1
 
 test:
-  framework: minitest
+  framework: minitest   # or: rspec
 
 routes:
   prefix: /api
@@ -226,7 +261,9 @@ output:
   directory: docs/api
 
 exporters:
+  - curl
   - markdown
+  - postman
 
 variables:
   base_url: http://localhost:3000
@@ -279,28 +316,122 @@ Combine filters:
 bin/rails reqcord:generate RESOURCE=customers VERSION=v2
 ```
 
+`reqcord:generate` runs the test suite itself, in a subprocess, with capture
+enabled:
+
+```text
+bin/rails reqcord:generate
+        |
+        +-- collects the application's routes
+        |
+        +-- runs `test.command` with REQCORD_CAPTURE=1
+        |          |
+        |          +-- each request appends a JSON line to the capture file
+        |
+        +-- reads the capture file, sanitizes, writes the documentation
+```
+
+Because capture is driven by `REQCORD_CAPTURE` and `REQCORD_CAPTURE_FILE`, an
+ordinary `bin/rails test` patches nothing and writes nothing. The capture file
+is append-only and locked per write, so parallel test workers can share it.
+
+Point Reqcord at the tests that exercise the API — a directory is enough, it
+picks the runner (`bin/rails test`, `rspec`, or a plain Ruby runner when the
+project has no `bin/rails`):
+
+```yaml
+test:
+  framework: minitest
+  paths:
+    - test/integration
+    - test/api
+```
+
+Or spell the command out; it wins over `paths`, and globs are expanded:
+
+```yaml
+test:
+  command: bin/rails test test/integration test/api/*_test.rb
+```
+
+The run ends with a reconciliation of the whole route table, so nothing can
+go missing quietly:
+
+```text
+[reqcord] captured 87 request(s), 85 matched a documented route
+[reqcord] captured a successful 2xx request for 15 of 16 endpoint(s)
+[reqcord] routes: 18 = 15 documented + 1 uncovered + 2 skipped
+[reqcord] skipped 2 route(s) that cannot be documented: 1 redirect, 1 mount
+```
+
+Every route is in exactly one bucket: *documented* (a test got a `2xx`),
+*uncovered* (listed in the index, no page), or *skipped* with its reason.
+
 ## Generated Files
 
-A typical output looks like:
+Directories follow the controller path, so `admin/customers` and
+`api/v2/customers` never collide:
 
 ```text
 docs/api/
 ├── dataset.json
 ├── README.md
-├── customers/
+├── api/v2/customers/
 │   ├── index.md
 │   ├── create.md
 │   ├── show.md
-│   ├── update.md
-│   └── destroy.md
-└── surveys/
-    ├── index.md
-    └── create.md
+│   └── update.md
+├── api/v2/surveys/
+│   ├── index.md
+│   └── list.md
+├── curl/
+│   └── api/v2/customers/
+│       ├── create.sh
+│       └── show.sh
+└── postman/
+    └── collection.json
 ```
 
-`dataset.json` contains Reqcord's normalized representation of the captured API.
+`dataset.json` contains Reqcord's normalized representation of the captured
+API; every exporter reads that and nothing else.
 
-Markdown files are generated from that dataset.
+## Route coverage
+
+The documented surface is the route table, not only `resources`. These all
+become endpoints:
+
+| Route | Documented as |
+| --- | --- |
+| `resources :customers` | one endpoint per action |
+| `resource :cart` | `GET /cart`, `PATCH /cart` (also `PUT`) |
+| `match "/echo", via: [:get, :post]` | `GET /echo` and `POST /echo` |
+| `match "/anything", via: :all` | one endpoint per verb the tests used |
+| `root to: "home#index"` | `GET /`, titled "Home" |
+| `get "/items(/:id)"` | one endpoint, `:id` optional |
+| `get "/files/*path"` | `path` as a path parameter |
+| `mount Billing => "/billing"` | the engine's own routes, under `/billing` |
+| `namespace :admin { resources :customers }` | `admin/customers/`, apart from `api/v2/customers/` |
+
+`redirect(...)` routes and plain Rack mounts cannot be documented from a test;
+they are counted as *skipped* in the report rather than dropped.
+
+## Postman and Hoppscotch
+
+`postman/collection.json` is a Postman Collection v2.1:
+
+* one folder per controller namespace (`Api › V2 › Customers`),
+* one request per documented endpoint, built from the successful captured
+  example — JSON bodies as `raw`, form bodies as `urlencoded`,
+* every captured status saved as a response example on that request,
+* collection variables for `base_url` and every placeholder the sanitizer
+  wrote (`{{token}}`, `{{api_key}}` …) — Postman's variable syntax is the
+  same, so the collection is usable as soon as the variables are filled in,
+* `Authorization: Bearer {{token}}` lifted to collection-level bearer auth;
+  requests that were made without credentials are marked `noauth`, so they
+  replay exactly as their tests did.
+
+Hoppscotch imports Postman v2.1 collections directly: *Import → Postman* and
+point it at the same file.
 
 ## Request Capture
 
@@ -365,18 +496,18 @@ Responses
 └── 422 Unprocessable Entity
 ```
 
-Multiple examples for the same status code are also preserved.
-
-For example:
+Every distinct body captured for a status is kept in `dataset.json`, and the
+fields of a response are inferred from all of them:
 
 ```text
-422 Unprocessable Entity
+422 Unprocessable Content
 ├── Email already exists
 ├── Name is required
 └── Invalid phone number
 ```
 
-Reqcord does not overwrite one `422` example with another.
+The Markdown page shows one example body per status plus the inferred field
+table; Reqcord does not overwrite one `422` example with another.
 
 ## Sanitization
 
@@ -408,7 +539,15 @@ Authorization: Bearer {{token}}
 
 Sensitive headers such as authorization credentials, cookies and API keys are treated specially by Reqcord.
 
-Request and response body sanitization will follow the same principle.
+Request and response bodies follow the same principle, matched by key at any
+depth:
+
+```yaml
+sanitize:
+  body:
+    password: "{{password}}"
+    access_token: "{{token}}"
+```
 
 ## Canonical Dataset
 
@@ -430,45 +569,43 @@ A simplified endpoint representation looks like:
 
 ```json
 {
+  "name": "Create Customer",
   "method": "POST",
   "path": "/api/v2/customers",
-  "request_examples": [
+  "controller": "api/v2/customers",
+  "action": "create",
+  "parameters": {
+    "path": [],
+    "query": [],
+    "body": [
+      { "path": "customer.name", "type": "string", "required": true, "values": ["John Doe"] },
+      { "path": "customer.status", "type": "string", "required": true, "values": ["active", "passive"] }
+    ]
+  },
+  "responses": [
     {
-      "headers": {
-        "Authorization": "Bearer {{token}}"
-      },
-      "body": {
-        "customer": {
-          "name": "John Doe"
-        }
-      }
-    }
-  ],
-  "response_examples": [
-    {
-      "name": "Created",
       "status": 201,
-      "body": {
-        "id": 42,
-        "name": "John Doe"
-      }
+      "schema": [
+        { "path": "id", "type": "integer", "required": true, "values": [42] }
+      ],
+      "example": { "id": 42, "name": "John Doe" }
     },
-    {
-      "name": "Unauthorized",
-      "status": 401,
-      "body": {
-        "error": "Unauthorized"
-      }
-    }
-  ]
+    { "status": 401, "schema": [ { "path": "error", "type": "string", "required": true, "values": ["Unauthorized"] } ], "example": { "error": "Unauthorized" } }
+  ],
+  "request_examples": [ "… every captured request, sanitized" ],
+  "response_examples": [ "… every captured response, sanitized" ]
 }
 ```
+
+`parameters` and `responses[].schema` are inferred only from requests the
+application accepted; `request_examples` keeps everything that was captured.
+Routes no test reached are listed separately under `uncovered_routes`.
 
 Every dataset contains a schema version so the internal format can evolve safely.
 
 ```json
 {
-  "schema_version": 1
+  "schema_version": 2
 }
 ```
 
@@ -478,26 +615,33 @@ Every dataset contains a schema version so the internal format can evolve safely
 Reqcord
 ├── Configuration
 ├── Dataset
-│   ├── Resource
+│   ├── Resource         (one controller path, nested directories/folders)
 │   ├── Endpoint
 │   ├── RequestExample
-│   └── ResponseExample
+│   ├── ResponseExample
+│   └── Schema           (fields, types, required, closed value sets)
 │
-├── RouteCollector
+├── RouteCollector       (every route kind, engines walked, skips counted)
 │
-├── TestAdapters
-│   └── Minitest
+├── Capture
+│   ├── Collector        (NDJSON, one line per exchange)
+│   ├── TestContext
+│   ├── MinitestContext / RSpecContext
+│   └── IntegrationPatch
+│
+├── Generator            (run tests → dataset → exporters → report)
 │
 ├── Sanitizers
-│   ├── Headers
-│   ├── RequestBody
-│   └── ResponseBody
+│   └── Sanitizer        (headers and bodies)
 │
 ├── Renderers
+│   ├── Payload          (JSON vs form, nested query flattening)
 │   └── Curl
 │
 └── Exporters
-    └── Markdown
+    ├── Markdown
+    ├── Curl             (one .sh per endpoint)
+    └── Postman          (Collection v2.1, also for Hoppscotch)
 ```
 
 Test adapters are responsible only for converting test execution into Reqcord's canonical model.
@@ -508,9 +652,9 @@ Exporters know nothing about Minitest or Rails test internals.
 Minitest ──┐
            │
 RSpec ─────┼──► Dataset ──► Markdown
-           │             ├─► OpenAPI
-Other ─────┘             ├─► Postman
-                         └─► ...
+           │             ├─► cURL
+Other ─────┘             ├─► Postman  (→ Hoppscotch)
+                         └─► OpenAPI  (0.2)
 ```
 
 ## v0.1 Scope
@@ -520,28 +664,28 @@ The first Reqcord release focuses on proving the capture pipeline.
 ### Included
 
 * Rails 8
-* Minitest integration/request tests
+* Minitest integration tests
+* RSpec request specs
 * Rails route discovery
 * `reqcord.yml`
 * Request capture
 * Response capture
 * Multiple response scenarios
 * Sensitive data sanitization
-* Canonical `dataset.json`
+* Canonical `dataset.json` with inferred request parameters and response fields
 * Markdown documentation
-* Generated cURL requests
+* Generated cURL requests (in the Markdown and as runnable `.sh` files)
+* Postman Collection v2.1 (imports into Hoppscotch as well)
+* The whole route table: custom actions, `match via:`, `via: :all`,
+  singular resources, optional segments and globs, mounted engines
 * Resource filtering
 * API version filtering
 
 ### Not included yet
 
-* RSpec adapter
 * OpenAPI generation
 * Scalar integration
-* Postman collections
-* Hoppscotch collections
 * Multipart requests
-* Advanced schema inference
 * CI documentation drift detection
 
 These features belong to later releases rather than expanding the initial scope.
@@ -568,22 +712,13 @@ http://localhost:3000/api-docs
 
 ### v0.3
 
-RSpec request spec adapter.
-
-Both test frameworks will produce the exact same Reqcord dataset:
-
-```text
-Minitest ─┐
-          ├──► Reqcord Dataset
-RSpec ────┘
-```
+Rack::Test capture, so frameworks other than Rails (Sinatra, Roda, Hanami) can
+be documented from the same dataset.
 
 ### Future
 
 Potential exporters and integrations include:
 
-* Postman
-* Hoppscotch
 * Bruno
 * Insomnia
 * `llms.txt`
@@ -619,10 +754,19 @@ Reqcord is currently in early development.
 
 The initial goal is intentionally narrow:
 
-> Capture real Rails API requests and responses from Minitest and generate accurate, sanitized Markdown documentation with executable cURL examples.
+> Capture real Rails API requests and responses from the test suite and generate accurate, sanitized Markdown documentation, executable cURL examples and a Postman collection — without the developer writing any of them by hand.
 
 Once that pipeline is reliable, additional adapters and exporters can be built on top of the same dataset.
 
 ## License
 
 Reqcord is available as open source under the terms of the MIT License.
+
+## cURL source of truth
+
+Reqcord does not invent request payloads. For Rails integration tests, the
+arguments passed to `get`, `post`, `put`, `patch`, and `delete` are captured at
+runtime. Generated cURL commands use a successful `2xx` test case whenever one
+exists, including its concrete URL, request headers, query parameters, and
+payload. Error-case payloads remain available as examples but do not replace
+the canonical successful request.
