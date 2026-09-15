@@ -123,8 +123,14 @@ module Reqcord
       Array(data.dig("test", "paths")).map(&:to_s)
     end
 
+    # `prefix: /api` or `prefix: [/v1, /v2]`; a route under any of them is
+    # documented. Empty means every route.
+    def route_prefixes
+      Array(data.dig("routes", "prefix")).map(&:to_s).reject(&:empty?)
+    end
+
     def route_prefix
-      data.dig("routes", "prefix")
+      route_prefixes.first
     end
 
     def output_directory

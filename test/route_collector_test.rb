@@ -139,4 +139,12 @@ class RouteCollectorTest < Minitest::Test
   def test_prefix_filter_applies_to_mounted_paths
     assert_equal ["/billing/invoices"], mixed_routes(prefix: "/billing").map(&:path)
   end
+
+  # Versions or audiences without a common root: any listed prefix qualifies.
+  def test_prefix_accepts_a_list
+    paths = mixed_routes(prefix: ["/billing", "/items"]).map(&:path)
+
+    assert_equal ["/billing/invoices", "/items(/:id)"], paths.sort
+    assert_equal mixed_routes(prefix: nil).size, mixed_routes(prefix: []).size
+  end
 end

@@ -211,10 +211,12 @@ module Reqcord
       )
     end
 
+    # `prefix` is one string or a list; nothing configured means every route.
     def matches_prefix?(path)
-      return true if prefix.nil? || prefix.empty?
+      prefixes = Array(prefix).map(&:to_s).reject(&:empty?)
+      return true if prefixes.empty?
 
-      path.start_with?(prefix)
+      prefixes.any? { |candidate| path.start_with?(candidate) }
     end
 
     # `RESOURCE=customers`, `RESOURCE=cart` (a singular resource is served by

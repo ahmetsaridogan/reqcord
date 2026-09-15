@@ -20,8 +20,10 @@ test:
   # command: bin/rails test test/integration test/api
 
 routes:
-  # Only routes under this prefix are documented. Filter a single run with
-  # RESOURCE=customers,cart or VERSION=v2 instead of editing this file.
+  # Only routes under this prefix are documented; a list works too:
+  #   prefix: [/api, /partner]
+  # Filter a single run with RESOURCE=customers,cart or VERSION=v2 instead of
+  # editing this file.
   prefix: /api
 
 output:

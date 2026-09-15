@@ -28,8 +28,9 @@ namespace :reqcord do
         # command: bin/rails test test/integration test/api
 
       routes:
-        # Only routes under this prefix are documented. Filter a single run
-        # with RESOURCE=customers,cart or VERSION=v2.
+        # Only routes under this prefix are documented; a list works too
+        # (`prefix: [/v1, /v2]`). Filter a single run with
+        # RESOURCE=customers,cart or VERSION=v2.
         prefix: /api
 
       output:
@@ -108,7 +109,7 @@ namespace :reqcord do
       Reqcord::RouteCollector.call(
         resources: ENV.fetch("RESOURCE", "").split(",").map(&:strip).reject(&:empty?),
         version: ENV["VERSION"],
-        prefix: Reqcord.configuration.route_prefix
+        prefix: Reqcord.configuration.route_prefixes
       )
 
     if routes.empty?
