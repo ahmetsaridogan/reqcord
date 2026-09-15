@@ -103,7 +103,8 @@ class PipelineTest < Minitest::Test
 
     assert_includes page, "### 201 Created"
     assert_includes page, "### 401 Unauthorized"
-    assert_includes page, "### 422 Unprocessable Content"
+    # "Unprocessable Content" on Rack >= 3.1, "Unprocessable Entity" before.
+    assert_includes page, "### 422 #{Rack::Utils::HTTP_STATUS_CODES[422]}"
   end
 
   def test_credentials_never_reach_the_documentation

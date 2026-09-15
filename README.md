@@ -214,6 +214,17 @@ The internal dataset is framework-independent and output-independent.
 
 This allows Reqcord to support additional test frameworks and documentation formats without coupling them together.
 
+## Supported versions
+
+| | |
+| --- | --- |
+| Ruby | 3.2, 3.3, 3.4 |
+| Rails | 7.1, 7.2, 8.0, 8.1 |
+| Test frameworks | Minitest integration tests, RSpec request specs |
+
+Every Ruby × Rails pair that Rails itself supports runs in CI
+(`gemfiles/rails_*.gemfile`).
+
 ## Installation
 
 Add Reqcord to the development and test groups:
