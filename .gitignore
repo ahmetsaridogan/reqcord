@@ -5,3 +5,4 @@
 /test/dummy/tmp/
 /test/dummy/docs/
 /test/dummy/log/
+.DS_Store
