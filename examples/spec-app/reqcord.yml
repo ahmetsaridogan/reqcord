@@ -1,0 +1,27 @@
+version: 1
+
+test:
+  framework: rspec
+  # A directory is enough: Reqcord runs `rspec <paths>`.
+  paths:
+    - spec/requests
+
+routes:
+  prefix: /api
+
+output:
+  directory: docs/api
+
+exporters:
+  - curl
+  - markdown
+  - postman
+
+variables:
+  base_url: http://localhost:3000
+
+sanitize:
+  headers:
+    Authorization: "Bearer {{token}}"
+  body:
+    password: "{{password}}"

@@ -1,0 +1,58 @@
+# Reqcord configuration. Copy this file to your application root as
+# `reqcord.yml`, or generate it with `bin/rails reqcord:init`.
+#
+# Precedence: environment variables > reqcord.yml > Reqcord defaults.
+# Every key is documented in docs/configuration.md.
+
+version: 1
+
+test:
+  # minitest or rspec.
+  framework: minitest
+
+  # Where the tests that exercise your API live. Reqcord picks the runner:
+  # `bin/rails test <paths>` in a Rails app, `rspec <paths>` for request
+  # specs, a plain Ruby runner when there is no bin/rails.
+  paths:
+    - test/integration
+
+  # Or spell the command out yourself; it wins over `paths`. Globs expand.
+  # command: bin/rails test test/integration test/api
+
+routes:
+  # Only routes under this prefix are documented. Filter a single run with
+  # RESOURCE=customers,cart or VERSION=v2 instead of editing this file.
+  prefix: /api
+
+output:
+  # Relative to the application root. Override per run with REQCORD_OUTPUT.
+  directory: docs/api
+
+  # Routes no test reached with a 2xx are listed in the index either way;
+  # `true` also writes a page for each of them.
+  include_uncovered: false
+
+# markdown: pages under docs/api, curl: one runnable .sh per endpoint,
+# postman: postman/collection.json (import into Postman or Hoppscotch).
+exporters:
+  - curl
+  - markdown
+  - postman
+
+variables:
+  # Used as the host in every generated cURL and as the Postman `base_url`
+  # variable. Override with REQCORD_BASE_URL.
+  base_url: http://localhost:3000
+
+sanitize:
+  # Captured header values are replaced with these, verbatim. Authorization,
+  # Cookie and X-Api-Key are always redacted, configured here or not.
+  headers:
+    Authorization: "Bearer {{token}}"
+    X-Api-Key: "{{api_key}}"
+    X-Account-Id: "{{account_id}}"
+
+  # Body keys, matched at any depth, in requests and responses alike.
+  body:
+    password: "{{password}}"
+    access_token: "{{token}}"

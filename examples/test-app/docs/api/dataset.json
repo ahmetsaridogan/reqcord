@@ -1,0 +1,2402 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-09-15T21:26:52Z",
+  "endpoints": [
+    {
+      "name": "List Customers",
+      "method": "GET",
+      "path": "/api/v1/customers",
+      "controller": "api/v1/customers",
+      "action": "index",
+      "resource": "customers",
+      "api_version": "v1",
+      "route_name": "api_v1_customers",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [
+          {
+            "path": "per_page",
+            "type": "integer",
+            "required": true,
+            "values": [
+              1
+            ]
+          }
+        ],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "John Doe"
+              ]
+            },
+            {
+              "path": "[].email",
+              "type": "string",
+              "required": true,
+              "values": [
+                "john@example.com"
+              ]
+            }
+          ],
+          "example": [
+            {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com"
+            }
+          ],
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 401,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Unauthorized"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Unauthorized"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Lists Customers",
+          "method": "GET",
+          "path": "/api/v1/customers",
+          "path_params": {},
+          "query_params": {
+            "per_page": 1
+          },
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_customers",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 13
+          }
+        },
+        {
+          "name": "Requires Authentication",
+          "method": "GET",
+          "path": "/api/v1/customers",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 401,
+          "source": {
+            "test": "test_requires_authentication",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 67
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Lists Customers",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com"
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_customers",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 13
+          }
+        },
+        {
+          "name": "Requires Authentication",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Unauthorized"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_requires_authentication",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 67
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Customer",
+      "method": "POST",
+      "path": "/api/v1/customers",
+      "controller": "api/v1/customers",
+      "action": "create",
+      "resource": "customers",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "customer.name",
+            "type": "string",
+            "required": true,
+            "values": [
+              "Ada Lovelace",
+              "Grace Hopper"
+            ]
+          },
+          {
+            "path": "customer.email",
+            "type": "string",
+            "required": true,
+            "values": [
+              "ada@example.com",
+              "grace@example.com"
+            ]
+          },
+          {
+            "path": "customer.status",
+            "type": "string",
+            "required": true,
+            "values": [
+              "active",
+              "passive"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Ada Lovelace",
+                "Grace Hopper"
+              ]
+            },
+            {
+              "path": "email",
+              "type": "string",
+              "required": true,
+              "values": [
+                "ada@example.com",
+                "grace@example.com"
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "active",
+                "passive"
+              ]
+            }
+          ],
+          "example": {
+            "id": 3,
+            "name": "Ada Lovelace",
+            "email": "ada@example.com",
+            "status": "active"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.email[]",
+              "type": "string",
+              "required": false,
+              "values": [
+                "can't be blank"
+              ]
+            },
+            {
+              "path": "errors.status[]",
+              "type": "string",
+              "required": false,
+              "values": [
+                "is not included in the list"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "email": [
+                "can't be blank"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Creates An Active Customer",
+          "method": "POST",
+          "path": "/api/v1/customers",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "customer": {
+              "name": "Ada Lovelace",
+              "email": "ada@example.com",
+              "status": "active"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_an_active_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 31
+          }
+        },
+        {
+          "name": "Creates A Passive Customer",
+          "method": "POST",
+          "path": "/api/v1/customers",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "customer": {
+              "name": "Grace Hopper",
+              "email": "grace@example.com",
+              "status": "passive"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_a_passive_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 40
+          }
+        },
+        {
+          "name": "Rejects A Customer Without An Email",
+          "method": "POST",
+          "path": "/api/v1/customers",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "customer": {
+              "name": "Ada Lovelace",
+              "email": "",
+              "status": "active"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_a_customer_without_an_email",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 58
+          }
+        },
+        {
+          "name": "Rejects An Unknown Status",
+          "method": "POST",
+          "path": "/api/v1/customers",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "customer": {
+              "name": "Ada Lovelace",
+              "email": "ada@example.com",
+              "status": "inactive"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_unknown_status",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 49
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Creates An Active Customer",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 3,
+            "name": "Ada Lovelace",
+            "email": "ada@example.com",
+            "status": "active"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_an_active_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 31
+          }
+        },
+        {
+          "name": "Creates A Passive Customer",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 3,
+            "name": "Grace Hopper",
+            "email": "grace@example.com",
+            "status": "passive"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_a_passive_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 40
+          }
+        },
+        {
+          "name": "Rejects A Customer Without An Email",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "email": [
+                "can't be blank"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_a_customer_without_an_email",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 58
+          }
+        },
+        {
+          "name": "Rejects An Unknown Status",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "status": [
+                "is not included in the list"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_unknown_status",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 49
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Customer",
+      "method": "GET",
+      "path": "/api/v1/customers/:id",
+      "controller": "api/v1/customers",
+      "action": "show",
+      "resource": "customers",
+      "api_version": "v1",
+      "route_name": "api_v1_customer",
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "John Doe"
+              ]
+            },
+            {
+              "path": "email",
+              "type": "string",
+              "required": true,
+              "values": [
+                "john@example.com"
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 404,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Not Found"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Not Found"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Shows Customer",
+          "method": "GET",
+          "path": "/api/v1/customers/1",
+          "path_params": {
+            "id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_shows_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 19
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown Customer",
+          "method": "GET",
+          "path": "/api/v1/customers/999",
+          "path_params": {
+            "id": "999"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 25
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Shows Customer",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_shows_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 19
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown Customer",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 25
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Users",
+      "method": "GET",
+      "path": "/api/v1/users",
+      "controller": "api/v1/users",
+      "action": "index",
+      "resource": "users",
+      "api_version": "v1",
+      "route_name": "api_v1_users",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [
+          {
+            "path": "per_page",
+            "type": "integer",
+            "required": true,
+            "values": [
+              1
+            ]
+          }
+        ],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "John Doe"
+              ]
+            },
+            {
+              "path": "[].email",
+              "type": "string",
+              "required": true,
+              "values": [
+                "john@example.com"
+              ]
+            }
+          ],
+          "example": [
+            {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com"
+            }
+          ],
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 401,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Unauthorized"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Unauthorized"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Lists Users",
+          "method": "GET",
+          "path": "/api/v1/users",
+          "path_params": {},
+          "query_params": {
+            "per_page": 1
+          },
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_users",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 13
+          }
+        },
+        {
+          "name": "Requires Authentication",
+          "method": "GET",
+          "path": "/api/v1/users",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 401,
+          "source": {
+            "test": "test_requires_authentication",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 67
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Lists Users",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com"
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_users",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 13
+          }
+        },
+        {
+          "name": "Requires Authentication",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Unauthorized"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_requires_authentication",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 67
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create User",
+      "method": "POST",
+      "path": "/api/v1/users",
+      "controller": "api/v1/users",
+      "action": "create",
+      "resource": "users",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "user.name",
+            "type": "string",
+            "required": true,
+            "values": [
+              "Ada Lovelace",
+              "Grace Hopper"
+            ]
+          },
+          {
+            "path": "user.email",
+            "type": "string",
+            "required": true,
+            "values": [
+              "ada@example.com",
+              "grace@example.com"
+            ]
+          },
+          {
+            "path": "user.status",
+            "type": "string",
+            "required": true,
+            "values": [
+              "active",
+              "inactive"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Ada Lovelace",
+                "Grace Hopper"
+              ]
+            },
+            {
+              "path": "email",
+              "type": "string",
+              "required": true,
+              "values": [
+                "ada@example.com",
+                "grace@example.com"
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "active",
+                "inactive"
+              ]
+            }
+          ],
+          "example": {
+            "id": 3,
+            "name": "Ada Lovelace",
+            "email": "ada@example.com",
+            "status": "active"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.email[]",
+              "type": "string",
+              "required": false,
+              "values": [
+                "can't be blank"
+              ]
+            },
+            {
+              "path": "errors.status[]",
+              "type": "string",
+              "required": false,
+              "values": [
+                "is not included in the list"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "email": [
+                "can't be blank"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Creates An Active User",
+          "method": "POST",
+          "path": "/api/v1/users",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "user": {
+              "name": "Ada Lovelace",
+              "email": "ada@example.com",
+              "status": "active"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_an_active_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 31
+          }
+        },
+        {
+          "name": "Creates A Inactive User",
+          "method": "POST",
+          "path": "/api/v1/users",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "user": {
+              "name": "Grace Hopper",
+              "email": "grace@example.com",
+              "status": "inactive"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_a_inactive_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 40
+          }
+        },
+        {
+          "name": "Rejects A User Without An Email",
+          "method": "POST",
+          "path": "/api/v1/users",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "user": {
+              "name": "Ada Lovelace",
+              "email": "",
+              "status": "active"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_a_user_without_an_email",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 58
+          }
+        },
+        {
+          "name": "Rejects An Unknown Status",
+          "method": "POST",
+          "path": "/api/v1/users",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "user": {
+              "name": "Ada Lovelace",
+              "email": "ada@example.com",
+              "status": "passive"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_unknown_status",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 49
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Creates An Active User",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 3,
+            "name": "Ada Lovelace",
+            "email": "ada@example.com",
+            "status": "active"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_an_active_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 31
+          }
+        },
+        {
+          "name": "Creates A Inactive User",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 3,
+            "name": "Grace Hopper",
+            "email": "grace@example.com",
+            "status": "inactive"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_a_inactive_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 40
+          }
+        },
+        {
+          "name": "Rejects A User Without An Email",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "email": [
+                "can't be blank"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_a_user_without_an_email",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 58
+          }
+        },
+        {
+          "name": "Rejects An Unknown Status",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "status": [
+                "is not included in the list"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_unknown_status",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 49
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get User",
+      "method": "GET",
+      "path": "/api/v1/users/:id",
+      "controller": "api/v1/users",
+      "action": "show",
+      "resource": "users",
+      "api_version": "v1",
+      "route_name": "api_v1_user",
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "John Doe"
+              ]
+            },
+            {
+              "path": "email",
+              "type": "string",
+              "required": true,
+              "values": [
+                "john@example.com"
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 404,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Not Found"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Not Found"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Shows User",
+          "method": "GET",
+          "path": "/api/v1/users/1",
+          "path_params": {
+            "id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_shows_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 19
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown User",
+          "method": "GET",
+          "path": "/api/v1/users/999",
+          "path_params": {
+            "id": "999"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 25
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Shows User",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john@example.com"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_shows_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 19
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown User",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 25
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complete Task",
+      "method": "POST",
+      "path": "/api/v1/tasks/:id/complete",
+      "controller": "api/v1/tasks",
+      "action": "complete",
+      "resource": "tasks",
+      "api_version": "v1",
+      "route_name": "complete_api_v1_task",
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "title",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Write the docs"
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "done"
+              ]
+            },
+            {
+              "path": "priority",
+              "type": "string",
+              "required": true,
+              "values": [
+                "high"
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "title": "Write the docs",
+            "status": "done",
+            "priority": "high"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Completes A Task",
+          "method": "POST",
+          "path": "/api/v1/tasks/1/complete",
+          "path_params": {
+            "id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_completes_a_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 69
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Completes A Task",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "title": "Write the docs",
+            "status": "done",
+            "priority": "high"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_completes_a_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 69
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Tasks",
+      "method": "GET",
+      "path": "/api/v1/tasks",
+      "controller": "api/v1/tasks",
+      "action": "index",
+      "resource": "tasks",
+      "api_version": "v1",
+      "route_name": "api_v1_tasks",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [
+          {
+            "path": "status",
+            "type": "string",
+            "required": false,
+            "values": [
+              "done",
+              "open"
+            ]
+          }
+        ],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2,
+                3
+              ]
+            },
+            {
+              "path": "[].title",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Ship 0.1.1",
+                "Tidy the backlog"
+              ]
+            },
+            {
+              "path": "[].status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "done",
+                "open"
+              ]
+            },
+            {
+              "path": "[].priority",
+              "type": "string",
+              "required": true,
+              "values": [
+                "high",
+                "low"
+              ]
+            }
+          ],
+          "example": [
+            {
+              "id": 1,
+              "title": "Write the docs",
+              "status": "open",
+              "priority": "high"
+            },
+            {
+              "id": 2,
+              "title": "Ship 0.1.1",
+              "status": "done",
+              "priority": "high"
+            },
+            {
+              "id": 3,
+              "title": "Tidy the backlog",
+              "status": "open",
+              "priority": "low"
+            }
+          ],
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Lists Tasks",
+          "method": "GET",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_tasks",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 9
+          }
+        },
+        {
+          "name": "Lists Done Tasks",
+          "method": "GET",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {
+            "status": "done"
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_done_tasks",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 21
+          }
+        },
+        {
+          "name": "Lists Open Tasks",
+          "method": "GET",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {
+            "status": "open"
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_open_tasks",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 15
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Lists Tasks",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 1,
+              "title": "Write the docs",
+              "status": "open",
+              "priority": "high"
+            },
+            {
+              "id": 2,
+              "title": "Ship 0.1.1",
+              "status": "done",
+              "priority": "high"
+            },
+            {
+              "id": 3,
+              "title": "Tidy the backlog",
+              "status": "open",
+              "priority": "low"
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_tasks",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 9
+          }
+        },
+        {
+          "name": "Lists Done Tasks",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 2,
+              "title": "Ship 0.1.1",
+              "status": "done",
+              "priority": "high"
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_done_tasks",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 21
+          }
+        },
+        {
+          "name": "Lists Open Tasks",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 1,
+              "title": "Write the docs",
+              "status": "open",
+              "priority": "high"
+            },
+            {
+              "id": 3,
+              "title": "Tidy the backlog",
+              "status": "open",
+              "priority": "low"
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_open_tasks",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 15
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Task",
+      "method": "POST",
+      "path": "/api/v1/tasks",
+      "controller": "api/v1/tasks",
+      "action": "create",
+      "resource": "tasks",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "task.title",
+            "type": "string",
+            "required": true,
+            "values": [
+              "Review the release",
+              "Water the plants"
+            ]
+          },
+          {
+            "path": "task.priority",
+            "type": "string",
+            "required": true,
+            "values": [
+              "high",
+              "low"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                4
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "open"
+              ]
+            },
+            {
+              "path": "title",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Review the release",
+                "Water the plants"
+              ]
+            },
+            {
+              "path": "priority",
+              "type": "string",
+              "required": true,
+              "values": [
+                "high",
+                "low"
+              ]
+            }
+          ],
+          "example": {
+            "id": 4,
+            "status": "open",
+            "title": "Review the release",
+            "priority": "high"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.title[]",
+              "type": "string",
+              "required": false,
+              "values": [
+                "can't be blank"
+              ]
+            },
+            {
+              "path": "errors.priority[]",
+              "type": "string",
+              "required": false,
+              "values": [
+                "is not included in the list"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "title": [
+                "can't be blank"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Creates A High Priority Task",
+          "method": "POST",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "task": {
+              "title": "Review the release",
+              "priority": "high"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_a_high_priority_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 39
+          }
+        },
+        {
+          "name": "Rejects A Task Without A Title",
+          "method": "POST",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "task": {
+              "title": "",
+              "priority": "high"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_a_task_without_a_title",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 51
+          }
+        },
+        {
+          "name": "Rejects An Unknown Priority",
+          "method": "POST",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "task": {
+              "title": "Anything",
+              "priority": "urgent"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_unknown_priority",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 57
+          }
+        },
+        {
+          "name": "Creates A Low Priority Task",
+          "method": "POST",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "task": {
+              "title": "Water the plants",
+              "priority": "low"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_a_low_priority_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 45
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Creates A High Priority Task",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 4,
+            "status": "open",
+            "title": "Review the release",
+            "priority": "high"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_a_high_priority_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 39
+          }
+        },
+        {
+          "name": "Rejects A Task Without A Title",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "title": [
+                "can't be blank"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_a_task_without_a_title",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 51
+          }
+        },
+        {
+          "name": "Rejects An Unknown Priority",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "priority": [
+                "is not included in the list"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_unknown_priority",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 57
+          }
+        },
+        {
+          "name": "Creates A Low Priority Task",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 4,
+            "status": "open",
+            "title": "Water the plants",
+            "priority": "low"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_a_low_priority_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 45
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Task",
+      "method": "GET",
+      "path": "/api/v1/tasks/:id",
+      "controller": "api/v1/tasks",
+      "action": "show",
+      "resource": "tasks",
+      "api_version": "v1",
+      "route_name": "api_v1_task",
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "title",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Write the docs"
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "open"
+              ]
+            },
+            {
+              "path": "priority",
+              "type": "string",
+              "required": true,
+              "values": [
+                "high"
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "title": "Write the docs",
+            "status": "open",
+            "priority": "high"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 404,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Not Found"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Not Found"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Shows A Task",
+          "method": "GET",
+          "path": "/api/v1/tasks/1",
+          "path_params": {
+            "id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_shows_a_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 27
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown Task",
+          "method": "GET",
+          "path": "/api/v1/tasks/999",
+          "path_params": {
+            "id": "999"
+          },
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 33
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Shows A Task",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "title": "Write the docs",
+            "status": "open",
+            "priority": "high"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_shows_a_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 27
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown Task",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 33
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Task",
+      "method": "PATCH",
+      "path": "/api/v1/tasks/:id",
+      "controller": "api/v1/tasks",
+      "action": "update",
+      "resource": "tasks",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [
+        "PUT"
+      ],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": [
+          {
+            "path": "task.title",
+            "type": "string",
+            "required": true,
+            "values": [
+              "Write better docs"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "title",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Write better docs"
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "open"
+              ]
+            },
+            {
+              "path": "priority",
+              "type": "string",
+              "required": true,
+              "values": [
+                "high"
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "title": "Write better docs",
+            "status": "open",
+            "priority": "high"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Updates A Task",
+          "method": "PATCH",
+          "path": "/api/v1/tasks/1",
+          "path_params": {
+            "id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "task": {
+              "title": "Write better docs"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 200,
+          "source": {
+            "test": "test_updates_a_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 63
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Updates A Task",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "title": "Write better docs",
+            "status": "open",
+            "priority": "high"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_updates_a_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 63
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Task",
+      "method": "DELETE",
+      "path": "/api/v1/tasks/:id",
+      "controller": "api/v1/tasks",
+      "action": "destroy",
+      "resource": "tasks",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "3"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 204,
+          "schema": [],
+          "example": null,
+          "headers": {},
+          "content_type": null
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Deletes A Task",
+          "method": "DELETE",
+          "path": "/api/v1/tasks/3",
+          "path_params": {
+            "id": "3"
+          },
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 204,
+          "source": {
+            "test": "test_deletes_a_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 75
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Deletes A Task",
+          "status": 204,
+          "headers": {},
+          "body": null,
+          "content_type": null,
+          "source": {
+            "test": "test_deletes_a_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 75
+          }
+        }
+      ]
+    }
+  ],
+  "uncovered_routes": []
+}

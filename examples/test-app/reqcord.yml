@@ -1,0 +1,28 @@
+version: 1
+
+test:
+  framework: minitest
+  # A directory is enough. There is no bin/rails here, so Reqcord runs every
+  # *_test.rb beneath it itself; in a Rails app it runs `bin/rails test <path>`.
+  paths:
+    - test/integration
+
+routes:
+  prefix: /api
+
+output:
+  directory: docs/api
+
+exporters:
+  - curl
+  - markdown
+  - postman
+
+variables:
+  base_url: http://localhost:3000
+
+sanitize:
+  headers:
+    Authorization: "Bearer {{token}}"
+  body:
+    password: "{{password}}"
