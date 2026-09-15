@@ -146,6 +146,20 @@ routes:
   prefix: /api/v2
 ```
 
+A list documents routes under any of the prefixes — for APIs whose versions
+or audiences do not share a root:
+
+```yaml
+routes:
+  prefix:
+    - /v1
+    - /v2
+    - /partner
+```
+
+One prefix already covers every version beneath it (`/api` includes `/api/v1`
+and `/api/v2`); use `VERSION=v2` to generate for one of them.
+
 Rails' own routes (`rails/…`, Active Storage, Action Mailbox, Turbo) are always
 left out. `redirect(...)` routes and plain Rack mounts cannot be documented from
 a test; they are counted as *skipped* in the report rather than dropped.

@@ -34,6 +34,22 @@ class ConfigurationTest < Minitest::Test
     end
   end
 
+  def test_prefix_accepts_a_list
+    Dir.mktmpdir do |directory|
+      config = configuration_for(directory, "routes:\n  prefix:\n    - /v1\n    - /v2\n")
+
+      assert_equal %w[/v1 /v2], config.route_prefixes
+      assert_equal "/v1", config.route_prefix
+    end
+  end
+
+  def test_prefix_defaults_to_api_and_an_empty_value_means_every_route
+    Dir.mktmpdir do |directory|
+      assert_equal ["/api"], Reqcord::Configuration.load(root: directory).route_prefixes
+      assert_empty configuration_for(directory, "routes:\n  prefix: \"\"\n").route_prefixes
+    end
+  end
+
   def test_yaml_is_merged_into_defaults_without_dropping_them
     Dir.mktmpdir do |directory|
       config = configuration_for(directory, <<~YAML)

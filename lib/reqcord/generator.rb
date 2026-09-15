@@ -187,7 +187,7 @@ module Reqcord
       collector = RouteCollector.new(
         resources: resources,
         version: version,
-        prefix: configuration.route_prefix
+        prefix: configuration.route_prefixes
       )
 
       routes = collector.call

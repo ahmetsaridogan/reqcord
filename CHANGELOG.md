@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.3] - Unreleased
+
+### Added
+
+* `routes.prefix` accepts a list (`[/v1, /v2, /partner]`) for APIs whose
+  versions or audiences do not share a root.
+
+### Changed
+
+* The `reqcord:init` template now names test directories (`test.paths`)
+  instead of running the whole suite, and documents every key inline.
+
 ## [0.1.2] - 2026-09-16
 
 ### Added

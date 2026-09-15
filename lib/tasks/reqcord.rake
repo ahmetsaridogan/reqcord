@@ -11,31 +11,58 @@ namespace :reqcord do
     end
 
     content = <<~YAML
+      # Reqcord configuration. Every key is documented in the gem's
+      # docs/configuration.md. Precedence: environment > this file > defaults.
       version: 1
 
       test:
+        # minitest or rspec
         framework: minitest
-        command: bin/rails test
+
+        # The tests that exercise your API. Reqcord runs `bin/rails test <paths>`
+        # (or `rspec <paths>`) with capture enabled; a directory is enough.
+        paths:
+          - test/integration
+
+        # Or spell the command out yourself; it wins over `paths`.
+        # command: bin/rails test test/integration test/api
 
       routes:
+        # Only routes under this prefix are documented; a list works too
+        # (`prefix: [/v1, /v2]`). Filter a single run with
+        # RESOURCE=customers,cart or VERSION=v2.
         prefix: /api
 
       output:
         directory: docs/api
+
+        # Routes no test reached with a 2xx are listed in the index either
+        # way; `true` also writes a page for each of them.
         include_uncovered: false
 
+      # markdown: pages under docs/api, curl: one runnable .sh per endpoint,
+      # postman: postman/collection.json (import into Postman or Hoppscotch).
       exporters:
         - curl
         - markdown
         - postman
 
       variables:
+        # Host of every generated cURL and the Postman `base_url` variable.
         base_url: http://localhost:3000
 
       sanitize:
+        # Header values are replaced verbatim. Authorization, Cookie and
+        # X-Api-Key are always redacted, configured here or not.
         headers:
           Authorization: "Bearer {{token}}"
           X-Api-Key: "{{api_key}}"
+
+        # Body keys, matched at any depth in requests and responses. password,
+        # token, access_token, api_key, secret are always redacted; add the
+        # fields your API exposes (a signed payment link, for example).
+        body:
+          password: "{{password}}"
     YAML
 
     File.write(path, content)
@@ -82,7 +109,7 @@ namespace :reqcord do
       Reqcord::RouteCollector.call(
         resources: ENV.fetch("RESOURCE", "").split(",").map(&:strip).reject(&:empty?),
         version: ENV["VERSION"],
-        prefix: Reqcord.configuration.route_prefix
+        prefix: Reqcord.configuration.route_prefixes
       )
 
     if routes.empty?
