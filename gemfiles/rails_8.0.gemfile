@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+# CI: BUNDLE_GEMFILE=gemfiles/rails_8.0.gemfile bundle exec rake test
+
+source "https://rubygems.org"
+
+gemspec path: ".."
+
+gem "railties", "~> 8.0.0"
+gem "actionpack", "~> 8.0.0"
+
+# activesupport calls JSON.parse(json, options); json 3.0 dropped that signature.
+gem "json", "< 3"

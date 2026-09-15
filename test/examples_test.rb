@@ -76,7 +76,7 @@ class ExamplesTest < Minitest::Test
     refute_includes create, "inactive"
     assert_includes create, "Bearer {{token}}"
     assert_includes create, "### 201 Created"
-    assert_includes create, "### 422 Unprocessable Content"
+    assert_includes create, "### 422 #{Rack::Utils::HTTP_STATUS_CODES[422]}"
     assert_includes page(output, "api", "v1", "tasks", "update.md"), "(also `PUT`)"
     assert_equal 2, data["schema_version"]
     assert_includes data["endpoints"].map { |endpoint| endpoint["name"] }, "Create Customer"
@@ -101,7 +101,7 @@ class ExamplesTest < Minitest::Test
     assert_includes orders, "`order.line_items[].quantity`"
     assert_includes orders, "`order.shipping_address.city`"
     assert_includes orders, "### 201 Created"
-    assert_includes orders, "### 422 Unprocessable Content"
+    assert_includes orders, "### 422 #{Rack::Utils::HTTP_STATUS_CODES[422]}"
 
     products = page(output, "api", "v1", "products", "list.md")
     assert_includes products, "| `filter.category` | string | no | `\"mugs\"` \\| `\"tea\"` |"

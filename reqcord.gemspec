@@ -43,8 +43,9 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "railties", ">= 8.0", "< 9.0"
-  spec.add_dependency "actionpack", ">= 8.0", "< 9.0"
+  # Rails 7.1 through 8.x; every version is exercised in CI (see gemfiles/).
+  spec.add_dependency "railties", ">= 7.1", "< 9.0"
+  spec.add_dependency "actionpack", ">= 7.1", "< 9.0"
 
   spec.add_development_dependency "minitest"
   spec.add_development_dependency "rake"
