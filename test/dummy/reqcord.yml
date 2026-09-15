@@ -1,0 +1,24 @@
+version: 1
+
+test:
+  framework: minitest
+  command: ruby integration_tests.rb
+
+routes:
+  prefix: /api
+
+output:
+  directory: docs/api
+
+exporters:
+  - curl
+  - markdown
+  - postman
+
+variables:
+  base_url: http://localhost:3000
+
+sanitize:
+  headers:
+    Authorization: "Bearer {{token}}"
+    X-Account-Id: "{{account_id}}"
