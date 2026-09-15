@@ -1,0 +1,28 @@
+version: 1
+
+test:
+  framework: rspec
+  paths:
+    - spec/requests
+
+routes:
+  prefix: /api
+
+output:
+  directory: docs/api
+
+exporters:
+  - curl
+  - markdown
+  - postman
+
+variables:
+  base_url: http://localhost:3000
+
+sanitize:
+  headers:
+    Authorization: "Bearer {{token}}"
+    X-Api-Key: "{{api_key}}"
+  body:
+    password: "{{password}}"
+    token: "{{token}}"

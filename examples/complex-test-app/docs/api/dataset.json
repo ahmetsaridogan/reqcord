@@ -1,0 +1,5109 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-09-15T21:26:56Z",
+  "endpoints": [
+    {
+      "name": "Home",
+      "method": "GET",
+      "path": "/api/v1",
+      "controller": "api/v1/home",
+      "action": "index",
+      "resource": "home",
+      "api_version": "v1",
+      "route_name": "api_v1_root",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Store API"
+              ]
+            },
+            {
+              "path": "version",
+              "type": "string",
+              "required": true,
+              "values": [
+                "v1"
+              ]
+            },
+            {
+              "path": "links.products",
+              "type": "string",
+              "required": true,
+              "values": [
+                "/api/v1/products"
+              ]
+            },
+            {
+              "path": "links.orders",
+              "type": "string",
+              "required": true,
+              "values": [
+                "/api/v1/orders"
+              ]
+            }
+          ],
+          "example": {
+            "name": "Store API",
+            "version": "v1",
+            "links": {
+              "products": "/api/v1/products",
+              "orders": "/api/v1/orders"
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Root Describes The Api",
+          "method": "GET",
+          "path": "/api/v1",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_root_describes_the_api",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 11
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Root Describes The Api",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "name": "Store API",
+            "version": "v1",
+            "links": {
+              "products": "/api/v1/products",
+              "orders": "/api/v1/orders"
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_root_describes_the_api",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 11
+          }
+        }
+      ]
+    },
+    {
+      "name": "Login",
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "controller": "api/v1/auth",
+      "action": "login",
+      "resource": "auth",
+      "api_version": "v1",
+      "route_name": "api_v1_auth_login",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "email",
+            "type": "string",
+            "required": true,
+            "values": [
+              "ada@example.com"
+            ]
+          },
+          {
+            "path": "password",
+            "type": "string",
+            "required": true,
+            "values": [
+              "{{password}}"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "token",
+              "type": "string",
+              "required": true,
+              "values": [
+                "{{token}}"
+              ]
+            },
+            {
+              "path": "token_type",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Bearer"
+              ]
+            },
+            {
+              "path": "expires_in",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3600
+              ]
+            }
+          ],
+          "example": {
+            "token": "{{token}}",
+            "token_type": "Bearer",
+            "expires_in": 3600
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 401,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Invalid email or password"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Invalid email or password"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Logs In With A Form",
+          "method": "POST",
+          "path": "/api/v1/auth/login",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "body": {
+            "email": "ada@example.com",
+            "password": "{{password}}"
+          },
+          "content_type": "application/x-www-form-urlencoded",
+          "response_status": 200,
+          "source": {
+            "test": "test_logs_in_with_a_form",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 18
+          }
+        },
+        {
+          "name": "Rejects A Wrong Password",
+          "method": "POST",
+          "path": "/api/v1/auth/login",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "body": {
+            "email": "ada@example.com",
+            "password": "{{password}}"
+          },
+          "content_type": "application/x-www-form-urlencoded",
+          "response_status": 401,
+          "source": {
+            "test": "test_rejects_a_wrong_password",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 24
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Logs In With A Form",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "token": "{{token}}",
+            "token_type": "Bearer",
+            "expires_in": 3600
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_logs_in_with_a_form",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 18
+          }
+        },
+        {
+          "name": "Rejects A Wrong Password",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Invalid email or password"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_a_wrong_password",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 24
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Profile",
+      "method": "GET",
+      "path": "/api/v1/profile",
+      "controller": "api/v1/profiles",
+      "action": "show",
+      "resource": "profiles",
+      "api_version": "v1",
+      "route_name": "api_v1_profile",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Ada Lovelace"
+              ]
+            },
+            {
+              "path": "email",
+              "type": "string",
+              "required": true,
+              "values": [
+                "ada@example.com"
+              ]
+            },
+            {
+              "path": "locale",
+              "type": "string",
+              "required": true,
+              "values": [
+                "en"
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "name": "Ada Lovelace",
+            "email": "ada@example.com",
+            "locale": "en"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 401,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Unauthorized"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Unauthorized"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Shows The Profile",
+          "method": "GET",
+          "path": "/api/v1/profile",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_shows_the_profile",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 30
+          }
+        },
+        {
+          "name": "Profile Requires Authentication",
+          "method": "GET",
+          "path": "/api/v1/profile",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 401,
+          "source": {
+            "test": "test_profile_requires_authentication",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 48
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Shows The Profile",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "name": "Ada Lovelace",
+            "email": "ada@example.com",
+            "locale": "en"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_shows_the_profile",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 30
+          }
+        },
+        {
+          "name": "Profile Requires Authentication",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Unauthorized"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_profile_requires_authentication",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 48
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Profile",
+      "method": "PATCH",
+      "path": "/api/v1/profile",
+      "controller": "api/v1/profiles",
+      "action": "update",
+      "resource": "profiles",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [
+        "PUT"
+      ],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "profile.name",
+            "type": "string",
+            "required": true,
+            "values": [
+              "Ada L."
+            ]
+          },
+          {
+            "path": "profile.locale",
+            "type": "string",
+            "required": true,
+            "values": [
+              "tr"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Ada L."
+              ]
+            },
+            {
+              "path": "email",
+              "type": "string",
+              "required": true,
+              "values": [
+                "ada@example.com"
+              ]
+            },
+            {
+              "path": "locale",
+              "type": "string",
+              "required": true,
+              "values": [
+                "tr"
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "name": "Ada L.",
+            "email": "ada@example.com",
+            "locale": "tr"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.locale[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "is not included in the list"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "locale": [
+                "is not included in the list"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Updates The Profile",
+          "method": "PATCH",
+          "path": "/api/v1/profile",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "profile": {
+              "name": "Ada L.",
+              "locale": "tr"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 200,
+          "source": {
+            "test": "test_updates_the_profile",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 36
+          }
+        },
+        {
+          "name": "Rejects An Unknown Locale",
+          "method": "PATCH",
+          "path": "/api/v1/profile",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "profile": {
+              "locale": "xx"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_unknown_locale",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 42
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Updates The Profile",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "name": "Ada L.",
+            "email": "ada@example.com",
+            "locale": "tr"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_updates_the_profile",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 36
+          }
+        },
+        {
+          "name": "Rejects An Unknown Locale",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "locale": [
+                "is not included in the list"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_unknown_locale",
+            "suite": "HomeAndAuthTest",
+            "file": "test/integration/home_and_auth_test.rb",
+            "line": 42
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search Products",
+      "method": "GET",
+      "path": "/api/v1/products/search",
+      "controller": "api/v1/products",
+      "action": "search",
+      "resource": "products",
+      "api_version": "v1",
+      "route_name": "search_api_v1_products",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [
+          {
+            "path": "q",
+            "type": "string",
+            "required": true,
+            "values": [
+              "mug"
+            ]
+          }
+        ],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "query",
+              "type": "string",
+              "required": true,
+              "values": [
+                "mug"
+              ]
+            },
+            {
+              "path": "results[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                4
+              ]
+            },
+            {
+              "path": "results[].sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "MUG-002"
+              ]
+            },
+            {
+              "path": "results[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Travel Mug"
+              ]
+            },
+            {
+              "path": "results[].category",
+              "type": "string",
+              "required": true,
+              "values": [
+                "mugs"
+              ]
+            },
+            {
+              "path": "results[].price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3200
+              ]
+            },
+            {
+              "path": "results[].tags[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "insulated"
+              ]
+            }
+          ],
+          "example": {
+            "query": "mug",
+            "results": [
+              {
+                "id": 3,
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "category": "mugs",
+                "price_cents": 2400,
+                "tags": [
+                  "ceramic"
+                ]
+              },
+              {
+                "id": 4,
+                "sku": "MUG-002",
+                "name": "Travel Mug",
+                "category": "mugs",
+                "price_cents": 3200,
+                "tags": [
+                  "steel",
+                  "insulated"
+                ]
+              }
+            ]
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 400,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "q is required"
+              ]
+            }
+          ],
+          "example": {
+            "error": "q is required"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Searches Products",
+          "method": "GET",
+          "path": "/api/v1/products/search",
+          "path_params": {},
+          "query_params": {
+            "q": "mug"
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_searches_products",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 55
+          }
+        },
+        {
+          "name": "Search Needs A Query",
+          "method": "GET",
+          "path": "/api/v1/products/search",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 400,
+          "source": {
+            "test": "test_search_needs_a_query",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 61
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Searches Products",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "query": "mug",
+            "results": [
+              {
+                "id": 3,
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "category": "mugs",
+                "price_cents": 2400,
+                "tags": [
+                  "ceramic"
+                ]
+              },
+              {
+                "id": 4,
+                "sku": "MUG-002",
+                "name": "Travel Mug",
+                "category": "mugs",
+                "price_cents": 3200,
+                "tags": [
+                  "steel",
+                  "insulated"
+                ]
+              }
+            ]
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_searches_products",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 55
+          }
+        },
+        {
+          "name": "Search Needs A Query",
+          "status": 400,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "q is required"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_search_needs_a_query",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 61
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Products",
+      "method": "GET",
+      "path": "/api/v1/products",
+      "controller": "api/v1/products",
+      "action": "index",
+      "resource": "products",
+      "api_version": "v1",
+      "route_name": "api_v1_products",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [
+          {
+            "path": "filter.category",
+            "type": "string",
+            "required": false,
+            "values": [
+              "mugs",
+              "tea"
+            ]
+          },
+          {
+            "path": "sort",
+            "type": "string",
+            "required": false,
+            "values": [
+              "price_asc",
+              "price_desc"
+            ]
+          },
+          {
+            "path": "page",
+            "type": "integer",
+            "required": false,
+            "values": [
+              2
+            ]
+          },
+          {
+            "path": "per_page",
+            "type": "integer",
+            "required": false,
+            "values": [
+              2
+            ]
+          }
+        ],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "data[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2,
+                3,
+                4
+              ]
+            },
+            {
+              "path": "data[].sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "MUG-001",
+                "MUG-002",
+                "TEA-002"
+              ]
+            },
+            {
+              "path": "data[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Sencha",
+                "Stoneware Mug",
+                "Travel Mug"
+              ]
+            },
+            {
+              "path": "data[].category",
+              "type": "string",
+              "required": true,
+              "values": [
+                "mugs",
+                "tea"
+              ]
+            },
+            {
+              "path": "data[].price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1500,
+                2400,
+                3200
+              ]
+            },
+            {
+              "path": "data[].tags[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "ceramic",
+                "green",
+                "insulated"
+              ]
+            },
+            {
+              "path": "meta.page",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1,
+                2
+              ]
+            },
+            {
+              "path": "meta.per_page",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2
+              ]
+            },
+            {
+              "path": "meta.total",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2,
+                4
+              ]
+            }
+          ],
+          "example": {
+            "data": [
+              {
+                "id": 1,
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "category": "tea",
+                "price_cents": 1200,
+                "tags": [
+                  "black",
+                  "bergamot"
+                ]
+              },
+              {
+                "id": 2,
+                "sku": "TEA-002",
+                "name": "Sencha",
+                "category": "tea",
+                "price_cents": 1500,
+                "tags": [
+                  "green"
+                ]
+              }
+            ],
+            "meta": {
+              "page": 1,
+              "per_page": 2,
+              "total": 2
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Filters Products By Category",
+          "method": "GET",
+          "path": "/api/v1/products",
+          "path_params": {},
+          "query_params": {
+            "filter": {
+              "category": "tea"
+            }
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_filters_products_by_category",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 13
+          }
+        },
+        {
+          "name": "Sorts By Price Ascending",
+          "method": "GET",
+          "path": "/api/v1/products",
+          "path_params": {},
+          "query_params": {
+            "sort": "price_asc"
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_sorts_by_price_ascending",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 25
+          }
+        },
+        {
+          "name": "Lists Products",
+          "method": "GET",
+          "path": "/api/v1/products",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_products",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 7
+          }
+        },
+        {
+          "name": "Filters Mugs",
+          "method": "GET",
+          "path": "/api/v1/products",
+          "path_params": {},
+          "query_params": {
+            "filter": {
+              "category": "mugs"
+            }
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_filters_mugs",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 19
+          }
+        },
+        {
+          "name": "Sorts By Price Descending",
+          "method": "GET",
+          "path": "/api/v1/products",
+          "path_params": {},
+          "query_params": {
+            "sort": "price_desc"
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_sorts_by_price_descending",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 31
+          }
+        },
+        {
+          "name": "Paginates",
+          "method": "GET",
+          "path": "/api/v1/products",
+          "path_params": {},
+          "query_params": {
+            "page": 2,
+            "per_page": 2
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_paginates",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 37
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Filters Products By Category",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "data": [
+              {
+                "id": 1,
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "category": "tea",
+                "price_cents": 1200,
+                "tags": [
+                  "black",
+                  "bergamot"
+                ]
+              },
+              {
+                "id": 2,
+                "sku": "TEA-002",
+                "name": "Sencha",
+                "category": "tea",
+                "price_cents": 1500,
+                "tags": [
+                  "green"
+                ]
+              }
+            ],
+            "meta": {
+              "page": 1,
+              "per_page": 2,
+              "total": 2
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_filters_products_by_category",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 13
+          }
+        },
+        {
+          "name": "Sorts By Price Ascending",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "data": [
+              {
+                "id": 1,
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "category": "tea",
+                "price_cents": 1200,
+                "tags": [
+                  "black",
+                  "bergamot"
+                ]
+              },
+              {
+                "id": 2,
+                "sku": "TEA-002",
+                "name": "Sencha",
+                "category": "tea",
+                "price_cents": 1500,
+                "tags": [
+                  "green"
+                ]
+              }
+            ],
+            "meta": {
+              "page": 1,
+              "per_page": 2,
+              "total": 4
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_sorts_by_price_ascending",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 25
+          }
+        },
+        {
+          "name": "Filters Mugs",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "data": [
+              {
+                "id": 3,
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "category": "mugs",
+                "price_cents": 2400,
+                "tags": [
+                  "ceramic"
+                ]
+              },
+              {
+                "id": 4,
+                "sku": "MUG-002",
+                "name": "Travel Mug",
+                "category": "mugs",
+                "price_cents": 3200,
+                "tags": [
+                  "steel",
+                  "insulated"
+                ]
+              }
+            ],
+            "meta": {
+              "page": 1,
+              "per_page": 2,
+              "total": 2
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_filters_mugs",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 19
+          }
+        },
+        {
+          "name": "Sorts By Price Descending",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "data": [
+              {
+                "id": 4,
+                "sku": "MUG-002",
+                "name": "Travel Mug",
+                "category": "mugs",
+                "price_cents": 3200,
+                "tags": [
+                  "steel",
+                  "insulated"
+                ]
+              },
+              {
+                "id": 3,
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "category": "mugs",
+                "price_cents": 2400,
+                "tags": [
+                  "ceramic"
+                ]
+              }
+            ],
+            "meta": {
+              "page": 1,
+              "per_page": 2,
+              "total": 4
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_sorts_by_price_descending",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 31
+          }
+        },
+        {
+          "name": "Paginates",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "data": [
+              {
+                "id": 3,
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "category": "mugs",
+                "price_cents": 2400,
+                "tags": [
+                  "ceramic"
+                ]
+              },
+              {
+                "id": 4,
+                "sku": "MUG-002",
+                "name": "Travel Mug",
+                "category": "mugs",
+                "price_cents": 3200,
+                "tags": [
+                  "steel",
+                  "insulated"
+                ]
+              }
+            ],
+            "meta": {
+              "page": 2,
+              "per_page": 2,
+              "total": 4
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_paginates",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 37
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Product",
+      "method": "GET",
+      "path": "/api/v1/products/:id",
+      "controller": "api/v1/products",
+      "action": "show",
+      "resource": "products",
+      "api_version": "v1",
+      "route_name": "api_v1_product",
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "3"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3
+              ]
+            },
+            {
+              "path": "sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "MUG-001"
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Stoneware Mug"
+              ]
+            },
+            {
+              "path": "category",
+              "type": "string",
+              "required": true,
+              "values": [
+                "mugs"
+              ]
+            },
+            {
+              "path": "price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2400
+              ]
+            },
+            {
+              "path": "tags[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "ceramic"
+              ]
+            }
+          ],
+          "example": {
+            "id": 3,
+            "sku": "MUG-001",
+            "name": "Stoneware Mug",
+            "category": "mugs",
+            "price_cents": 2400,
+            "tags": [
+              "ceramic"
+            ]
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 404,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Not Found"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Not Found"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Shows A Product",
+          "method": "GET",
+          "path": "/api/v1/products/3",
+          "path_params": {
+            "id": "3"
+          },
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_shows_a_product",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 43
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown Product",
+          "method": "GET",
+          "path": "/api/v1/products/999",
+          "path_params": {
+            "id": "999"
+          },
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_product",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 49
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Shows A Product",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 3,
+            "sku": "MUG-001",
+            "name": "Stoneware Mug",
+            "category": "mugs",
+            "price_cents": 2400,
+            "tags": [
+              "ceramic"
+            ]
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_shows_a_product",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 43
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown Product",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_product",
+            "suite": "ProductsTest",
+            "file": "test/integration/products_test.rb",
+            "line": 49
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cancel Order",
+      "method": "POST",
+      "path": "/api/v1/orders/:id/cancel",
+      "controller": "api/v1/orders",
+      "action": "cancel",
+      "resource": "orders",
+      "api_version": "v1",
+      "route_name": "cancel_api_v1_order",
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "user_id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "cancelled"
+              ]
+            },
+            {
+              "path": "currency",
+              "type": "string",
+              "required": true,
+              "values": [
+                "USD"
+              ]
+            },
+            {
+              "path": "total_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2700
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "user_id": 1,
+            "status": "cancelled",
+            "currency": "USD",
+            "total_cents": 2700
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 409,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Shipped orders cannot be cancelled"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Shipped orders cannot be cancelled"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Cancels A Pending Order",
+          "method": "POST",
+          "path": "/api/v1/orders/1/cancel",
+          "path_params": {
+            "id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_cancels_a_pending_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 86
+          }
+        },
+        {
+          "name": "Cannot Cancel A Shipped Order",
+          "method": "POST",
+          "path": "/api/v1/orders/2/cancel",
+          "path_params": {
+            "id": "2"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 409,
+          "source": {
+            "test": "test_cannot_cancel_a_shipped_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 92
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Cancels A Pending Order",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "user_id": 1,
+            "status": "cancelled",
+            "currency": "USD",
+            "total_cents": 2700
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_cancels_a_pending_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 86
+          }
+        },
+        {
+          "name": "Cannot Cancel A Shipped Order",
+          "status": 409,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Shipped orders cannot be cancelled"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_cannot_cancel_a_shipped_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 92
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Notes",
+      "method": "GET",
+      "path": "/api/v1/orders/:order_id/notes",
+      "controller": "api/v1/notes",
+      "action": "index",
+      "resource": "notes",
+      "api_version": "v1",
+      "route_name": "api_v1_order_notes",
+      "also_methods": [],
+      "path_params": [
+        "order_id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "order_id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2
+              ]
+            },
+            {
+              "path": "[].order_id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "[].body",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Gift wrap please"
+              ]
+            },
+            {
+              "path": "[].author",
+              "type": "string",
+              "required": true,
+              "values": [
+                "ada"
+              ]
+            }
+          ],
+          "example": [
+            {
+              "id": 1,
+              "order_id": 1,
+              "body": "Leave at the door",
+              "author": "ada"
+            },
+            {
+              "id": 2,
+              "order_id": 1,
+              "body": "Gift wrap please",
+              "author": "ada"
+            }
+          ],
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Lists The Notes Of An Order",
+          "method": "GET",
+          "path": "/api/v1/orders/1/notes",
+          "path_params": {
+            "order_id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_the_notes_of_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 110
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Lists The Notes Of An Order",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 1,
+              "order_id": 1,
+              "body": "Leave at the door",
+              "author": "ada"
+            },
+            {
+              "id": 2,
+              "order_id": 1,
+              "body": "Gift wrap please",
+              "author": "ada"
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_the_notes_of_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 110
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Note",
+      "method": "POST",
+      "path": "/api/v1/orders/:order_id/notes",
+      "controller": "api/v1/notes",
+      "action": "create",
+      "resource": "notes",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [],
+      "path_params": [
+        "order_id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "order_id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": [
+          {
+            "path": "note.body",
+            "type": "string",
+            "required": true,
+            "values": [
+              "Ring the bell twice"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3
+              ]
+            },
+            {
+              "path": "order_id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "body",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Ring the bell twice"
+              ]
+            },
+            {
+              "path": "author",
+              "type": "string",
+              "required": true,
+              "values": [
+                "ada"
+              ]
+            }
+          ],
+          "example": {
+            "id": 3,
+            "order_id": 1,
+            "body": "Ring the bell twice",
+            "author": "ada"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.body[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "can't be blank"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "body": [
+                "can't be blank"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Rejects An Empty Note",
+          "method": "POST",
+          "path": "/api/v1/orders/1/notes",
+          "path_params": {
+            "order_id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_empty_note",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 122
+          }
+        },
+        {
+          "name": "Adds A Note To An Order",
+          "method": "POST",
+          "path": "/api/v1/orders/1/notes",
+          "path_params": {
+            "order_id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "note": {
+              "body": "Ring the bell twice"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_adds_a_note_to_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 116
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Rejects An Empty Note",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "body": [
+                "can't be blank"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_empty_note",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 122
+          }
+        },
+        {
+          "name": "Adds A Note To An Order",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 3,
+            "order_id": 1,
+            "body": "Ring the bell twice",
+            "author": "ada"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_adds_a_note_to_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 116
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Orders",
+      "method": "GET",
+      "path": "/api/v1/orders",
+      "controller": "api/v1/orders",
+      "action": "index",
+      "resource": "orders",
+      "api_version": "v1",
+      "route_name": "api_v1_orders",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [
+          {
+            "path": "status",
+            "type": "string",
+            "required": false,
+            "values": [
+              "pending",
+              "shipped"
+            ]
+          }
+        ],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1,
+                2
+              ]
+            },
+            {
+              "path": "[].user_id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "[].status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "pending",
+                "shipped"
+              ]
+            },
+            {
+              "path": "[].currency",
+              "type": "string",
+              "required": true,
+              "values": [
+                "USD"
+              ]
+            },
+            {
+              "path": "[].total_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2700,
+                3200
+              ]
+            }
+          ],
+          "example": [
+            {
+              "id": 1,
+              "user_id": 1,
+              "status": "pending",
+              "currency": "USD",
+              "total_cents": 2700
+            }
+          ],
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 401,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Unauthorized"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Unauthorized"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Orders Require Authentication",
+          "method": "GET",
+          "path": "/api/v1/orders",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 401,
+          "source": {
+            "test": "test_orders_require_authentication",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 104
+          }
+        },
+        {
+          "name": "Lists Pending Orders",
+          "method": "GET",
+          "path": "/api/v1/orders",
+          "path_params": {},
+          "query_params": {
+            "status": "pending"
+          },
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_pending_orders",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 29
+          }
+        },
+        {
+          "name": "Lists Orders",
+          "method": "GET",
+          "path": "/api/v1/orders",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_orders",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 23
+          }
+        },
+        {
+          "name": "Lists Shipped Orders",
+          "method": "GET",
+          "path": "/api/v1/orders",
+          "path_params": {},
+          "query_params": {
+            "status": "shipped"
+          },
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_shipped_orders",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 35
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Orders Require Authentication",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Unauthorized"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_orders_require_authentication",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 104
+          }
+        },
+        {
+          "name": "Lists Pending Orders",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 1,
+              "user_id": 1,
+              "status": "pending",
+              "currency": "USD",
+              "total_cents": 2700
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_pending_orders",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 29
+          }
+        },
+        {
+          "name": "Lists Orders",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 1,
+              "user_id": 1,
+              "status": "pending",
+              "currency": "USD",
+              "total_cents": 2700
+            },
+            {
+              "id": 2,
+              "user_id": 1,
+              "status": "shipped",
+              "currency": "USD",
+              "total_cents": 3200
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_orders",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 23
+          }
+        },
+        {
+          "name": "Lists Shipped Orders",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 2,
+              "user_id": 1,
+              "status": "shipped",
+              "currency": "USD",
+              "total_cents": 3200
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_lists_shipped_orders",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 35
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Order",
+      "method": "POST",
+      "path": "/api/v1/orders",
+      "controller": "api/v1/orders",
+      "action": "create",
+      "resource": "orders",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "order.line_items[].sku",
+            "type": "string",
+            "required": true,
+            "values": [
+              "MUG-001",
+              "MUG-002"
+            ]
+          },
+          {
+            "path": "order.line_items[].quantity",
+            "type": "integer",
+            "required": true,
+            "values": [
+              1
+            ]
+          },
+          {
+            "path": "order.shipping_address.line1",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1 Analytical Engine Way",
+              "Piazza"
+            ]
+          },
+          {
+            "path": "order.shipping_address.city",
+            "type": "string",
+            "required": true,
+            "values": [
+              "London",
+              "Rome"
+            ]
+          },
+          {
+            "path": "order.shipping_address.country",
+            "type": "string",
+            "required": true,
+            "values": [
+              "GB",
+              "IT"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                4
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "pending"
+              ]
+            },
+            {
+              "path": "currency",
+              "type": "string",
+              "required": true,
+              "values": [
+                "USD"
+              ]
+            },
+            {
+              "path": "total_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3200,
+                4800
+              ]
+            },
+            {
+              "path": "line_items[].sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "MUG-001",
+                "MUG-002"
+              ]
+            },
+            {
+              "path": "line_items[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Stoneware Mug",
+                "Travel Mug"
+              ]
+            },
+            {
+              "path": "line_items[].quantity",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "line_items[].unit_price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2400,
+                3200
+              ]
+            },
+            {
+              "path": "line_items[].subtotal_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2400,
+                3200
+              ]
+            },
+            {
+              "path": "shipping_address.line1",
+              "type": "string",
+              "required": true,
+              "values": [
+                "1 Analytical Engine Way",
+                "Piazza"
+              ]
+            },
+            {
+              "path": "shipping_address.city",
+              "type": "string",
+              "required": true,
+              "values": [
+                "London",
+                "Rome"
+              ]
+            },
+            {
+              "path": "shipping_address.country",
+              "type": "string",
+              "required": true,
+              "values": [
+                "GB",
+                "IT"
+              ]
+            }
+          ],
+          "example": {
+            "id": 4,
+            "status": "pending",
+            "currency": "USD",
+            "total_cents": 4800,
+            "line_items": [
+              {
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "quantity": 2,
+                "unit_price_cents": 1200,
+                "subtotal_cents": 2400
+              },
+              {
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "quantity": 1,
+                "unit_price_cents": 2400,
+                "subtotal_cents": 2400
+              }
+            ],
+            "shipping_address": {
+              "line1": "1 Analytical Engine Way",
+              "city": "London",
+              "country": "GB"
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.sku[]",
+              "type": "string",
+              "required": false,
+              "values": [
+                "TEA-999 is not a known product"
+              ]
+            },
+            {
+              "path": "errors.line_items[]",
+              "type": "string",
+              "required": false,
+              "values": [
+                "can't be blank"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "sku": [
+                "TEA-999 is not a known product"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Rejects An Unknown Sku",
+          "method": "POST",
+          "path": "/api/v1/orders",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "order": {
+              "line_items": [
+                {
+                  "sku": "TEA-999",
+                  "quantity": 1
+                }
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_unknown_sku",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 80
+          }
+        },
+        {
+          "name": "Creates An Order",
+          "method": "POST",
+          "path": "/api/v1/orders",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "order": {
+              "line_items": [
+                {
+                  "sku": "TEA-001",
+                  "quantity": 2
+                },
+                {
+                  "sku": "MUG-001",
+                  "quantity": 1
+                }
+              ],
+              "shipping_address": {
+                "line1": "1 Analytical Engine Way",
+                "city": "London",
+                "country": "GB"
+              }
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 59
+          }
+        },
+        {
+          "name": "Rejects An Order Without Line Items",
+          "method": "POST",
+          "path": "/api/v1/orders",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_order_without_line_items",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 74
+          }
+        },
+        {
+          "name": "Creates A Single Item Order",
+          "method": "POST",
+          "path": "/api/v1/orders",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "order": {
+              "line_items": [
+                {
+                  "sku": "MUG-002",
+                  "quantity": 1
+                }
+              ],
+              "shipping_address": {
+                "line1": "Piazza",
+                "city": "Rome",
+                "country": "IT"
+              }
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_a_single_item_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 65
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Rejects An Unknown Sku",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "sku": [
+                "TEA-999 is not a known product"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_unknown_sku",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 80
+          }
+        },
+        {
+          "name": "Creates An Order",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 4,
+            "status": "pending",
+            "currency": "USD",
+            "total_cents": 4800,
+            "line_items": [
+              {
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "quantity": 2,
+                "unit_price_cents": 1200,
+                "subtotal_cents": 2400
+              },
+              {
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "quantity": 1,
+                "unit_price_cents": 2400,
+                "subtotal_cents": 2400
+              }
+            ],
+            "shipping_address": {
+              "line1": "1 Analytical Engine Way",
+              "city": "London",
+              "country": "GB"
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 59
+          }
+        },
+        {
+          "name": "Rejects An Order Without Line Items",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "line_items": [
+                "can't be blank"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_order_without_line_items",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 74
+          }
+        },
+        {
+          "name": "Creates A Single Item Order",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 4,
+            "status": "pending",
+            "currency": "USD",
+            "total_cents": 3200,
+            "line_items": [
+              {
+                "sku": "MUG-002",
+                "name": "Travel Mug",
+                "quantity": 1,
+                "unit_price_cents": 3200,
+                "subtotal_cents": 3200
+              }
+            ],
+            "shipping_address": {
+              "line1": "Piazza",
+              "city": "Rome",
+              "country": "IT"
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_a_single_item_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 65
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Order",
+      "method": "GET",
+      "path": "/api/v1/orders/:id",
+      "controller": "api/v1/orders",
+      "action": "show",
+      "resource": "orders",
+      "api_version": "v1",
+      "route_name": "api_v1_order",
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "user_id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "pending"
+              ]
+            },
+            {
+              "path": "currency",
+              "type": "string",
+              "required": true,
+              "values": [
+                "USD"
+              ]
+            },
+            {
+              "path": "total_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2700
+              ]
+            }
+          ],
+          "example": {
+            "id": 1,
+            "user_id": 1,
+            "status": "pending",
+            "currency": "USD",
+            "total_cents": 2700
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 403,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Forbidden"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Forbidden"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 404,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Not Found"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Not Found"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Returns Not Found For An Unknown Order",
+          "method": "GET",
+          "path": "/api/v1/orders/999",
+          "path_params": {
+            "id": "999"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 53
+          }
+        },
+        {
+          "name": "Hides Another Customer's Order",
+          "method": "GET",
+          "path": "/api/v1/orders/3",
+          "path_params": {
+            "id": "3"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 403,
+          "source": {
+            "test": "test_hides_another_customer's_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 47
+          }
+        },
+        {
+          "name": "Shows An Order",
+          "method": "GET",
+          "path": "/api/v1/orders/1",
+          "path_params": {
+            "id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_shows_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 41
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Returns Not Found For An Unknown Order",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 53
+          }
+        },
+        {
+          "name": "Hides Another Customer's Order",
+          "status": 403,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Forbidden"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_hides_another_customer's_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 47
+          }
+        },
+        {
+          "name": "Shows An Order",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 1,
+            "user_id": 1,
+            "status": "pending",
+            "currency": "USD",
+            "total_cents": 2700
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_shows_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 41
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Order",
+      "method": "DELETE",
+      "path": "/api/v1/orders/:id",
+      "controller": "api/v1/orders",
+      "action": "destroy",
+      "resource": "orders",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 204,
+          "schema": [],
+          "example": null,
+          "headers": {},
+          "content_type": null
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Deletes An Order",
+          "method": "DELETE",
+          "path": "/api/v1/orders/1",
+          "path_params": {
+            "id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 204,
+          "source": {
+            "test": "test_deletes_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 98
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Deletes An Order",
+          "status": 204,
+          "headers": {},
+          "body": null,
+          "content_type": null,
+          "source": {
+            "test": "test_deletes_an_order",
+            "suite": "OrdersTest",
+            "file": "test/integration/orders_test.rb",
+            "line": 98
+          }
+        }
+      ]
+    },
+    {
+      "name": "Checkout Cart",
+      "method": "POST",
+      "path": "/api/v1/cart/checkout",
+      "controller": "api/v1/carts",
+      "action": "checkout",
+      "resource": "carts",
+      "api_version": "v1",
+      "route_name": "checkout_api_v1_cart",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "payment_method",
+            "type": "string",
+            "required": true,
+            "values": [
+              "bank_transfer",
+              "card"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                5
+              ]
+            },
+            {
+              "path": "status",
+              "type": "string",
+              "required": true,
+              "values": [
+                "pending"
+              ]
+            },
+            {
+              "path": "payment_method",
+              "type": "string",
+              "required": true,
+              "values": [
+                "bank_transfer",
+                "card"
+              ]
+            },
+            {
+              "path": "total_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                4800
+              ]
+            },
+            {
+              "path": "line_items[].sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "MUG-001"
+              ]
+            },
+            {
+              "path": "line_items[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Stoneware Mug"
+              ]
+            },
+            {
+              "path": "line_items[].quantity",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "line_items[].unit_price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2400
+              ]
+            }
+          ],
+          "example": {
+            "id": 5,
+            "status": "pending",
+            "payment_method": "card",
+            "total_cents": 4800,
+            "line_items": [
+              {
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "quantity": 2,
+                "unit_price_cents": 1200
+              },
+              {
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "quantity": 1,
+                "unit_price_cents": 2400
+              }
+            ]
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.payment_method[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "is not included in the list"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "payment_method": [
+                "is not included in the list"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Checks Out With A Card",
+          "method": "POST",
+          "path": "/api/v1/cart/checkout",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "payment_method": "card"
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_checks_out_with_a_card",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 41
+          }
+        },
+        {
+          "name": "Rejects An Unknown Payment Method",
+          "method": "POST",
+          "path": "/api/v1/cart/checkout",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "payment_method": "cash"
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_unknown_payment_method",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 53
+          }
+        },
+        {
+          "name": "Checks Out With A Bank Transfer",
+          "method": "POST",
+          "path": "/api/v1/cart/checkout",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "payment_method": "bank_transfer"
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_checks_out_with_a_bank_transfer",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 47
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Checks Out With A Card",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 5,
+            "status": "pending",
+            "payment_method": "card",
+            "total_cents": 4800,
+            "line_items": [
+              {
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "quantity": 2,
+                "unit_price_cents": 1200
+              },
+              {
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "quantity": 1,
+                "unit_price_cents": 2400
+              }
+            ]
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_checks_out_with_a_card",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 41
+          }
+        },
+        {
+          "name": "Rejects An Unknown Payment Method",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "payment_method": [
+                "is not included in the list"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_unknown_payment_method",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 53
+          }
+        },
+        {
+          "name": "Checks Out With A Bank Transfer",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 5,
+            "status": "pending",
+            "payment_method": "bank_transfer",
+            "total_cents": 4800,
+            "line_items": [
+              {
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "quantity": 2,
+                "unit_price_cents": 1200
+              },
+              {
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "quantity": 1,
+                "unit_price_cents": 2400
+              }
+            ]
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_checks_out_with_a_bank_transfer",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 47
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Cart Item",
+      "method": "POST",
+      "path": "/api/v1/cart/items",
+      "controller": "api/v1/cart_items",
+      "action": "create",
+      "resource": "cart_items",
+      "api_version": "v1",
+      "route_name": "api_v1_cart_items",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "item.sku",
+            "type": "string",
+            "required": true,
+            "values": [
+              "TEA-002"
+            ]
+          },
+          {
+            "path": "item.quantity",
+            "type": "integer",
+            "required": true,
+            "values": [
+              3
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "TEA-002"
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Sencha"
+              ]
+            },
+            {
+              "path": "quantity",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3
+              ]
+            },
+            {
+              "path": "unit_price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1500
+              ]
+            }
+          ],
+          "example": {
+            "sku": "TEA-002",
+            "name": "Sencha",
+            "quantity": 3,
+            "unit_price_cents": 1500
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.sku[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "TEA-999 is not a known product"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "sku": [
+                "TEA-999 is not a known product"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Rejects An Unknown Sku",
+          "method": "POST",
+          "path": "/api/v1/cart/items",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "item": {
+              "sku": "TEA-999",
+              "quantity": 1
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_rejects_an_unknown_sku",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 23
+          }
+        },
+        {
+          "name": "Adds An Item To The Cart",
+          "method": "POST",
+          "path": "/api/v1/cart/items",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "item": {
+              "sku": "TEA-002",
+              "quantity": 3
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_adds_an_item_to_the_cart",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 17
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Rejects An Unknown Sku",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "sku": [
+                "TEA-999 is not a known product"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_rejects_an_unknown_sku",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 23
+          }
+        },
+        {
+          "name": "Adds An Item To The Cart",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "sku": "TEA-002",
+            "name": "Sencha",
+            "quantity": 3,
+            "unit_price_cents": 1500
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_adds_an_item_to_the_cart",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 17
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Cart Item",
+      "method": "DELETE",
+      "path": "/api/v1/cart/items/:sku",
+      "controller": "api/v1/cart_items",
+      "action": "destroy",
+      "resource": "cart_items",
+      "api_version": "v1",
+      "route_name": "api_v1_cart_item",
+      "also_methods": [],
+      "path_params": [
+        "sku"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "sku",
+            "type": "string",
+            "required": true,
+            "values": [
+              "TEA-001"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 204,
+          "schema": [],
+          "example": null,
+          "headers": {},
+          "content_type": null
+        },
+        {
+          "status": 404,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Not Found"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Not Found"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Removes An Item From The Cart",
+          "method": "DELETE",
+          "path": "/api/v1/cart/items/TEA-001",
+          "path_params": {
+            "sku": "TEA-001"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 204,
+          "source": {
+            "test": "test_removes_an_item_from_the_cart",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 29
+          }
+        },
+        {
+          "name": "Cannot Remove An Item That Is Not In The Cart",
+          "method": "DELETE",
+          "path": "/api/v1/cart/items/MUG-002",
+          "path_params": {
+            "sku": "MUG-002"
+          },
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
+          "source": {
+            "test": "test_cannot_remove_an_item_that_is_not_in_the_cart",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 35
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Removes An Item From The Cart",
+          "status": 204,
+          "headers": {},
+          "body": null,
+          "content_type": null,
+          "source": {
+            "test": "test_removes_an_item_from_the_cart",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 29
+          }
+        },
+        {
+          "name": "Cannot Remove An Item That Is Not In The Cart",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_cannot_remove_an_item_that_is_not_in_the_cart",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 35
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Cart",
+      "method": "GET",
+      "path": "/api/v1/cart",
+      "controller": "api/v1/carts",
+      "action": "show",
+      "resource": "carts",
+      "api_version": "v1",
+      "route_name": "api_v1_cart",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "items[].sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "MUG-001"
+              ]
+            },
+            {
+              "path": "items[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Stoneware Mug"
+              ]
+            },
+            {
+              "path": "items[].quantity",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "items[].unit_price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2400
+              ]
+            },
+            {
+              "path": "total_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                4800
+              ]
+            }
+          ],
+          "example": {
+            "items": [
+              {
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "quantity": 2,
+                "unit_price_cents": 1200
+              },
+              {
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "quantity": 1,
+                "unit_price_cents": 2400
+              }
+            ],
+            "total_cents": 4800
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 401,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Unauthorized"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Unauthorized"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Shows The Cart",
+          "method": "GET",
+          "path": "/api/v1/cart",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_shows_the_cart",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 11
+          }
+        },
+        {
+          "name": "Cart Requires Authentication",
+          "method": "GET",
+          "path": "/api/v1/cart",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 401,
+          "source": {
+            "test": "test_cart_requires_authentication",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 59
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Shows The Cart",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "items": [
+              {
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "quantity": 2,
+                "unit_price_cents": 1200
+              },
+              {
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "quantity": 1,
+                "unit_price_cents": 2400
+              }
+            ],
+            "total_cents": 4800
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_shows_the_cart",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 11
+          }
+        },
+        {
+          "name": "Cart Requires Authentication",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Unauthorized"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_cart_requires_authentication",
+            "suite": "CartTest",
+            "file": "test/integration/cart_test.rb",
+            "line": 59
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Products",
+      "method": "GET",
+      "path": "/api/v1/admin/products",
+      "controller": "api/v1/admin/products",
+      "action": "index",
+      "resource": "products",
+      "api_version": "v1",
+      "route_name": "api_v1_admin_products",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                4
+              ]
+            },
+            {
+              "path": "[].sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "MUG-002"
+              ]
+            },
+            {
+              "path": "[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Travel Mug"
+              ]
+            },
+            {
+              "path": "[].category",
+              "type": "string",
+              "required": true,
+              "values": [
+                "mugs"
+              ]
+            },
+            {
+              "path": "[].price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                3200
+              ]
+            },
+            {
+              "path": "[].cost_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1400
+              ]
+            },
+            {
+              "path": "[].tags[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "insulated"
+              ]
+            }
+          ],
+          "example": [
+            {
+              "id": 1,
+              "sku": "TEA-001",
+              "name": "Earl Grey",
+              "category": "tea",
+              "price_cents": 1200,
+              "cost_cents": 500,
+              "tags": [
+                "black",
+                "bergamot"
+              ]
+            },
+            {
+              "id": 2,
+              "sku": "TEA-002",
+              "name": "Sencha",
+              "category": "tea",
+              "price_cents": 1500,
+              "cost_cents": 700,
+              "tags": [
+                "green"
+              ]
+            },
+            {
+              "id": 3,
+              "sku": "MUG-001",
+              "name": "Stoneware Mug",
+              "category": "mugs",
+              "price_cents": 2400,
+              "cost_cents": 900,
+              "tags": [
+                "ceramic"
+              ]
+            },
+            {
+              "id": 4,
+              "sku": "MUG-002",
+              "name": "Travel Mug",
+              "category": "mugs",
+              "price_cents": 3200,
+              "cost_cents": 1400,
+              "tags": [
+                "steel",
+                "insulated"
+              ]
+            }
+          ],
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 401,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "API key required"
+              ]
+            }
+          ],
+          "example": {
+            "error": "API key required"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Admin Requires An Api Key",
+          "method": "GET",
+          "path": "/api/v1/admin/products",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 401,
+          "source": {
+            "test": "test_admin_requires_an_api_key",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 17
+          }
+        },
+        {
+          "name": "Admin Lists Products With Costs",
+          "method": "GET",
+          "path": "/api/v1/admin/products",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "X-Api-Key": "{{api_key}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_admin_lists_products_with_costs",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 11
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Admin Requires An Api Key",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "API key required"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_admin_requires_an_api_key",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 17
+          }
+        },
+        {
+          "name": "Admin Lists Products With Costs",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "id": 1,
+              "sku": "TEA-001",
+              "name": "Earl Grey",
+              "category": "tea",
+              "price_cents": 1200,
+              "cost_cents": 500,
+              "tags": [
+                "black",
+                "bergamot"
+              ]
+            },
+            {
+              "id": 2,
+              "sku": "TEA-002",
+              "name": "Sencha",
+              "category": "tea",
+              "price_cents": 1500,
+              "cost_cents": 700,
+              "tags": [
+                "green"
+              ]
+            },
+            {
+              "id": 3,
+              "sku": "MUG-001",
+              "name": "Stoneware Mug",
+              "category": "mugs",
+              "price_cents": 2400,
+              "cost_cents": 900,
+              "tags": [
+                "ceramic"
+              ]
+            },
+            {
+              "id": 4,
+              "sku": "MUG-002",
+              "name": "Travel Mug",
+              "category": "mugs",
+              "price_cents": 3200,
+              "cost_cents": 1400,
+              "tags": [
+                "steel",
+                "insulated"
+              ]
+            }
+          ],
+          "content_type": "application/json",
+          "source": {
+            "test": "test_admin_lists_products_with_costs",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 11
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Product",
+      "method": "POST",
+      "path": "/api/v1/admin/products",
+      "controller": "api/v1/admin/products",
+      "action": "create",
+      "resource": "products",
+      "api_version": "v1",
+      "route_name": null,
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [],
+        "body": [
+          {
+            "path": "product.sku",
+            "type": "string",
+            "required": true,
+            "values": [
+              "TEA-003"
+            ]
+          },
+          {
+            "path": "product.name",
+            "type": "string",
+            "required": true,
+            "values": [
+              "Jasmine"
+            ]
+          },
+          {
+            "path": "product.category",
+            "type": "string",
+            "required": true,
+            "values": [
+              "tea"
+            ]
+          },
+          {
+            "path": "product.price_cents",
+            "type": "integer",
+            "required": true,
+            "values": [
+              1400
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                5
+              ]
+            },
+            {
+              "path": "cost_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                0
+              ]
+            },
+            {
+              "path": "tags",
+              "type": "array",
+              "required": true,
+              "values": []
+            },
+            {
+              "path": "sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "TEA-003"
+              ]
+            },
+            {
+              "path": "name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Jasmine"
+              ]
+            },
+            {
+              "path": "category",
+              "type": "string",
+              "required": true,
+              "values": [
+                "tea"
+              ]
+            },
+            {
+              "path": "price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1400
+              ]
+            }
+          ],
+          "example": {
+            "id": 5,
+            "cost_cents": 0,
+            "tags": [],
+            "sku": "TEA-003",
+            "name": "Jasmine",
+            "category": "tea",
+            "price_cents": 1400
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 409,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "sku TEA-001 already exists"
+              ]
+            }
+          ],
+          "example": {
+            "error": "sku TEA-001 already exists"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 422,
+          "schema": [
+            {
+              "path": "errors.sku[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "can't be blank"
+              ]
+            }
+          ],
+          "example": {
+            "errors": {
+              "sku": [
+                "can't be blank"
+              ]
+            }
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Admin Rejects A Duplicate Sku",
+          "method": "POST",
+          "path": "/api/v1/admin/products",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "X-Api-Key": "{{api_key}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "product": {
+              "sku": "TEA-001",
+              "name": "Earl Grey again",
+              "category": "tea",
+              "price_cents": 1200
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 409,
+          "source": {
+            "test": "test_admin_rejects_a_duplicate_sku",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 38
+          }
+        },
+        {
+          "name": "Admin Rejects A Product Without A Sku",
+          "method": "POST",
+          "path": "/api/v1/admin/products",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "X-Api-Key": "{{api_key}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "product": {
+              "sku": "",
+              "name": "Nameless"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 422,
+          "source": {
+            "test": "test_admin_rejects_a_product_without_a_sku",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 32
+          }
+        },
+        {
+          "name": "Admin Creates A Product",
+          "method": "POST",
+          "path": "/api/v1/admin/products",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "X-Api-Key": "{{api_key}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "product": {
+              "sku": "TEA-003",
+              "name": "Jasmine",
+              "category": "tea",
+              "price_cents": 1400
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_admin_creates_a_product",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 23
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Admin Rejects A Duplicate Sku",
+          "status": 409,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "sku TEA-001 already exists"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_admin_rejects_a_duplicate_sku",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 38
+          }
+        },
+        {
+          "name": "Admin Rejects A Product Without A Sku",
+          "status": 422,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "errors": {
+              "sku": [
+                "can't be blank"
+              ]
+            }
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_admin_rejects_a_product_without_a_sku",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 32
+          }
+        },
+        {
+          "name": "Admin Creates A Product",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 5,
+            "cost_cents": 0,
+            "tags": [],
+            "sku": "TEA-003",
+            "name": "Jasmine",
+            "category": "tea",
+            "price_cents": 1400
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_admin_creates_a_product",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 23
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Product",
+      "method": "DELETE",
+      "path": "/api/v1/admin/products/:id",
+      "controller": "api/v1/admin/products",
+      "action": "destroy",
+      "resource": "products",
+      "api_version": "v1",
+      "route_name": "api_v1_admin_product",
+      "also_methods": [],
+      "path_params": [
+        "id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "4"
+            ]
+          }
+        ],
+        "query": [],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 204,
+          "schema": [],
+          "example": null,
+          "headers": {},
+          "content_type": null
+        },
+        {
+          "status": 404,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Not Found"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Not Found"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Admin Cannot Delete An Unknown Product",
+          "method": "DELETE",
+          "path": "/api/v1/admin/products/999",
+          "path_params": {
+            "id": "999"
+          },
+          "query_params": {},
+          "headers": {
+            "X-Api-Key": "{{api_key}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
+          "source": {
+            "test": "test_admin_cannot_delete_an_unknown_product",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 53
+          }
+        },
+        {
+          "name": "Admin Deletes A Product",
+          "method": "DELETE",
+          "path": "/api/v1/admin/products/4",
+          "path_params": {
+            "id": "4"
+          },
+          "query_params": {},
+          "headers": {
+            "X-Api-Key": "{{api_key}}",
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 204,
+          "source": {
+            "test": "test_admin_deletes_a_product",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 47
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Admin Cannot Delete An Unknown Product",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_admin_cannot_delete_an_unknown_product",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 53
+          }
+        },
+        {
+          "name": "Admin Deletes A Product",
+          "status": 204,
+          "headers": {},
+          "body": null,
+          "content_type": null,
+          "source": {
+            "test": "test_admin_deletes_a_product",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 47
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Products",
+      "method": "GET",
+      "path": "/api/v2/products",
+      "controller": "api/v2/products",
+      "action": "index",
+      "resource": "products",
+      "api_version": "v2",
+      "route_name": "api_v2_products",
+      "also_methods": [],
+      "path_params": [],
+      "parameters": {
+        "path": [],
+        "query": [
+          {
+            "path": "cursor",
+            "type": "string",
+            "required": false,
+            "values": [
+              "eyJpZCI6Mn0"
+            ]
+          }
+        ],
+        "body": []
+      },
+      "responses": [
+        {
+          "status": 200,
+          "schema": [
+            {
+              "path": "items[].id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                2,
+                4
+              ]
+            },
+            {
+              "path": "items[].sku",
+              "type": "string",
+              "required": true,
+              "values": [
+                "MUG-002",
+                "TEA-002"
+              ]
+            },
+            {
+              "path": "items[].name",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Sencha",
+                "Travel Mug"
+              ]
+            },
+            {
+              "path": "items[].category",
+              "type": "string",
+              "required": true,
+              "values": [
+                "mugs",
+                "tea"
+              ]
+            },
+            {
+              "path": "items[].price_cents",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1500,
+                3200
+              ]
+            },
+            {
+              "path": "items[].tags[]",
+              "type": "string",
+              "required": true,
+              "values": [
+                "green",
+                "insulated"
+              ]
+            },
+            {
+              "path": "items[].price",
+              "type": "string",
+              "required": true,
+              "values": [
+                "15.00",
+                "32.00"
+              ]
+            },
+            {
+              "path": "next_cursor",
+              "type": "null | string",
+              "required": true,
+              "values": [
+                "eyJpZCI6Mn0"
+              ]
+            }
+          ],
+          "example": {
+            "items": [
+              {
+                "id": 3,
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "category": "mugs",
+                "price_cents": 2400,
+                "tags": [
+                  "ceramic"
+                ],
+                "price": "24.00"
+              },
+              {
+                "id": 4,
+                "sku": "MUG-002",
+                "name": "Travel Mug",
+                "category": "mugs",
+                "price_cents": 3200,
+                "tags": [
+                  "steel",
+                  "insulated"
+                ],
+                "price": "32.00"
+              }
+            ],
+            "next_cursor": null
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "V2 Follows A Cursor",
+          "method": "GET",
+          "path": "/api/v2/products",
+          "path_params": {},
+          "query_params": {
+            "cursor": "eyJpZCI6Mn0"
+          },
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_v2_follows_a_cursor",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 65
+          }
+        },
+        {
+          "name": "V2 Lists Products",
+          "method": "GET",
+          "path": "/api/v2/products",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_v2_lists_products",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 59
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "V2 Follows A Cursor",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "items": [
+              {
+                "id": 3,
+                "sku": "MUG-001",
+                "name": "Stoneware Mug",
+                "category": "mugs",
+                "price_cents": 2400,
+                "tags": [
+                  "ceramic"
+                ],
+                "price": "24.00"
+              },
+              {
+                "id": 4,
+                "sku": "MUG-002",
+                "name": "Travel Mug",
+                "category": "mugs",
+                "price_cents": 3200,
+                "tags": [
+                  "steel",
+                  "insulated"
+                ],
+                "price": "32.00"
+              }
+            ],
+            "next_cursor": null
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_v2_follows_a_cursor",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 65
+          }
+        },
+        {
+          "name": "V2 Lists Products",
+          "status": 200,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "items": [
+              {
+                "id": 1,
+                "sku": "TEA-001",
+                "name": "Earl Grey",
+                "category": "tea",
+                "price_cents": 1200,
+                "tags": [
+                  "black",
+                  "bergamot"
+                ],
+                "price": "12.00"
+              },
+              {
+                "id": 2,
+                "sku": "TEA-002",
+                "name": "Sencha",
+                "category": "tea",
+                "price_cents": 1500,
+                "tags": [
+                  "green"
+                ],
+                "price": "15.00"
+              }
+            ],
+            "next_cursor": "eyJpZCI6Mn0"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_v2_lists_products",
+            "suite": "AdminTest",
+            "file": "test/integration/admin_test.rb",
+            "line": 59
+          }
+        }
+      ]
+    }
+  ],
+  "uncovered_routes": []
+}
