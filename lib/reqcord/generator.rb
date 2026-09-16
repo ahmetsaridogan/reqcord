@@ -11,11 +11,13 @@ module Reqcord
   class Generator
     def self.call(
       resources: [],
-      version: nil
+      version: nil,
+      configuration: Reqcord.configuration
     )
       new(
         resources: resources,
-        version: version
+        version: version,
+        configuration: configuration
       ).call
     end
 

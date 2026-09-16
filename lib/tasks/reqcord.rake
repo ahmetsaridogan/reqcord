@@ -109,6 +109,29 @@ namespace :reqcord do
     puts "Output: #{Reqcord.configuration.output_directory}"
   end
 
+  desc "Fail when the committed documentation is behind the tests"
+  task check: :environment do
+    Reqcord.reload_configuration!
+
+    result =
+      Reqcord::Check.call(
+        resources: ENV.fetch("RESOURCE", "").split(",").map(&:strip).reject(&:empty?),
+        version: ENV["VERSION"].to_s.strip.then { |value| value.empty? ? nil : value }
+      )
+
+    output = Reqcord.configuration.output_directory
+
+    if result.clean?
+      puts "Reqcord: #{output} is up to date."
+    else
+      puts "Reqcord: #{output} is out of date."
+      puts
+      result.lines.each { |line| puts "  #{line}" }
+      puts
+      abort "Run `bin/rails reqcord:generate` and commit the result."
+    end
+  end
+
   desc "List the routes Reqcord would document"
   task routes: :environment do
     routes =
