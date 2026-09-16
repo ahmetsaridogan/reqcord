@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.4] - Unreleased
+## [0.1.4] - 2026-09-16
 
 ### Changed
 
@@ -14,7 +14,7 @@
 * `test.strict` (`REQCORD_STRICT=1`): abort on a failing suite instead of
   documenting what it captured.
 
-## [0.1.3] - Unreleased
+## [0.1.3] - 2026-09-16
 
 ### Added
 
