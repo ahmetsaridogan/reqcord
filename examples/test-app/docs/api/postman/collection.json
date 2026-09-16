@@ -370,7 +370,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{base_url}}/api/v1/tasks?status=open",
+                      "raw": "{{base_url}}/api/v1/tasks",
                       "host": [
                         "{{base_url}}"
                       ],
@@ -378,12 +378,6 @@
                         "api",
                         "v1",
                         "tasks"
-                      ],
-                      "query": [
-                        {
-                          "key": "status",
-                          "value": "open"
-                        }
                       ]
                     },
                     "auth": {
@@ -403,7 +397,7 @@
                           }
                         ],
                         "url": {
-                          "raw": "{{base_url}}/api/v1/tasks?status=open",
+                          "raw": "{{base_url}}/api/v1/tasks",
                           "host": [
                             "{{base_url}}"
                           ],
@@ -411,12 +405,6 @@
                             "api",
                             "v1",
                             "tasks"
-                          ],
-                          "query": [
-                            {
-                              "key": "status",
-                              "value": "open"
-                            }
                           ]
                         },
                         "auth": {
@@ -432,7 +420,7 @@
                           "value": "application/json; charset=utf-8"
                         }
                       ],
-                      "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Write the docs\",\n    \"status\": \"open\",\n    \"priority\": \"high\"\n  },\n  {\n    \"id\": 3,\n    \"title\": \"Tidy the backlog\",\n    \"status\": \"open\",\n    \"priority\": \"low\"\n  }\n]"
+                      "body": "[\n  {\n    \"id\": 1,\n    \"title\": \"Write the docs\",\n    \"status\": \"open\",\n    \"priority\": \"high\"\n  },\n  {\n    \"id\": 2,\n    \"title\": \"Ship 0.1.1\",\n    \"status\": \"done\",\n    \"priority\": \"high\"\n  },\n  {\n    \"id\": 3,\n    \"title\": \"Tidy the backlog\",\n    \"status\": \"open\",\n    \"priority\": \"low\"\n  }\n]"
                     }
                   ]
                 },
@@ -464,7 +452,7 @@
                     },
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n  \"task\": {\n    \"title\": \"Water the plants\",\n    \"priority\": \"low\"\n  }\n}",
+                      "raw": "{\n  \"task\": {\n    \"title\": \"Review the release\",\n    \"priority\": \"high\"\n  }\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -504,7 +492,7 @@
                         },
                         "body": {
                           "mode": "raw",
-                          "raw": "{\n  \"task\": {\n    \"title\": \"Water the plants\",\n    \"priority\": \"low\"\n  }\n}",
+                          "raw": "{\n  \"task\": {\n    \"title\": \"Review the release\",\n    \"priority\": \"high\"\n  }\n}",
                           "options": {
                             "raw": {
                               "language": "json"
@@ -524,7 +512,7 @@
                           "value": "application/json; charset=utf-8"
                         }
                       ],
-                      "body": "{\n  \"id\": 4,\n  \"status\": \"open\",\n  \"title\": \"Water the plants\",\n  \"priority\": \"low\"\n}"
+                      "body": "{\n  \"id\": 4,\n  \"status\": \"open\",\n  \"title\": \"Review the release\",\n  \"priority\": \"high\"\n}"
                     },
                     {
                       "name": "422 Unprocessable Content",

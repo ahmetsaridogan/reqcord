@@ -313,6 +313,37 @@ module Api
           render json: { error: "API key required" }, status: :unauthorized
         end
       end
+
+      # A multipart upload: the image's name and type are documented, its
+      # bytes are not.
+      class ProductImagesController < BaseController
+        before_action :require_api_key
+
+        def create
+          return not_found unless Store::PRODUCTS.any? { |product| product[:id] == params[:product_id].to_i }
+
+          image = params[:image]
+
+          unless image.respond_to?(:original_filename)
+            return render(json: { errors: { image: ["must be a file"] } }, status: :unprocessable_entity)
+          end
+
+          render json: {
+            product_id: params[:product_id].to_i,
+            filename: image.original_filename,
+            content_type: image.content_type,
+            alt: params[:alt]
+          }, status: :created
+        end
+
+        private
+
+        def require_api_key
+          return if request.headers["X-Api-Key"].present?
+
+          render json: { error: "API key required" }, status: :unauthorized
+        end
+      end
     end
   end
 
@@ -352,7 +383,9 @@ Rails.application.routes.draw do
       end
 
       namespace :admin do
-        resources :products, only: %i[index create destroy]
+        resources :products, only: %i[index create destroy] do
+          resource :image, only: :create, controller: "product_images"
+        end
       end
     end
 

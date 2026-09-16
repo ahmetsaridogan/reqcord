@@ -12,14 +12,18 @@ curl --request POST \
   "order": {
     "line_items": [
       {
-        "sku": "MUG-002",
+        "sku": "TEA-001",
+        "quantity": 2
+      },
+      {
+        "sku": "MUG-001",
         "quantity": 1
       }
     ],
     "shipping_address": {
-      "line1": "Piazza",
-      "city": "Rome",
-      "country": "IT"
+      "line1": "1 Analytical Engine Way",
+      "city": "London",
+      "country": "GB"
     }
   }
 }'

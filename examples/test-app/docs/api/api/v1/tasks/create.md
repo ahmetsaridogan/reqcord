@@ -15,7 +15,7 @@ Namespace: `api/v1`
 
 | Field | Type | Required | Values |
 | --- | --- | --- | --- |
-| `task.title` | string | yes | `"Water the plants"` |
+| `task.title` | string | yes | `"Review the release"` |
 | `task.priority` | string | yes | `"high"` \| `"low"` |
 
 ## Example Request
@@ -23,8 +23,8 @@ Namespace: `api/v1`
 ```json
 {
   "task": {
-    "title": "Water the plants",
-    "priority": "low"
+    "title": "Review the release",
+    "priority": "high"
   }
 }
 ```
@@ -38,8 +38,8 @@ curl --request POST \
   --header "Accept: application/json" \
   --data '{
   "task": {
-    "title": "Water the plants",
-    "priority": "low"
+    "title": "Review the release",
+    "priority": "high"
   }
 }'
 ```
@@ -54,15 +54,15 @@ curl --request POST \
 | --- | --- | --- | --- |
 | `id` | integer | yes | `4` |
 | `status` | string | yes | `"open"` |
-| `title` | string | yes | `"Water the plants"` |
+| `title` | string | yes | `"Review the release"` |
 | `priority` | string | yes | `"high"` \| `"low"` |
 
 ```json
 {
   "id": 4,
   "status": "open",
-  "title": "Water the plants",
-  "priority": "low"
+  "title": "Review the release",
+  "priority": "high"
 }
 ```
 

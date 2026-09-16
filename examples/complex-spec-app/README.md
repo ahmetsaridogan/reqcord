@@ -2,7 +2,7 @@
 
 The store API of [complex-test-app](../complex-test-app), documented from
 RSpec request specs instead of Minitest. The application file is identical;
-only the specs differ, and the generated dataset lists the same 22 endpoints.
+only the specs differ, and the generated dataset lists the same 23 endpoints.
 
 ```text
 app.rb                  the application (same as complex-test-app)

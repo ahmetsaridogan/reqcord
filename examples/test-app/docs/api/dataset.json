@@ -1,6 +1,5 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-15T23:57:25Z",
   "endpoints": [
     {
       "name": "List Customers",
@@ -91,25 +90,6 @@
       ],
       "request_examples": [
         {
-          "name": "Requires Authentication",
-          "method": "GET",
-          "path": "/api/v1/customers",
-          "path_params": {},
-          "query_params": {},
-          "headers": {
-            "Accept": "application/json"
-          },
-          "body": null,
-          "content_type": null,
-          "response_status": 401,
-          "source": {
-            "test": "test_requires_authentication",
-            "suite": "CustomersTest",
-            "file": "test/integration/customers_test.rb",
-            "line": 67
-          }
-        },
-        {
           "name": "Lists Customers",
           "method": "GET",
           "path": "/api/v1/customers",
@@ -130,26 +110,28 @@
             "file": "test/integration/customers_test.rb",
             "line": 13
           }
-        }
-      ],
-      "response_examples": [
+        },
         {
           "name": "Requires Authentication",
-          "status": 401,
+          "method": "GET",
+          "path": "/api/v1/customers",
+          "path_params": {},
+          "query_params": {},
           "headers": {
-            "content-type": "application/json; charset=utf-8"
+            "Accept": "application/json"
           },
-          "body": {
-            "error": "Unauthorized"
-          },
-          "content_type": "application/json",
+          "body": null,
+          "content_type": null,
+          "response_status": 401,
           "source": {
             "test": "test_requires_authentication",
             "suite": "CustomersTest",
             "file": "test/integration/customers_test.rb",
             "line": 67
           }
-        },
+        }
+      ],
+      "response_examples": [
         {
           "name": "Lists Customers",
           "status": 200,
@@ -169,6 +151,23 @@
             "suite": "CustomersTest",
             "file": "test/integration/customers_test.rb",
             "line": 13
+          }
+        },
+        {
+          "name": "Requires Authentication",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Unauthorized"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_requires_authentication",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 67
           }
         }
       ]
@@ -330,6 +329,33 @@
           }
         },
         {
+          "name": "Creates A Passive Customer",
+          "method": "POST",
+          "path": "/api/v1/customers",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "customer": {
+              "name": "Grace Hopper",
+              "email": "grace@example.com",
+              "status": "passive"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_a_passive_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 40
+          }
+        },
+        {
           "name": "Rejects An Unknown Status",
           "method": "POST",
           "path": "/api/v1/customers",
@@ -382,33 +408,6 @@
             "file": "test/integration/customers_test.rb",
             "line": 58
           }
-        },
-        {
-          "name": "Creates A Passive Customer",
-          "method": "POST",
-          "path": "/api/v1/customers",
-          "path_params": {},
-          "query_params": {},
-          "headers": {
-            "Authorization": "Bearer {{token}}",
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          "body": {
-            "customer": {
-              "name": "Grace Hopper",
-              "email": "grace@example.com",
-              "status": "passive"
-            }
-          },
-          "content_type": "application/json",
-          "response_status": 201,
-          "source": {
-            "test": "test_creates_a_passive_customer",
-            "suite": "CustomersTest",
-            "file": "test/integration/customers_test.rb",
-            "line": 40
-          }
         }
       ],
       "response_examples": [
@@ -430,6 +429,26 @@
             "suite": "CustomersTest",
             "file": "test/integration/customers_test.rb",
             "line": 31
+          }
+        },
+        {
+          "name": "Creates A Passive Customer",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 3,
+            "name": "Grace Hopper",
+            "email": "grace@example.com",
+            "status": "passive"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_a_passive_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 40
           }
         },
         {
@@ -472,26 +491,6 @@
             "suite": "CustomersTest",
             "file": "test/integration/customers_test.rb",
             "line": 58
-          }
-        },
-        {
-          "name": "Creates A Passive Customer",
-          "status": 201,
-          "headers": {
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": {
-            "id": 3,
-            "name": "Grace Hopper",
-            "email": "grace@example.com",
-            "status": "passive"
-          },
-          "content_type": "application/json",
-          "source": {
-            "test": "test_creates_a_passive_customer",
-            "suite": "CustomersTest",
-            "file": "test/integration/customers_test.rb",
-            "line": 40
           }
         }
       ]
@@ -585,28 +584,6 @@
       ],
       "request_examples": [
         {
-          "name": "Returns Not Found For An Unknown Customer",
-          "method": "GET",
-          "path": "/api/v1/customers/999",
-          "path_params": {
-            "id": "999"
-          },
-          "query_params": {},
-          "headers": {
-            "Authorization": "Bearer {{token}}",
-            "Accept": "application/json"
-          },
-          "body": null,
-          "content_type": null,
-          "response_status": 404,
-          "source": {
-            "test": "test_returns_not_found_for_an_unknown_customer",
-            "suite": "CustomersTest",
-            "file": "test/integration/customers_test.rb",
-            "line": 25
-          }
-        },
-        {
           "name": "Shows Customer",
           "method": "GET",
           "path": "/api/v1/customers/1",
@@ -627,26 +604,31 @@
             "file": "test/integration/customers_test.rb",
             "line": 19
           }
-        }
-      ],
-      "response_examples": [
+        },
         {
           "name": "Returns Not Found For An Unknown Customer",
-          "status": 404,
+          "method": "GET",
+          "path": "/api/v1/customers/999",
+          "path_params": {
+            "id": "999"
+          },
+          "query_params": {},
           "headers": {
-            "content-type": "application/json; charset=utf-8"
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
           },
-          "body": {
-            "error": "Not Found"
-          },
-          "content_type": "application/json",
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
           "source": {
             "test": "test_returns_not_found_for_an_unknown_customer",
             "suite": "CustomersTest",
             "file": "test/integration/customers_test.rb",
             "line": 25
           }
-        },
+        }
+      ],
+      "response_examples": [
         {
           "name": "Shows Customer",
           "status": 200,
@@ -664,6 +646,23 @@
             "suite": "CustomersTest",
             "file": "test/integration/customers_test.rb",
             "line": 19
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown Customer",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_customer",
+            "suite": "CustomersTest",
+            "file": "test/integration/customers_test.rb",
+            "line": 25
           }
         }
       ]
@@ -757,25 +756,6 @@
       ],
       "request_examples": [
         {
-          "name": "Requires Authentication",
-          "method": "GET",
-          "path": "/api/v1/users",
-          "path_params": {},
-          "query_params": {},
-          "headers": {
-            "Accept": "application/json"
-          },
-          "body": null,
-          "content_type": null,
-          "response_status": 401,
-          "source": {
-            "test": "test_requires_authentication",
-            "suite": "UsersTest",
-            "file": "test/integration/users_test.rb",
-            "line": 67
-          }
-        },
-        {
           "name": "Lists Users",
           "method": "GET",
           "path": "/api/v1/users",
@@ -796,26 +776,28 @@
             "file": "test/integration/users_test.rb",
             "line": 13
           }
-        }
-      ],
-      "response_examples": [
+        },
         {
           "name": "Requires Authentication",
-          "status": 401,
+          "method": "GET",
+          "path": "/api/v1/users",
+          "path_params": {},
+          "query_params": {},
           "headers": {
-            "content-type": "application/json; charset=utf-8"
+            "Accept": "application/json"
           },
-          "body": {
-            "error": "Unauthorized"
-          },
-          "content_type": "application/json",
+          "body": null,
+          "content_type": null,
+          "response_status": 401,
           "source": {
             "test": "test_requires_authentication",
             "suite": "UsersTest",
             "file": "test/integration/users_test.rb",
             "line": 67
           }
-        },
+        }
+      ],
+      "response_examples": [
         {
           "name": "Lists Users",
           "status": 200,
@@ -835,6 +817,23 @@
             "suite": "UsersTest",
             "file": "test/integration/users_test.rb",
             "line": 13
+          }
+        },
+        {
+          "name": "Requires Authentication",
+          "status": 401,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Unauthorized"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_requires_authentication",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 67
           }
         }
       ]
@@ -996,6 +995,33 @@
           }
         },
         {
+          "name": "Creates A Inactive User",
+          "method": "POST",
+          "path": "/api/v1/users",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Authorization": "Bearer {{token}}",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "user": {
+              "name": "Grace Hopper",
+              "email": "grace@example.com",
+              "status": "inactive"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_a_inactive_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 40
+          }
+        },
+        {
           "name": "Rejects An Unknown Status",
           "method": "POST",
           "path": "/api/v1/users",
@@ -1048,33 +1074,6 @@
             "file": "test/integration/users_test.rb",
             "line": 58
           }
-        },
-        {
-          "name": "Creates A Inactive User",
-          "method": "POST",
-          "path": "/api/v1/users",
-          "path_params": {},
-          "query_params": {},
-          "headers": {
-            "Authorization": "Bearer {{token}}",
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          "body": {
-            "user": {
-              "name": "Grace Hopper",
-              "email": "grace@example.com",
-              "status": "inactive"
-            }
-          },
-          "content_type": "application/json",
-          "response_status": 201,
-          "source": {
-            "test": "test_creates_a_inactive_user",
-            "suite": "UsersTest",
-            "file": "test/integration/users_test.rb",
-            "line": 40
-          }
         }
       ],
       "response_examples": [
@@ -1096,6 +1095,26 @@
             "suite": "UsersTest",
             "file": "test/integration/users_test.rb",
             "line": 31
+          }
+        },
+        {
+          "name": "Creates A Inactive User",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 3,
+            "name": "Grace Hopper",
+            "email": "grace@example.com",
+            "status": "inactive"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_a_inactive_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 40
           }
         },
         {
@@ -1138,26 +1157,6 @@
             "suite": "UsersTest",
             "file": "test/integration/users_test.rb",
             "line": 58
-          }
-        },
-        {
-          "name": "Creates A Inactive User",
-          "status": 201,
-          "headers": {
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": {
-            "id": 3,
-            "name": "Grace Hopper",
-            "email": "grace@example.com",
-            "status": "inactive"
-          },
-          "content_type": "application/json",
-          "source": {
-            "test": "test_creates_a_inactive_user",
-            "suite": "UsersTest",
-            "file": "test/integration/users_test.rb",
-            "line": 40
           }
         }
       ]
@@ -1251,28 +1250,6 @@
       ],
       "request_examples": [
         {
-          "name": "Returns Not Found For An Unknown User",
-          "method": "GET",
-          "path": "/api/v1/users/999",
-          "path_params": {
-            "id": "999"
-          },
-          "query_params": {},
-          "headers": {
-            "Authorization": "Bearer {{token}}",
-            "Accept": "application/json"
-          },
-          "body": null,
-          "content_type": null,
-          "response_status": 404,
-          "source": {
-            "test": "test_returns_not_found_for_an_unknown_user",
-            "suite": "UsersTest",
-            "file": "test/integration/users_test.rb",
-            "line": 25
-          }
-        },
-        {
           "name": "Shows User",
           "method": "GET",
           "path": "/api/v1/users/1",
@@ -1293,26 +1270,31 @@
             "file": "test/integration/users_test.rb",
             "line": 19
           }
-        }
-      ],
-      "response_examples": [
+        },
         {
           "name": "Returns Not Found For An Unknown User",
-          "status": 404,
+          "method": "GET",
+          "path": "/api/v1/users/999",
+          "path_params": {
+            "id": "999"
+          },
+          "query_params": {},
           "headers": {
-            "content-type": "application/json; charset=utf-8"
+            "Authorization": "Bearer {{token}}",
+            "Accept": "application/json"
           },
-          "body": {
-            "error": "Not Found"
-          },
-          "content_type": "application/json",
+          "body": null,
+          "content_type": null,
+          "response_status": 404,
           "source": {
             "test": "test_returns_not_found_for_an_unknown_user",
             "suite": "UsersTest",
             "file": "test/integration/users_test.rb",
             "line": 25
           }
-        },
+        }
+      ],
+      "response_examples": [
         {
           "name": "Shows User",
           "status": 200,
@@ -1330,6 +1312,23 @@
             "suite": "UsersTest",
             "file": "test/integration/users_test.rb",
             "line": 19
+          }
+        },
+        {
+          "name": "Returns Not Found For An Unknown User",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_returns_not_found_for_an_unknown_user",
+            "suite": "UsersTest",
+            "file": "test/integration/users_test.rb",
+            "line": 25
           }
         }
       ]
@@ -1531,6 +1530,12 @@
               "priority": "high"
             },
             {
+              "id": 2,
+              "title": "Ship 0.1.1",
+              "status": "done",
+              "priority": "high"
+            },
+            {
               "id": 3,
               "title": "Tidy the backlog",
               "status": "open",
@@ -1544,6 +1549,25 @@
         }
       ],
       "request_examples": [
+        {
+          "name": "Lists Tasks",
+          "method": "GET",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Accept": "application/json"
+          },
+          "body": null,
+          "content_type": null,
+          "response_status": 200,
+          "source": {
+            "test": "test_lists_tasks",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 9
+          }
+        },
         {
           "name": "Lists Open Tasks",
           "method": "GET",
@@ -1585,28 +1609,43 @@
             "file": "test/integration/tasks_test.rb",
             "line": 21
           }
-        },
+        }
+      ],
+      "response_examples": [
         {
           "name": "Lists Tasks",
-          "method": "GET",
-          "path": "/api/v1/tasks",
-          "path_params": {},
-          "query_params": {},
+          "status": 200,
           "headers": {
-            "Accept": "application/json"
+            "content-type": "application/json; charset=utf-8"
           },
-          "body": null,
-          "content_type": null,
-          "response_status": 200,
+          "body": [
+            {
+              "id": 1,
+              "title": "Write the docs",
+              "status": "open",
+              "priority": "high"
+            },
+            {
+              "id": 2,
+              "title": "Ship 0.1.1",
+              "status": "done",
+              "priority": "high"
+            },
+            {
+              "id": 3,
+              "title": "Tidy the backlog",
+              "status": "open",
+              "priority": "low"
+            }
+          ],
+          "content_type": "application/json",
           "source": {
             "test": "test_lists_tasks",
             "suite": "TasksTest",
             "file": "test/integration/tasks_test.rb",
             "line": 9
           }
-        }
-      ],
-      "response_examples": [
+        },
         {
           "name": "Lists Open Tasks",
           "status": 200,
@@ -1655,40 +1694,6 @@
             "suite": "TasksTest",
             "file": "test/integration/tasks_test.rb",
             "line": 21
-          }
-        },
-        {
-          "name": "Lists Tasks",
-          "status": 200,
-          "headers": {
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": [
-            {
-              "id": 1,
-              "title": "Write the docs",
-              "status": "open",
-              "priority": "high"
-            },
-            {
-              "id": 2,
-              "title": "Ship 0.1.1",
-              "status": "done",
-              "priority": "high"
-            },
-            {
-              "id": 3,
-              "title": "Tidy the backlog",
-              "status": "open",
-              "priority": "low"
-            }
-          ],
-          "content_type": "application/json",
-          "source": {
-            "test": "test_lists_tasks",
-            "suite": "TasksTest",
-            "file": "test/integration/tasks_test.rb",
-            "line": 9
           }
         }
       ]
@@ -1770,8 +1775,8 @@
           "example": {
             "id": 4,
             "status": "open",
-            "title": "Water the plants",
-            "priority": "low"
+            "title": "Review the release",
+            "priority": "high"
           },
           "headers": {
             "content-type": "application/json; charset=utf-8"
@@ -1813,31 +1818,6 @@
       ],
       "request_examples": [
         {
-          "name": "Creates A Low Priority Task",
-          "method": "POST",
-          "path": "/api/v1/tasks",
-          "path_params": {},
-          "query_params": {},
-          "headers": {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          "body": {
-            "task": {
-              "title": "Water the plants",
-              "priority": "low"
-            }
-          },
-          "content_type": "application/json",
-          "response_status": 201,
-          "source": {
-            "test": "test_creates_a_low_priority_task",
-            "suite": "TasksTest",
-            "file": "test/integration/tasks_test.rb",
-            "line": 45
-          }
-        },
-        {
           "name": "Creates A High Priority Task",
           "method": "POST",
           "path": "/api/v1/tasks",
@@ -1860,6 +1840,31 @@
             "suite": "TasksTest",
             "file": "test/integration/tasks_test.rb",
             "line": 39
+          }
+        },
+        {
+          "name": "Creates A Low Priority Task",
+          "method": "POST",
+          "path": "/api/v1/tasks",
+          "path_params": {},
+          "query_params": {},
+          "headers": {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          "body": {
+            "task": {
+              "title": "Water the plants",
+              "priority": "low"
+            }
+          },
+          "content_type": "application/json",
+          "response_status": 201,
+          "source": {
+            "test": "test_creates_a_low_priority_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 45
           }
         },
         {
@@ -1915,26 +1920,6 @@
       ],
       "response_examples": [
         {
-          "name": "Creates A Low Priority Task",
-          "status": 201,
-          "headers": {
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": {
-            "id": 4,
-            "status": "open",
-            "title": "Water the plants",
-            "priority": "low"
-          },
-          "content_type": "application/json",
-          "source": {
-            "test": "test_creates_a_low_priority_task",
-            "suite": "TasksTest",
-            "file": "test/integration/tasks_test.rb",
-            "line": 45
-          }
-        },
-        {
           "name": "Creates A High Priority Task",
           "status": 201,
           "headers": {
@@ -1952,6 +1937,26 @@
             "suite": "TasksTest",
             "file": "test/integration/tasks_test.rb",
             "line": 39
+          }
+        },
+        {
+          "name": "Creates A Low Priority Task",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "id": 4,
+            "status": "open",
+            "title": "Water the plants",
+            "priority": "low"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "test_creates_a_low_priority_task",
+            "suite": "TasksTest",
+            "file": "test/integration/tasks_test.rb",
+            "line": 45
           }
         },
         {

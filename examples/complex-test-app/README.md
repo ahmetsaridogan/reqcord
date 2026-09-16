@@ -19,10 +19,11 @@ if you want the gentle version.
 | `POST` / `DELETE /api/v1/cart/items/:sku` | items nested under the cart, addressed by `sku` (`param: :sku`) |
 | `POST /api/v1/cart/checkout` | custom action on a singular resource ("Checkout Cart"), `payment_method` as `"bank_transfer" \| "card"` |
 | `/api/v1/admin/products` | a second credential (`X-Api-Key` → `{{api_key}}`), its own `admin` folder, `409` on a duplicate sku |
+| `POST /api/v1/admin/products/:product_id/image` | a **multipart** upload: `image` is typed `file`, shown by name (`label.png`), `--form image=@label.png` in cURL, `formdata` in Postman, `format: binary` in OpenAPI |
 | `GET /api/v2/products` | a second API version next to the first: `VERSION=v2 ruby generate.rb` |
 
 Every route is covered by a test, so the report ends in
-`routes: 22 = 22 documented + 0 uncovered + 0 skipped`.
+`routes: 23 = 23 documented + 0 uncovered + 0 skipped`.
 
 ```text
 app.rb                     the application

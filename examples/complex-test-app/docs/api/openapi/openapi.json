@@ -12,6 +12,10 @@
   ],
   "tags": [
     {
+      "name": "Product Images",
+      "description": "api/v1/admin/product_images"
+    },
+    {
       "name": "Products",
       "description": "api/v1/admin/products"
     },
@@ -53,6 +57,125 @@
     }
   ],
   "paths": {
+    "/api/v1/admin/products/{product_id}/image": {
+      "post": {
+        "operationId": "post_api_v1_admin_products_product_id_image",
+        "summary": "Create Product Image",
+        "description": "api/v1/admin/product_images#create\nRoute: api_v1_admin_product_image",
+        "tags": [
+          "Product Images"
+        ],
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1"
+            },
+            "example": "1"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "alt": {
+                    "type": "string",
+                    "example": "Stoneware mug on a table"
+                  }
+                },
+                "required": [
+                  "image",
+                  "alt"
+                ]
+              },
+              "example": {
+                "image": "label.png",
+                "alt": "Stoneware mug on a table"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "product_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "filename": {
+                      "type": "string",
+                      "example": "label.png"
+                    },
+                    "content_type": {
+                      "type": "string",
+                      "example": "image/png"
+                    },
+                    "alt": {
+                      "type": "string",
+                      "example": "Stoneware mug on a table"
+                    }
+                  },
+                  "required": [
+                    "product_id",
+                    "filename",
+                    "content_type",
+                    "alt"
+                  ]
+                },
+                "example": {
+                  "product_id": 1,
+                  "filename": "label.png",
+                  "content_type": "image/png",
+                  "alt": "Stoneware mug on a table"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                },
+                "example": {
+                  "error": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/admin/products": {
       "get": {
         "operationId": "get_api_v1_admin_products",
@@ -839,7 +962,7 @@
                       "bank_transfer",
                       "card"
                     ],
-                    "example": "bank_transfer"
+                    "example": "card"
                   }
                 },
                 "required": [
@@ -847,7 +970,7 @@
                 ]
               },
               "example": {
-                "payment_method": "bank_transfer"
+                "payment_method": "card"
               }
             }
           }
@@ -874,7 +997,7 @@
                         "bank_transfer",
                         "card"
                       ],
-                      "example": "bank_transfer"
+                      "example": "card"
                     },
                     "total_cents": {
                       "type": "integer",
@@ -922,7 +1045,7 @@
                 "example": {
                   "id": 5,
                   "status": "pending",
-                  "payment_method": "bank_transfer",
+                  "payment_method": "card",
                   "total_cents": 4800,
                   "line_items": [
                     {
@@ -1301,7 +1424,7 @@
                     "properties": {
                       "id": {
                         "type": "integer",
-                        "example": 1
+                        "example": 2
                       },
                       "user_id": {
                         "type": "integer",
@@ -1313,7 +1436,7 @@
                           "pending",
                           "shipped"
                         ],
-                        "example": "pending"
+                        "example": "shipped"
                       },
                       "currency": {
                         "type": "string",
@@ -1321,7 +1444,7 @@
                       },
                       "total_cents": {
                         "type": "integer",
-                        "example": 2700
+                        "example": 3200
                       }
                     },
                     "required": [
@@ -1340,6 +1463,13 @@
                     "status": "pending",
                     "currency": "USD",
                     "total_cents": 2700
+                  },
+                  {
+                    "id": 2,
+                    "user_id": 1,
+                    "status": "shipped",
+                    "currency": "USD",
+                    "total_cents": 3200
                   }
                 ]
               }
@@ -1398,7 +1528,7 @@
                           "properties": {
                             "sku": {
                               "type": "string",
-                              "example": "MUG-002"
+                              "example": "MUG-001"
                             },
                             "quantity": {
                               "type": "integer",
@@ -1416,11 +1546,11 @@
                         "properties": {
                           "line1": {
                             "type": "string",
-                            "example": "Piazza"
+                            "example": "1 Analytical Engine Way"
                           },
                           "city": {
                             "type": "string",
-                            "example": "Rome"
+                            "example": "London"
                           },
                           "country": {
                             "type": "string",
@@ -1428,7 +1558,7 @@
                               "GB",
                               "IT"
                             ],
-                            "example": "IT"
+                            "example": "GB"
                           }
                         },
                         "required": [
@@ -1452,14 +1582,18 @@
                 "order": {
                   "line_items": [
                     {
-                      "sku": "MUG-002",
+                      "sku": "TEA-001",
+                      "quantity": 2
+                    },
+                    {
+                      "sku": "MUG-001",
                       "quantity": 1
                     }
                   ],
                   "shipping_address": {
-                    "line1": "Piazza",
-                    "city": "Rome",
-                    "country": "IT"
+                    "line1": "1 Analytical Engine Way",
+                    "city": "London",
+                    "country": "GB"
                   }
                 }
               }
@@ -1488,7 +1622,7 @@
                     },
                     "total_cents": {
                       "type": "integer",
-                      "example": 3200
+                      "example": 4800
                     },
                     "line_items": {
                       "type": "array",
@@ -1497,11 +1631,11 @@
                         "properties": {
                           "sku": {
                             "type": "string",
-                            "example": "MUG-002"
+                            "example": "MUG-001"
                           },
                           "name": {
                             "type": "string",
-                            "example": "Travel Mug"
+                            "example": "Stoneware Mug"
                           },
                           "quantity": {
                             "type": "integer",
@@ -1509,11 +1643,11 @@
                           },
                           "unit_price_cents": {
                             "type": "integer",
-                            "example": 3200
+                            "example": 2400
                           },
                           "subtotal_cents": {
                             "type": "integer",
-                            "example": 3200
+                            "example": 2400
                           }
                         },
                         "required": [
@@ -1530,11 +1664,11 @@
                       "properties": {
                         "line1": {
                           "type": "string",
-                          "example": "Piazza"
+                          "example": "1 Analytical Engine Way"
                         },
                         "city": {
                           "type": "string",
-                          "example": "Rome"
+                          "example": "London"
                         },
                         "country": {
                           "type": "string",
@@ -1542,7 +1676,7 @@
                             "GB",
                             "IT"
                           ],
-                          "example": "IT"
+                          "example": "GB"
                         }
                       },
                       "required": [
@@ -1565,20 +1699,27 @@
                   "id": 4,
                   "status": "pending",
                   "currency": "USD",
-                  "total_cents": 3200,
+                  "total_cents": 4800,
                   "line_items": [
                     {
-                      "sku": "MUG-002",
-                      "name": "Travel Mug",
+                      "sku": "TEA-001",
+                      "name": "Earl Grey",
+                      "quantity": 2,
+                      "unit_price_cents": 1200,
+                      "subtotal_cents": 2400
+                    },
+                    {
+                      "sku": "MUG-001",
+                      "name": "Stoneware Mug",
                       "quantity": 1,
-                      "unit_price_cents": 3200,
-                      "subtotal_cents": 3200
+                      "unit_price_cents": 2400,
+                      "subtotal_cents": 2400
                     }
                   ],
                   "shipping_address": {
-                    "line1": "Piazza",
-                    "city": "Rome",
-                    "country": "IT"
+                    "line1": "1 Analytical Engine Way",
+                    "city": "London",
+                    "country": "GB"
                   }
                 }
               }
@@ -1594,18 +1735,18 @@
                     "errors": {
                       "type": "object",
                       "properties": {
-                        "sku": {
-                          "type": "array",
-                          "items": {
-                            "type": "string",
-                            "example": "TEA-999 is not a known product"
-                          }
-                        },
                         "line_items": {
                           "type": "array",
                           "items": {
                             "type": "string",
                             "example": "can't be blank"
+                          }
+                        },
+                        "sku": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "TEA-999 is not a known product"
                           }
                         }
                       }
@@ -1614,8 +1755,8 @@
                 },
                 "example": {
                   "errors": {
-                    "sku": [
-                      "TEA-999 is not a known product"
+                    "line_items": [
+                      "can't be blank"
                     ]
                   }
                 }
@@ -1895,9 +2036,9 @@
                 "mugs",
                 "tea"
               ],
-              "example": "mugs"
+              "example": "tea"
             },
-            "example": "mugs"
+            "example": "tea"
           },
           {
             "name": "sort",
@@ -1949,15 +2090,15 @@
                         "properties": {
                           "id": {
                             "type": "integer",
-                            "example": 4
+                            "example": 2
                           },
                           "sku": {
                             "type": "string",
-                            "example": "MUG-002"
+                            "example": "TEA-002"
                           },
                           "name": {
                             "type": "string",
-                            "example": "Travel Mug"
+                            "example": "Sencha"
                           },
                           "category": {
                             "type": "string",
@@ -1965,11 +2106,11 @@
                               "mugs",
                               "tea"
                             ],
-                            "example": "mugs"
+                            "example": "tea"
                           },
                           "price_cents": {
                             "type": "integer",
-                            "example": 3200
+                            "example": 1500
                           },
                           "tags": {
                             "type": "array",
@@ -1980,7 +2121,7 @@
                                 "green",
                                 "insulated"
                               ],
-                              "example": "insulated"
+                              "example": "green"
                             }
                           }
                         },
@@ -2007,7 +2148,7 @@
                         },
                         "total": {
                           "type": "integer",
-                          "example": 2
+                          "example": 4
                         }
                       },
                       "required": [
@@ -2025,31 +2166,31 @@
                 "example": {
                   "data": [
                     {
-                      "id": 3,
-                      "sku": "MUG-001",
-                      "name": "Stoneware Mug",
-                      "category": "mugs",
-                      "price_cents": 2400,
+                      "id": 1,
+                      "sku": "TEA-001",
+                      "name": "Earl Grey",
+                      "category": "tea",
+                      "price_cents": 1200,
                       "tags": [
-                        "ceramic"
+                        "black",
+                        "bergamot"
                       ]
                     },
                     {
-                      "id": 4,
-                      "sku": "MUG-002",
-                      "name": "Travel Mug",
-                      "category": "mugs",
-                      "price_cents": 3200,
+                      "id": 2,
+                      "sku": "TEA-002",
+                      "name": "Sencha",
+                      "category": "tea",
+                      "price_cents": 1500,
                       "tags": [
-                        "steel",
-                        "insulated"
+                        "green"
                       ]
                     }
                   ],
                   "meta": {
                     "page": 1,
                     "per_page": 2,
-                    "total": 2
+                    "total": 4
                   }
                 }
               }

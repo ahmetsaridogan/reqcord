@@ -21,7 +21,7 @@ Namespace: `api/v1`
 
 ```bash
 curl --request GET \
-  --url "http://localhost:3000/api/v1/orders?status=pending" \
+  --url "http://localhost:3000/api/v1/orders" \
   --header "Authorization: Bearer {{token}}" \
   --header "Accept: application/json"
 ```
@@ -34,11 +34,11 @@ curl --request GET \
 
 | Field | Type | Required | Values |
 | --- | --- | --- | --- |
-| `[].id` | integer | yes | `1` |
+| `[].id` | integer | yes | `2` |
 | `[].user_id` | integer | yes | `1` |
 | `[].status` | string | yes | `"pending"` \| `"shipped"` |
 | `[].currency` | string | yes | `"USD"` |
-| `[].total_cents` | integer | yes | `2700` |
+| `[].total_cents` | integer | yes | `3200` |
 
 ```json
 [
@@ -48,6 +48,13 @@ curl --request GET \
     "status": "pending",
     "currency": "USD",
     "total_cents": 2700
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "status": "shipped",
+    "currency": "USD",
+    "total_cents": 3200
   }
 ]
 ```

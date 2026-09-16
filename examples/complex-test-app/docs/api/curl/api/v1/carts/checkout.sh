@@ -9,5 +9,5 @@ curl --request POST \
   --header "Content-Type: application/json" \
   --header "Accept: application/json" \
   --data '{
-  "payment_method": "bank_transfer"
+  "payment_method": "card"
 }'

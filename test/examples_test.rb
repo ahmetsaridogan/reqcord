@@ -130,6 +130,11 @@ class ExamplesTest < Minitest::Test
     assert_includes page(output, "api", "v1", "cart-items", "destroy.md"), "| `sku` | string | yes |"
     assert_includes page(output, "api", "v1", "admin", "products", "list.md"), "Namespace: `api/v1/admin`"
     assert_includes page(output, "api", "v1", "admin", "products", "list.md"), "{{api_key}}"
+
+    upload = page(output, "api", "v1", "admin", "product-images", "create.md")
+    assert_includes upload, "| `image` | file | yes | `\"label.png\"` |"
+    assert_includes upload, "--form 'image=@label.png;type=image/png'"
+    assert_includes upload, "### 404 Not Found"
     assert_includes page(output, "api", "v1", "home", "list.md"), "# Home"
 
     assert_includes data["endpoints"].map { |endpoint| "#{endpoint['method']} #{endpoint['path']}" }, "GET /api/v2/products"
@@ -139,6 +144,18 @@ class ExamplesTest < Minitest::Test
 
     assert_equal "urlencoded", login_request.dig("request", "body", "mode")
     assert_equal "noauth", login_request.dig("request", "auth", "type")
+  end
+
+  # The committed output is what the code produces today: regenerating the
+  # examples is part of changing an exporter. This is `reqcord:check` for
+  # the repository itself.
+  def test_committed_example_docs_are_current
+    PAIRS.flatten.each do |example|
+      output, = generate(example)
+      result = Reqcord::Check.compare(expected: File.join(EXAMPLES, example, "docs", "api"), actual: output)
+
+      assert result.clean?, "examples/#{example}/docs/api is stale — run `ruby generate.rb` there:\n#{result.lines.join("\n")}"
+    end
   end
 
   # Both frameworks must produce the same documented surface.
