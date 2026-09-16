@@ -77,14 +77,14 @@ curl --request POST \
 
 | Field | Type | Required | Values |
 | --- | --- | --- | --- |
-| `errors.email[]` | string | no | `"can't be blank"` |
 | `errors.status[]` | string | no | `"is not included in the list"` |
+| `errors.email[]` | string | no | `"can't be blank"` |
 
 ```json
 {
   "errors": {
-    "email": [
-      "can't be blank"
+    "status": [
+      "is not included in the list"
     ]
   }
 }

@@ -20,7 +20,7 @@ Namespace: `api/v2`
 
 ```bash
 curl --request GET \
-  --url "http://localhost:3000/api/v2/products?cursor=eyJpZCI6Mn0" \
+  --url "http://localhost:3000/api/v2/products" \
   --header "Accept: application/json"
 ```
 
@@ -32,43 +32,43 @@ curl --request GET \
 
 | Field | Type | Required | Values |
 | --- | --- | --- | --- |
-| `items[].id` | integer | yes | `4` |
-| `items[].sku` | string | yes | `"MUG-002"` |
-| `items[].name` | string | yes | `"Travel Mug"` |
+| `items[].id` | integer | yes | `2` |
+| `items[].sku` | string | yes | `"TEA-002"` |
+| `items[].name` | string | yes | `"Sencha"` |
 | `items[].category` | string | yes | `"mugs"` \| `"tea"` |
-| `items[].price_cents` | integer | yes | `3200` |
+| `items[].price_cents` | integer | yes | `1500` |
 | `items[].tags[]` | string | yes | `"green"` \| `"insulated"` |
-| `items[].price` | string | yes | `"32.00"` |
+| `items[].price` | string | yes | `"15.00"` |
 | `next_cursor` | null | string | yes | `"eyJpZCI6Mn0"` |
 
 ```json
 {
   "items": [
     {
-      "id": 3,
-      "sku": "MUG-001",
-      "name": "Stoneware Mug",
-      "category": "mugs",
-      "price_cents": 2400,
+      "id": 1,
+      "sku": "TEA-001",
+      "name": "Earl Grey",
+      "category": "tea",
+      "price_cents": 1200,
       "tags": [
-        "ceramic"
+        "black",
+        "bergamot"
       ],
-      "price": "24.00"
+      "price": "12.00"
     },
     {
-      "id": 4,
-      "sku": "MUG-002",
-      "name": "Travel Mug",
-      "category": "mugs",
-      "price_cents": 3200,
+      "id": 2,
+      "sku": "TEA-002",
+      "name": "Sencha",
+      "category": "tea",
+      "price_cents": 1500,
       "tags": [
-        "steel",
-        "insulated"
+        "green"
       ],
-      "price": "32.00"
+      "price": "15.00"
     }
   ],
-  "next_cursor": null
+  "next_cursor": "eyJpZCI6Mn0"
 }
 ```
 

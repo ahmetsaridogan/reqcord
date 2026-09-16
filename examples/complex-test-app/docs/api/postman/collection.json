@@ -984,7 +984,7 @@
                     },
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n  \"payment_method\": \"card\"\n}",
+                      "raw": "{\n  \"payment_method\": \"bank_transfer\"\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1022,7 +1022,7 @@
                         },
                         "body": {
                           "mode": "raw",
-                          "raw": "{\n  \"payment_method\": \"card\"\n}",
+                          "raw": "{\n  \"payment_method\": \"bank_transfer\"\n}",
                           "options": {
                             "raw": {
                               "language": "json"
@@ -1039,7 +1039,7 @@
                           "value": "application/json; charset=utf-8"
                         }
                       ],
-                      "body": "{\n  \"id\": 5,\n  \"status\": \"pending\",\n  \"payment_method\": \"card\",\n  \"total_cents\": 4800,\n  \"line_items\": [\n    {\n      \"sku\": \"TEA-001\",\n      \"name\": \"Earl Grey\",\n      \"quantity\": 2,\n      \"unit_price_cents\": 1200\n    },\n    {\n      \"sku\": \"MUG-001\",\n      \"name\": \"Stoneware Mug\",\n      \"quantity\": 1,\n      \"unit_price_cents\": 2400\n    }\n  ]\n}"
+                      "body": "{\n  \"id\": 5,\n  \"status\": \"pending\",\n  \"payment_method\": \"bank_transfer\",\n  \"total_cents\": 4800,\n  \"line_items\": [\n    {\n      \"sku\": \"TEA-001\",\n      \"name\": \"Earl Grey\",\n      \"quantity\": 2,\n      \"unit_price_cents\": 1200\n    },\n    {\n      \"sku\": \"MUG-001\",\n      \"name\": \"Stoneware Mug\",\n      \"quantity\": 1,\n      \"unit_price_cents\": 2400\n    }\n  ]\n}"
                     },
                     {
                       "name": "422 Unprocessable Content",
@@ -1497,7 +1497,7 @@
                     },
                     "body": {
                       "mode": "raw",
-                      "raw": "{\n  \"order\": {\n    \"line_items\": [\n      {\n        \"sku\": \"TEA-001\",\n        \"quantity\": 2\n      },\n      {\n        \"sku\": \"MUG-001\",\n        \"quantity\": 1\n      }\n    ],\n    \"shipping_address\": {\n      \"line1\": \"1 Analytical Engine Way\",\n      \"city\": \"London\",\n      \"country\": \"GB\"\n    }\n  }\n}",
+                      "raw": "{\n  \"order\": {\n    \"line_items\": [\n      {\n        \"sku\": \"MUG-002\",\n        \"quantity\": 1\n      }\n    ],\n    \"shipping_address\": {\n      \"line1\": \"Piazza\",\n      \"city\": \"Rome\",\n      \"country\": \"IT\"\n    }\n  }\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1534,7 +1534,7 @@
                         },
                         "body": {
                           "mode": "raw",
-                          "raw": "{\n  \"order\": {\n    \"line_items\": [\n      {\n        \"sku\": \"TEA-001\",\n        \"quantity\": 2\n      },\n      {\n        \"sku\": \"MUG-001\",\n        \"quantity\": 1\n      }\n    ],\n    \"shipping_address\": {\n      \"line1\": \"1 Analytical Engine Way\",\n      \"city\": \"London\",\n      \"country\": \"GB\"\n    }\n  }\n}",
+                          "raw": "{\n  \"order\": {\n    \"line_items\": [\n      {\n        \"sku\": \"MUG-002\",\n        \"quantity\": 1\n      }\n    ],\n    \"shipping_address\": {\n      \"line1\": \"Piazza\",\n      \"city\": \"Rome\",\n      \"country\": \"IT\"\n    }\n  }\n}",
                           "options": {
                             "raw": {
                               "language": "json"
@@ -1551,7 +1551,7 @@
                           "value": "application/json; charset=utf-8"
                         }
                       ],
-                      "body": "{\n  \"id\": 4,\n  \"status\": \"pending\",\n  \"currency\": \"USD\",\n  \"total_cents\": 4800,\n  \"line_items\": [\n    {\n      \"sku\": \"TEA-001\",\n      \"name\": \"Earl Grey\",\n      \"quantity\": 2,\n      \"unit_price_cents\": 1200,\n      \"subtotal_cents\": 2400\n    },\n    {\n      \"sku\": \"MUG-001\",\n      \"name\": \"Stoneware Mug\",\n      \"quantity\": 1,\n      \"unit_price_cents\": 2400,\n      \"subtotal_cents\": 2400\n    }\n  ],\n  \"shipping_address\": {\n    \"line1\": \"1 Analytical Engine Way\",\n    \"city\": \"London\",\n    \"country\": \"GB\"\n  }\n}"
+                      "body": "{\n  \"id\": 4,\n  \"status\": \"pending\",\n  \"currency\": \"USD\",\n  \"total_cents\": 3200,\n  \"line_items\": [\n    {\n      \"sku\": \"MUG-002\",\n      \"name\": \"Travel Mug\",\n      \"quantity\": 1,\n      \"unit_price_cents\": 3200,\n      \"subtotal_cents\": 3200\n    }\n  ],\n  \"shipping_address\": {\n    \"line1\": \"Piazza\",\n    \"city\": \"Rome\",\n    \"country\": \"IT\"\n  }\n}"
                     },
                     {
                       "name": "422 Unprocessable Content",
@@ -1908,7 +1908,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{base_url}}/api/v1/products?filter%5Bcategory%5D=tea",
+                      "raw": "{{base_url}}/api/v1/products?filter%5Bcategory%5D=mugs",
                       "host": [
                         "{{base_url}}"
                       ],
@@ -1920,7 +1920,7 @@
                       "query": [
                         {
                           "key": "filter[category]",
-                          "value": "tea"
+                          "value": "mugs"
                         }
                       ]
                     },
@@ -1941,7 +1941,7 @@
                           }
                         ],
                         "url": {
-                          "raw": "{{base_url}}/api/v1/products?filter%5Bcategory%5D=tea",
+                          "raw": "{{base_url}}/api/v1/products?filter%5Bcategory%5D=mugs",
                           "host": [
                             "{{base_url}}"
                           ],
@@ -1953,7 +1953,7 @@
                           "query": [
                             {
                               "key": "filter[category]",
-                              "value": "tea"
+                              "value": "mugs"
                             }
                           ]
                         },
@@ -1970,7 +1970,7 @@
                           "value": "application/json; charset=utf-8"
                         }
                       ],
-                      "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"sku\": \"TEA-001\",\n      \"name\": \"Earl Grey\",\n      \"category\": \"tea\",\n      \"price_cents\": 1200,\n      \"tags\": [\n        \"black\",\n        \"bergamot\"\n      ]\n    },\n    {\n      \"id\": 2,\n      \"sku\": \"TEA-002\",\n      \"name\": \"Sencha\",\n      \"category\": \"tea\",\n      \"price_cents\": 1500,\n      \"tags\": [\n        \"green\"\n      ]\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"per_page\": 2,\n    \"total\": 2\n  }\n}"
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": 3,\n      \"sku\": \"MUG-001\",\n      \"name\": \"Stoneware Mug\",\n      \"category\": \"mugs\",\n      \"price_cents\": 2400,\n      \"tags\": [\n        \"ceramic\"\n      ]\n    },\n    {\n      \"id\": 4,\n      \"sku\": \"MUG-002\",\n      \"name\": \"Travel Mug\",\n      \"category\": \"mugs\",\n      \"price_cents\": 3200,\n      \"tags\": [\n        \"steel\",\n        \"insulated\"\n      ]\n    }\n  ],\n  \"meta\": {\n    \"page\": 1,\n    \"per_page\": 2,\n    \"total\": 2\n  }\n}"
                     }
                   ]
                 },
@@ -2455,7 +2455,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{base_url}}/api/v2/products?cursor=eyJpZCI6Mn0",
+                      "raw": "{{base_url}}/api/v2/products",
                       "host": [
                         "{{base_url}}"
                       ],
@@ -2463,12 +2463,6 @@
                         "api",
                         "v2",
                         "products"
-                      ],
-                      "query": [
-                        {
-                          "key": "cursor",
-                          "value": "eyJpZCI6Mn0"
-                        }
                       ]
                     },
                     "auth": {
@@ -2488,7 +2482,7 @@
                           }
                         ],
                         "url": {
-                          "raw": "{{base_url}}/api/v2/products?cursor=eyJpZCI6Mn0",
+                          "raw": "{{base_url}}/api/v2/products",
                           "host": [
                             "{{base_url}}"
                           ],
@@ -2496,12 +2490,6 @@
                             "api",
                             "v2",
                             "products"
-                          ],
-                          "query": [
-                            {
-                              "key": "cursor",
-                              "value": "eyJpZCI6Mn0"
-                            }
                           ]
                         },
                         "auth": {
@@ -2517,7 +2505,7 @@
                           "value": "application/json; charset=utf-8"
                         }
                       ],
-                      "body": "{\n  \"items\": [\n    {\n      \"id\": 3,\n      \"sku\": \"MUG-001\",\n      \"name\": \"Stoneware Mug\",\n      \"category\": \"mugs\",\n      \"price_cents\": 2400,\n      \"tags\": [\n        \"ceramic\"\n      ],\n      \"price\": \"24.00\"\n    },\n    {\n      \"id\": 4,\n      \"sku\": \"MUG-002\",\n      \"name\": \"Travel Mug\",\n      \"category\": \"mugs\",\n      \"price_cents\": 3200,\n      \"tags\": [\n        \"steel\",\n        \"insulated\"\n      ],\n      \"price\": \"32.00\"\n    }\n  ],\n  \"next_cursor\": null\n}"
+                      "body": "{\n  \"items\": [\n    {\n      \"id\": 1,\n      \"sku\": \"TEA-001\",\n      \"name\": \"Earl Grey\",\n      \"category\": \"tea\",\n      \"price_cents\": 1200,\n      \"tags\": [\n        \"black\",\n        \"bergamot\"\n      ],\n      \"price\": \"12.00\"\n    },\n    {\n      \"id\": 2,\n      \"sku\": \"TEA-002\",\n      \"name\": \"Sencha\",\n      \"category\": \"tea\",\n      \"price_cents\": 1500,\n      \"tags\": [\n        \"green\"\n      ],\n      \"price\": \"15.00\"\n    }\n  ],\n  \"next_cursor\": \"eyJpZCI6Mn0\"\n}"
                     }
                   ]
                 }

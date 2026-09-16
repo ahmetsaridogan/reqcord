@@ -22,7 +22,7 @@ Namespace: `api/v1`
 
 ```json
 {
-  "payment_method": "card"
+  "payment_method": "bank_transfer"
 }
 ```
 
@@ -35,7 +35,7 @@ curl --request POST \
   --header "Content-Type: application/json" \
   --header "Accept: application/json" \
   --data '{
-  "payment_method": "card"
+  "payment_method": "bank_transfer"
 }'
 ```
 
@@ -60,7 +60,7 @@ curl --request POST \
 {
   "id": 5,
   "status": "pending",
-  "payment_method": "card",
+  "payment_method": "bank_transfer",
   "total_cents": 4800,
   "line_items": [
     {

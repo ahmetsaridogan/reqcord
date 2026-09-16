@@ -9,7 +9,7 @@ curl --request POST \
   --header "Accept: application/json" \
   --data '{
   "task": {
-    "title": "Review the release",
-    "priority": "high"
+    "title": "Water the plants",
+    "priority": "low"
   }
 }'

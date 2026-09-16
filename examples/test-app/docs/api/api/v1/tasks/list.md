@@ -20,7 +20,7 @@ Namespace: `api/v1`
 
 ```bash
 curl --request GET \
-  --url "http://localhost:3000/api/v1/tasks" \
+  --url "http://localhost:3000/api/v1/tasks?status=open" \
   --header "Accept: application/json"
 ```
 
@@ -43,12 +43,6 @@ curl --request GET \
     "id": 1,
     "title": "Write the docs",
     "status": "open",
-    "priority": "high"
-  },
-  {
-    "id": 2,
-    "title": "Ship 0.1.1",
-    "status": "done",
     "priority": "high"
   },
   {
