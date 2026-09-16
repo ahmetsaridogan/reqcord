@@ -23,7 +23,7 @@ Namespace: `api/v1`
 
 ```bash
 curl --request GET \
-  --url "http://localhost:3000/api/v1/products?filter%5Bcategory%5D=mugs" \
+  --url "http://localhost:3000/api/v1/products" \
   --header "Accept: application/json"
 ```
 
@@ -35,45 +35,45 @@ curl --request GET \
 
 | Field | Type | Required | Values |
 | --- | --- | --- | --- |
-| `data[].id` | integer | yes | `4` |
-| `data[].sku` | string | yes | `"MUG-002"` |
-| `data[].name` | string | yes | `"Travel Mug"` |
+| `data[].id` | integer | yes | `2` |
+| `data[].sku` | string | yes | `"TEA-002"` |
+| `data[].name` | string | yes | `"Sencha"` |
 | `data[].category` | string | yes | `"mugs"` \| `"tea"` |
-| `data[].price_cents` | integer | yes | `3200` |
+| `data[].price_cents` | integer | yes | `1500` |
 | `data[].tags[]` | string | yes | `"ceramic"` \| `"green"` \| `"insulated"` |
 | `meta.page` | integer | yes | `1` |
 | `meta.per_page` | integer | yes | `2` |
-| `meta.total` | integer | yes | `2` |
+| `meta.total` | integer | yes | `4` |
 
 ```json
 {
   "data": [
     {
-      "id": 3,
-      "sku": "MUG-001",
-      "name": "Stoneware Mug",
-      "category": "mugs",
-      "price_cents": 2400,
+      "id": 1,
+      "sku": "TEA-001",
+      "name": "Earl Grey",
+      "category": "tea",
+      "price_cents": 1200,
       "tags": [
-        "ceramic"
+        "black",
+        "bergamot"
       ]
     },
     {
-      "id": 4,
-      "sku": "MUG-002",
-      "name": "Travel Mug",
-      "category": "mugs",
-      "price_cents": 3200,
+      "id": 2,
+      "sku": "TEA-002",
+      "name": "Sencha",
+      "category": "tea",
+      "price_cents": 1500,
       "tags": [
-        "steel",
-        "insulated"
+        "green"
       ]
     }
   ],
   "meta": {
     "page": 1,
     "per_page": 2,
-    "total": 2
+    "total": 4
   }
 }
 ```

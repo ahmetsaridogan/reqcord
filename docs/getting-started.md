@@ -138,6 +138,36 @@ mount Reqcord::Web => "/api-docs" if Rails.env.development?
 `/api-docs` renders the OpenAPI document with Scalar and serves every other
 generated file. See [web.md](web.md).
 
+## 6. Keep it current in CI
+
+The output is a function of the routes and the tests, so it can be checked
+like generated code:
+
+```bash
+bin/rails reqcord:check
+```
+
+It regenerates into a scratch directory, compares with `docs/api` file by
+file and exits `1` with a git-status style list when they differ:
+
+```text
+Reqcord: /app/docs/api is out of date.
+
+  M api/v2/customers/create.md
+  A api/v2/customers/destroy.md
+  D curl/api/v2/orders/cancel.sh
+
+Run `bin/rails reqcord:generate` and commit the result.
+```
+
+```yaml
+# .github/workflows/ci.yml
+- run: bin/rails reqcord:check
+```
+
+A PR that changes a request or a response without regenerating the docs goes
+red; `bin/rails reqcord:generate` and a commit fix it.
+
 ## Narrowing a run
 
 ```bash

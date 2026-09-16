@@ -11,6 +11,14 @@ Base URL: `http://localhost:3000`
 | Authorization | `Bearer {{token}}` |
 | X-Api-Key | `{{api_key}}` |
 
+## Product Images
+
+Namespace: `api/v1/admin`
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `POST` | [`/api/v1/admin/products/:product_id/image`](api/v1/admin/product-images/create.md) | Create Product Image |
+
 ## Products
 
 Namespace: `api/v1/admin`

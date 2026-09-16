@@ -135,7 +135,17 @@ module Reqcord
       def body_object(example)
         return nil unless example.body?
 
-        if Renderers::Payload.json?(example)
+        if Renderers::Payload.multipart?(example)
+          parts = Renderers::Payload.form_pairs(example).map do |key, value|
+            if FileValue.file?(value)
+              { key: key, type: "file", src: FileValue.filename(value) }
+            else
+              { key: key, value: value.to_s, type: "text" }
+            end
+          end
+
+          { mode: "formdata", formdata: parts }
+        elsif Renderers::Payload.json?(example)
           { mode: "raw", raw: Renderers::Payload.raw_body(example), options: { raw: { language: "json" } } }
         elsif example.body.is_a?(Hash)
           pairs = Renderers::Payload.form_pairs(example).map { |key, value| { key: key, value: value.to_s, type: "text" } }

@@ -102,6 +102,18 @@ module Api
       render json: { path: params[:path] }
     end
   end
+
+  # A multipart upload: the file's name and type are documented, its bytes
+  # are not.
+  class UploadsController < ActionController::API
+    def create
+      file = params[:avatar]
+
+      return render(json: { error: "avatar is required" }, status: :unprocessable_entity) unless file.respond_to?(:original_filename)
+
+      render json: { filename: file.original_filename, content_type: file.content_type, title: params[:title] }, status: :created
+    end
+  end
 end
 
 # Reopened as the class it is (a Rails::Engine), not as a module.
@@ -138,6 +150,7 @@ Rails.application.routes.draw do
 
     get "items(/:id)", to: "items#show"
     get "files/*path", to: "files#show", as: :file_download
+    post "uploads", to: "uploads#create"
 
     get "legacy", to: redirect("/api/v2/customers")
   end

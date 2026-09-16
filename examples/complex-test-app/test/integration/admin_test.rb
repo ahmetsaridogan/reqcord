@@ -56,6 +56,24 @@ class AdminTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "admin uploads a product image" do
+    post "/api/v1/admin/products/1/image",
+         params: { image: fixture_upload("label.png"), alt: "Stoneware mug on a table" },
+         headers: api_key
+
+    assert_response :created
+  end
+
+  test "admin cannot upload an image for an unknown product" do
+    post "/api/v1/admin/products/999/image", params: { image: fixture_upload("label.png") }, headers: api_key
+
+    assert_response :not_found
+  end
+
+  def fixture_upload(name)
+    Rack::Test::UploadedFile.new(File.expand_path("../fixtures/#{name}", __dir__), "image/png")
+  end
+
   test "v2 lists products" do
     get "/api/v2/products", as: :json
 

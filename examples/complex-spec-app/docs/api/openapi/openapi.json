@@ -12,6 +12,10 @@
   ],
   "tags": [
     {
+      "name": "Product Images",
+      "description": "api/v1/admin/product_images"
+    },
+    {
       "name": "Products",
       "description": "api/v1/admin/products"
     },
@@ -53,6 +57,125 @@
     }
   ],
   "paths": {
+    "/api/v1/admin/products/{product_id}/image": {
+      "post": {
+        "operationId": "post_api_v1_admin_products_product_id_image",
+        "summary": "Create Product Image",
+        "description": "api/v1/admin/product_images#create\nRoute: api_v1_admin_product_image",
+        "tags": [
+          "Product Images"
+        ],
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "1"
+            },
+            "example": "1"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "alt": {
+                    "type": "string",
+                    "example": "Stoneware mug on a table"
+                  }
+                },
+                "required": [
+                  "image",
+                  "alt"
+                ]
+              },
+              "example": {
+                "image": "label.png",
+                "alt": "Stoneware mug on a table"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "product_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "filename": {
+                      "type": "string",
+                      "example": "label.png"
+                    },
+                    "content_type": {
+                      "type": "string",
+                      "example": "image/png"
+                    },
+                    "alt": {
+                      "type": "string",
+                      "example": "Stoneware mug on a table"
+                    }
+                  },
+                  "required": [
+                    "product_id",
+                    "filename",
+                    "content_type",
+                    "alt"
+                  ]
+                },
+                "example": {
+                  "product_id": 1,
+                  "filename": "label.png",
+                  "content_type": "image/png",
+                  "alt": "Stoneware mug on a table"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Not Found"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                },
+                "example": {
+                  "error": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/admin/products": {
       "get": {
         "operationId": "get_api_v1_admin_products",

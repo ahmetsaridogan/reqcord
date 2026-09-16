@@ -154,6 +154,25 @@ class GeneratorTest < Minitest::Test
     end
   end
 
+  # Test order is random; the documentation must not be.
+  def test_the_dataset_does_not_depend_on_capture_order
+    Dir.mktmpdir do |root|
+      first = exchange("source" => { "file" => "test/integration/customers_test.rb", "line" => 40, "test" => "test_b" },
+                       "response" => { "status" => 422, "body" => { "errors" => { "name" => ["is too short"] } } })
+      second = exchange("source" => { "file" => "test/integration/customers_test.rb", "line" => 12, "test" => "test_a" },
+                        "response" => { "status" => 422, "body" => { "errors" => { "email" => ["can't be blank"] } } })
+      third = exchange("source" => { "file" => "test/integration/accounts_test.rb", "line" => 90, "test" => "test_c" })
+
+      forwards = build(root, [first, second, third]).to_h
+      backwards = build(root, [third, second, first]).to_h
+
+      assert_equal forwards, backwards
+
+      example = forwards[:endpoints].first[:responses].find { |response| response[:status] == 422 }[:example]
+      assert_equal({ "errors" => { "email" => ["can't be blank"] } }, example, "the example from the earliest test line leads")
+    end
+  end
+
   def test_the_report_flags_a_failing_test_run
     Dir.mktmpdir do |root|
       subject = generator(root, yaml: "test:\n  command: #{RbConfig.ruby} -e exit(3)\n")

@@ -145,12 +145,21 @@ module Reqcord
     end
 
     def output_directory
+      return Pathname(@output_override) if @output_override
+
       value =
         ENV["REQCORD_OUTPUT"] ||
         data.dig("output", "directory") ||
         "docs/api"
 
       root.join(value)
+    end
+
+    # The same configuration writing somewhere else — how `reqcord:check`
+    # generates into a scratch directory while the configured one stays the
+    # thing to compare against.
+    def with_output_directory(path)
+      dup.tap { |copy| copy.instance_variable_set(:@output_override, path.to_s) }
     end
 
     def include_uncovered?

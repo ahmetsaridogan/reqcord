@@ -420,6 +420,12 @@
                     "priority": "high"
                   },
                   {
+                    "id": 2,
+                    "title": "Ship 0.1.1",
+                    "status": "done",
+                    "priority": "high"
+                  },
+                  {
                     "id": 3,
                     "title": "Tidy the backlog",
                     "status": "open",
@@ -450,7 +456,7 @@
                     "properties": {
                       "title": {
                         "type": "string",
-                        "example": "Water the plants"
+                        "example": "Review the release"
                       },
                       "priority": {
                         "type": "string",
@@ -458,7 +464,7 @@
                           "high",
                           "low"
                         ],
-                        "example": "low"
+                        "example": "high"
                       }
                     },
                     "required": [
@@ -473,8 +479,8 @@
               },
               "example": {
                 "task": {
-                  "title": "Water the plants",
-                  "priority": "low"
+                  "title": "Review the release",
+                  "priority": "high"
                 }
               }
             }
@@ -498,7 +504,7 @@
                     },
                     "title": {
                       "type": "string",
-                      "example": "Water the plants"
+                      "example": "Review the release"
                     },
                     "priority": {
                       "type": "string",
@@ -506,7 +512,7 @@
                         "high",
                         "low"
                       ],
-                      "example": "low"
+                      "example": "high"
                     }
                   },
                   "required": [
@@ -519,8 +525,8 @@
                 "example": {
                   "id": 4,
                   "status": "open",
-                  "title": "Water the plants",
-                  "priority": "low"
+                  "title": "Review the release",
+                  "priority": "high"
                 }
               }
             }

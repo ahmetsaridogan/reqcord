@@ -142,7 +142,6 @@ module Reqcord
     def to_h
       {
         schema_version: schema_version,
-        generated_at: Time.now.utc.iso8601,
         endpoints: curl_ready_endpoints.map(&:to_h),
         uncovered_routes: uncovered_endpoints.map do |endpoint|
           {

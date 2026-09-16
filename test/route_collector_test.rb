@@ -140,6 +140,13 @@ class RouteCollectorTest < Minitest::Test
     assert_equal ["/billing/invoices"], mixed_routes(prefix: "/billing").map(&:path)
   end
 
+  # `/api` must not swallow `/api-docs`: a prefix ends at a segment boundary.
+  def test_prefix_matches_whole_segments
+    assert_equal ["/items(/:id)"], mixed_routes(prefix: "/items").map(&:path)
+    assert_equal ["/items(/:id)"], mixed_routes(prefix: "/items/").map(&:path)
+    assert_equal ["/items-archive"], mixed_routes(prefix: "/items-archive").map(&:path)
+  end
+
   # Versions or audiences without a common root: any listed prefix qualifies.
   def test_prefix_accepts_a_list
     paths = mixed_routes(prefix: ["/billing", "/items"]).map(&:path)

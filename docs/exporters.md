@@ -60,7 +60,9 @@ Directories follow the full controller path, so `admin/customers` and
 verb is appended.
 
 Form bodies are shown as they were sent, with a note that the request is
-`application/x-www-form-urlencoded`.
+`application/x-www-form-urlencoded`. In a multipart request a file part is
+shown by name and type (`"image": "label.png (image/png)"`) and typed `file`
+in the parameter table.
 
 ## `curl`
 
@@ -88,6 +90,10 @@ curl --request POST \
 * JSON bodies are `--data '<json>'`; form bodies are `--data 'a=b'` pairs,
   never re-encoded as JSON; query strings keep Rails' bracket notation
   (`filter[category]=mugs`).
+* Uploads are one `--form` per part, the file as `@name`
+  (`--form 'image=@label.png;type=image/png'`) — run the script from the
+  directory that holds the file. curl sets the multipart `Content-Type` and
+  boundary itself, so none is written.
 * Placeholders (`{{token}}`) are left for you to substitute — the scripts
   are meant to be copied into a terminal or a runbook.
 
@@ -101,7 +107,8 @@ scripts are known to run.
 
 * one folder per controller namespace (`Api › V2 › Customers`),
 * one request per documented endpoint, from the canonical request — JSON
-  bodies as `raw`, form bodies as `urlencoded`,
+  bodies as `raw`, form bodies as `urlencoded`, uploads as `formdata` with
+  the file part's `src` set to the file name (pick the file in Postman),
 * every captured status saved as a response example on that request,
 * collection variables for `base_url` and every placeholder the sanitizer
   wrote (`{{token}}`, `{{api_key}}` …) — Postman's variable syntax is the
@@ -134,11 +141,12 @@ and point it at the same file.
   from the inferred schemas, with `enum` for closed value sets and the
   captured example. Nested query params keep Rails' bracket notation
   (`filter[status]`).
-* **Request body**: `application/json` or
-  `application/x-www-form-urlencoded`, whichever the test sent. The JSON
-  Schema is rebuilt from the flattened field paths — `order.line_items[].sku`
-  becomes object → array → object — with `required` at every level from what
-  every accepted request carried, and the canonical request as `example`.
+* **Request body**: `application/json`, `application/x-www-form-urlencoded`
+  or `multipart/form-data`, whichever the test sent. The JSON Schema is
+  rebuilt from the flattened field paths — `order.line_items[].sku` becomes
+  object → array → object — with `required` at every level from what every
+  accepted request carried, and the canonical request as `example`. A file
+  part is `type: string, format: binary`, its example the file name.
 * **Responses**: one per captured status, `description` from the status
   text, schema and example from the captured bodies.
 * **Security**: `bearerAuth` (HTTP bearer) when a documented request carried

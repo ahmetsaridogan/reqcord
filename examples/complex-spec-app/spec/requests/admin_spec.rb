@@ -53,6 +53,24 @@ RSpec.describe "Admin and v2", type: :request do
     expect(response.status).to eq(404)
   end
 
+  def fixture_upload(name)
+    Rack::Test::UploadedFile.new(File.expand_path("../fixtures/#{name}", __dir__), "image/png")
+  end
+
+  it "admin uploads a product image" do
+    post "/api/v1/admin/products/1/image",
+         params: { image: fixture_upload("label.png"), alt: "Stoneware mug on a table" },
+         headers: api_key
+
+    expect(response.status).to eq(201)
+  end
+
+  it "admin cannot upload an image for an unknown product" do
+    post "/api/v1/admin/products/999/image", params: { image: fixture_upload("label.png") }, headers: api_key
+
+    expect(response.status).to eq(404)
+  end
+
   it "v2 lists products" do
     get "/api/v2/products", as: :json
 

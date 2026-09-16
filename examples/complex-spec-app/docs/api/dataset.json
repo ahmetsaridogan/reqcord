@@ -1,6 +1,5 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-15T23:57:30Z",
   "endpoints": [
     {
       "name": "Home",
@@ -4124,6 +4123,216 @@
       ]
     },
     {
+      "name": "Create Product Image",
+      "method": "POST",
+      "path": "/api/v1/admin/products/:product_id/image",
+      "controller": "api/v1/admin/product_images",
+      "action": "create",
+      "resource": "product_images",
+      "api_version": "v1",
+      "route_name": "api_v1_admin_product_image",
+      "also_methods": [],
+      "path_params": [
+        "product_id"
+      ],
+      "parameters": {
+        "path": [
+          {
+            "path": "product_id",
+            "type": "string",
+            "required": true,
+            "values": [
+              "1"
+            ]
+          }
+        ],
+        "query": [],
+        "body": [
+          {
+            "path": "image",
+            "type": "file",
+            "required": true,
+            "values": [
+              "label.png"
+            ]
+          },
+          {
+            "path": "alt",
+            "type": "string",
+            "required": true,
+            "values": [
+              "Stoneware mug on a table"
+            ]
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": 201,
+          "schema": [
+            {
+              "path": "product_id",
+              "type": "integer",
+              "required": true,
+              "values": [
+                1
+              ]
+            },
+            {
+              "path": "filename",
+              "type": "string",
+              "required": true,
+              "values": [
+                "label.png"
+              ]
+            },
+            {
+              "path": "content_type",
+              "type": "string",
+              "required": true,
+              "values": [
+                "image/png"
+              ]
+            },
+            {
+              "path": "alt",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Stoneware mug on a table"
+              ]
+            }
+          ],
+          "example": {
+            "product_id": 1,
+            "filename": "label.png",
+            "content_type": "image/png",
+            "alt": "Stoneware mug on a table"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        },
+        {
+          "status": 404,
+          "schema": [
+            {
+              "path": "error",
+              "type": "string",
+              "required": true,
+              "values": [
+                "Not Found"
+              ]
+            }
+          ],
+          "example": {
+            "error": "Not Found"
+          },
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "content_type": "application/json"
+        }
+      ],
+      "request_examples": [
+        {
+          "name": "Admin Uploads A Product Image",
+          "method": "POST",
+          "path": "/api/v1/admin/products/1/image",
+          "path_params": {
+            "product_id": "1"
+          },
+          "query_params": {},
+          "headers": {
+            "X-Api-Key": "{{api_key}}",
+            "Content-Type": "multipart/form-data"
+          },
+          "body": {
+            "image": {
+              "$file": "label.png",
+              "content_type": "image/png"
+            },
+            "alt": "Stoneware mug on a table"
+          },
+          "content_type": "multipart/form-data",
+          "response_status": 201,
+          "source": {
+            "test": "admin uploads a product image",
+            "suite": "Admin and v2",
+            "file": "./spec/requests/admin_spec.rb",
+            "line": 60
+          }
+        },
+        {
+          "name": "Admin Cannot Upload An Image For An Unknown Product",
+          "method": "POST",
+          "path": "/api/v1/admin/products/999/image",
+          "path_params": {
+            "product_id": "999"
+          },
+          "query_params": {},
+          "headers": {
+            "X-Api-Key": "{{api_key}}",
+            "Content-Type": "multipart/form-data"
+          },
+          "body": {
+            "image": {
+              "$file": "label.png",
+              "content_type": "image/png"
+            }
+          },
+          "content_type": "multipart/form-data",
+          "response_status": 404,
+          "source": {
+            "test": "admin cannot upload an image for an unknown product",
+            "suite": "Admin and v2",
+            "file": "./spec/requests/admin_spec.rb",
+            "line": 68
+          }
+        }
+      ],
+      "response_examples": [
+        {
+          "name": "Admin Uploads A Product Image",
+          "status": 201,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "product_id": 1,
+            "filename": "label.png",
+            "content_type": "image/png",
+            "alt": "Stoneware mug on a table"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "admin uploads a product image",
+            "suite": "Admin and v2",
+            "file": "./spec/requests/admin_spec.rb",
+            "line": 60
+          }
+        },
+        {
+          "name": "Admin Cannot Upload An Image For An Unknown Product",
+          "status": 404,
+          "headers": {
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "error": "Not Found"
+          },
+          "content_type": "application/json",
+          "source": {
+            "test": "admin cannot upload an image for an unknown product",
+            "suite": "Admin and v2",
+            "file": "./spec/requests/admin_spec.rb",
+            "line": 68
+          }
+        }
+      ]
+    },
+    {
       "name": "List Products",
       "method": "GET",
       "path": "/api/v1/admin/products",
@@ -4999,7 +5208,7 @@
             "test": "v2 lists products",
             "suite": "Admin and v2",
             "file": "./spec/requests/admin_spec.rb",
-            "line": 56
+            "line": 74
           }
         },
         {
@@ -5020,7 +5229,7 @@
             "test": "v2 follows a cursor",
             "suite": "Admin and v2",
             "file": "./spec/requests/admin_spec.rb",
-            "line": 62
+            "line": 80
           }
         }
       ],
@@ -5064,7 +5273,7 @@
             "test": "v2 lists products",
             "suite": "Admin and v2",
             "file": "./spec/requests/admin_spec.rb",
-            "line": 56
+            "line": 74
           }
         },
         {
@@ -5106,7 +5315,7 @@
             "test": "v2 follows a cursor",
             "suite": "Admin and v2",
             "file": "./spec/requests/admin_spec.rb",
-            "line": 62
+            "line": 80
           }
         }
       ]

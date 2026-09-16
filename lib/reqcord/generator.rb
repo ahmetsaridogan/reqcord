@@ -11,11 +11,13 @@ module Reqcord
   class Generator
     def self.call(
       resources: [],
-      version: nil
+      version: nil,
+      configuration: Reqcord.configuration
     )
       new(
         resources: resources,
-        version: version
+        version: version,
+        configuration: configuration
       ).call
     end
 
@@ -102,7 +104,7 @@ module Reqcord
         endpoints[[route, route.method]] = route.endpoint unless route.any_verb?
       end
 
-      exchanges.each do |raw_exchange|
+      ordered_exchanges(exchanges).each do |raw_exchange|
         sanitized =
           Sanitizers::Sanitizer.call(
             raw_exchange,
@@ -307,6 +309,18 @@ module Reqcord
       routes.find { |route| route.matches?(method, path) }
     rescue StandardError => e
       raise GenerationError, "could not match #{method} #{path} against the route table: #{e.message}"
+    end
+
+    # Test suites run in random order, and "the first example captured" is
+    # what every page leads with. Ordering by where the test lives makes the
+    # output a function of the code, so regenerating never produces a diff
+    # by itself. Requests inside one test keep their execution order.
+    def ordered_exchanges(exchanges)
+      exchanges.each_with_index.sort_by do |exchange, index|
+        source = exchange["source"] || {}
+
+        [source["file"].to_s, source["line"].to_i, source["test"].to_s, index]
+      end.map(&:first)
     end
 
     def attach_exchange(endpoint, exchange)

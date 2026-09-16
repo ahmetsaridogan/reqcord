@@ -46,6 +46,8 @@ Reqcord
 │
 ├── Generator            validate → collect routes → run tests → read captures
 │                        → build dataset → report → write outputs
+├── Check                generate into a scratch dir, diff against the committed docs
+├── FileValue            the upload marker ({"$file": name, "content_type": type})
 │
 ├── Renderers
 │   ├── Payload          JSON vs form, nested query flattening (shared by cURL and Postman)
@@ -109,13 +111,13 @@ checkout; `Reqcord::Web` is optional.
 ## Scope
 
 Included today: Rails 7.1–8.1 on Ruby 3.2+, Minitest integration tests and
-RSpec request specs, the whole route table, JSON and form bodies, multiple
-responses per endpoint, sanitization, inferred parameter and response
-schemas, Markdown, cURL, Postman (Hoppscotch), OpenAPI 3.1 and Scalar.
+RSpec request specs, the whole route table, JSON, form and multipart bodies,
+multiple responses per endpoint, sanitization, inferred parameter and
+response schemas, deterministic output, Markdown, cURL, Postman (Hoppscotch),
+OpenAPI 3.1 and Scalar, `reqcord:check` for CI.
 
-Not yet: multipart requests, capture outside Rails (Rack::Test for Sinatra,
-Roda, Hanami), CI drift detection. Candidate exporters: Bruno, Insomnia,
-`llms.txt`, static HTML, JSON Schema.
+Not yet: capture outside Rails (Rack::Test for Sinatra, Roda, Hanami).
+Candidate exporters: Bruno, Insomnia, `llms.txt`, static HTML, JSON Schema.
 
 ## Working on Reqcord
 

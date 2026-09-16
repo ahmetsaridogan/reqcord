@@ -351,6 +351,7 @@ soon as `base_url` and `token` are filled in.
 | --- | --- |
 | `bin/rails reqcord:init` | writes `reqcord.yml` (never overwrites) and creates `docs/api/` |
 | `bin/rails reqcord:generate` | collects routes, runs the suite with capture, writes every exporter, prints the report |
+| `bin/rails reqcord:check` | generates into a scratch directory and compares with `output.directory`; exits 1 with an `A`/`D`/`M` file list when the committed docs are behind the tests. Honours `RESOURCE` / `VERSION` |
 | `bin/rails reqcord:routes` | lists the routes the current `prefix` (and `RESOURCE` / `VERSION`) would document |
 
 Every `generate` run ends with a reconciliation of the whole route table:
