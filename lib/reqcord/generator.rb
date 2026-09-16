@@ -56,6 +56,14 @@ module Reqcord
     # run can say why a request did not turn into documentation.
     attr_reader :unmatched_paths
 
+    # Exit status of the test run, so a caller can tell a fully green run
+    # from documentation generated out of a partly failing suite.
+    attr_reader :test_status
+
+    def tests_passed?
+      test_status.nil? || test_status.success?
+    end
+
     # Routes seen in the table but not documentable, by reason (redirect,
     # mount). Set by collect_routes; exposed so a run can be reconciled.
     attr_accessor :skipped_routes
@@ -161,6 +169,10 @@ module Reqcord
         Reqcord.log("skipped #{skipped_total} route(s) that cannot be documented: #{reasons}")
       end
 
+      unless tests_passed?
+        Reqcord.warn("the test run failed: routes exercised only by failing tests are listed as uncovered")
+      end
+
       return if unmatched_paths.empty?
 
       shown = unmatched_paths.uniq.first(5)
@@ -254,10 +266,19 @@ module Reqcord
           wait_thread.value
         end
 
+      @test_status = status
+
       return if status.success?
 
-      raise GenerationError,
-            "Test suite failed while generating Reqcord documentation"
+      if configuration.strict_tests?
+        raise GenerationError,
+              "Test suite failed while generating Reqcord documentation (test.strict is on)"
+      end
+
+      # A red suite still tells the truth about the requests that passed;
+      # dropping everything would hide the docs behind an unrelated failure.
+      Reqcord.warn("test run exited with status #{status.exitstatus}; documenting what it captured anyway")
+      Reqcord.warn("  set test.strict: true (or REQCORD_STRICT=1) to abort on a failing suite")
     end
 
     def read_exchanges(capture_file)

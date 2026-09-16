@@ -86,6 +86,19 @@ class ConfigurationTest < Minitest::Test
     end
   end
 
+  def test_strict_tests_are_off_by_default_and_switchable
+    Dir.mktmpdir do |directory|
+      refute configuration_for(directory).strict_tests?
+      assert configuration_for(directory, "test:\n  strict: true\n").strict_tests?
+
+      ENV["REQCORD_STRICT"] = "1"
+
+      assert configuration_for(directory, "test:\n  strict: false\n").strict_tests?
+    ensure
+      ENV.delete("REQCORD_STRICT")
+    end
+  end
+
   def test_environment_overrides_the_file
     Dir.mktmpdir do |directory|
       ENV["REQCORD_BASE_URL"] = "https://staging.test"
