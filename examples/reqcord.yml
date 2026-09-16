@@ -19,6 +19,11 @@ test:
   # Or spell the command out yourself; it wins over `paths`. Globs expand.
   # command: bin/rails test test/integration test/api
 
+  # A failing suite still documents what it captured; routes reached only by
+  # failing tests are listed as uncovered. `true` aborts instead
+  # (REQCORD_STRICT=1 per run).
+  # strict: false
+
 routes:
   # Only routes under this prefix are documented; a list works too:
   #   prefix: [/api, /partner]

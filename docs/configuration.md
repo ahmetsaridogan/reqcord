@@ -52,6 +52,7 @@ before any test runs. YAML aliases are disabled.
 | --- | --- |
 | `REQCORD_TEST_FRAMEWORK` | `test.framework` |
 | `REQCORD_TEST_COMMAND` | `test.command` (and therefore `test.paths`) |
+| `REQCORD_STRICT` | `test.strict` (`1` or `true`) |
 | `REQCORD_OUTPUT` | `output.directory` |
 | `REQCORD_BASE_URL` | `variables.base_url` |
 | `RESOURCE`, `VERSION` | run-time filters, see [Filtering a run](#filtering-a-run) |
@@ -123,9 +124,23 @@ absent.
 
 With neither `paths` nor `command`, Reqcord runs `bin/rails test`.
 
-Whatever runs must exit successfully. A failing suite aborts the run with
-`Reqcord::GenerationError` and nothing is written — documentation is only
-generated from a green suite.
+### `test.strict`
+
+Default `false`. What happens when the suite does not exit successfully:
+
+* `false` — the run continues and documents what the tests captured. A
+  warning names the exit status, and the report reminds you that routes
+  exercised only by failing tests show up as *uncovered*. A test that failed
+  on an assertion after its request got a `2xx` still counts: the request
+  and response are what the application really did.
+* `true` (or `REQCORD_STRICT=1`) — a failing suite aborts the run with
+  `Reqcord::GenerationError` and nothing is written. Use it in CI when the
+  generated docs are an artifact that must come from a green build.
+
+```yaml
+test:
+  strict: true
+```
 
 ---
 
