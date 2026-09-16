@@ -23,6 +23,7 @@ exporters:
   - curl
   - markdown
   - postman
+  - openapi
 
 variables:
   base_url: http://localhost:3000
@@ -212,7 +213,8 @@ as is). Override per run with `REQCORD_OUTPUT`. A run writes:
 │   ├── index.md
 │   └── create.md
 ├── curl/api/v1/customers/create.sh                                 (curl)
-└── postman/collection.json                                         (postman)
+├── postman/collection.json                                         (postman)
+└── openapi/openapi.json                                            (openapi)
 ```
 
 Directories follow the controller path, so `admin/customers` and
@@ -369,4 +371,6 @@ documented route is listed, never dropped silently.
 | `no request was captured` | the gem is not in the `:test` group of the Gemfile, or `test.paths` / `test.command` runs no integration tests |
 | many requests captured, few matched | `routes.prefix` does not cover them — the unmatched paths are printed |
 | routes documented but few covered | the tests that exercise them are not in `test.paths` (a `2xx` from a test is what makes an endpoint documented) |
-| `Test suite failed while generating` | the suite is red; fix the tests, documentation is only generated from a passing run |
+| `test run exited with status …` | the suite is red; the docs were still generated from what it captured. `test.strict: true` aborts instead |
+
+More in [troubleshooting.md](troubleshooting.md).
