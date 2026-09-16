@@ -154,7 +154,54 @@ class GeneratorTest < Minitest::Test
     end
   end
 
+  def test_the_report_flags_a_failing_test_run
+    Dir.mktmpdir do |root|
+      subject = generator(root, yaml: "test:\n  command: #{RbConfig.ruby} -e exit(3)\n")
+      dataset = subject.build_dataset(customer_routes, [exchange])
+
+      capture_io { subject.send(:run_tests, File.join(root, "capture.ndjson")) }
+      _, stderr = capture_io { subject.send(:report, [exchange], dataset) }
+
+      assert_includes stderr, "the test run failed"
+    end
+  end
+
   # --- how the suite gets run --------------------------------------------
+
+  def test_a_failing_suite_still_documents_what_it_captured
+    Dir.mktmpdir do |root|
+      subject = generator(root, yaml: "test:\n  command: #{RbConfig.ruby} -e exit(3)\n")
+
+      _, stderr = capture_io { subject.send(:run_tests, File.join(root, "capture.ndjson")) }
+
+      refute subject.tests_passed?
+      assert_equal 3, subject.test_status.exitstatus
+      assert_includes stderr, "test run exited with status 3; documenting what it captured anyway"
+      assert_includes stderr, "test.strict"
+    end
+  end
+
+  def test_a_strict_run_aborts_on_a_failing_suite
+    Dir.mktmpdir do |root|
+      subject = generator(root, yaml: "test:\n  strict: true\n  command: #{RbConfig.ruby} -e exit(3)\n")
+
+      error = assert_raises(Reqcord::GenerationError) do
+        capture_io { subject.send(:run_tests, File.join(root, "capture.ndjson")) }
+      end
+
+      assert_match(/Test suite failed/, error.message)
+    end
+  end
+
+  def test_a_green_suite_passes
+    Dir.mktmpdir do |root|
+      subject = generator(root, yaml: "test:\n  command: #{RbConfig.ruby} -e exit(0)\n")
+
+      capture_io { subject.send(:run_tests, File.join(root, "capture.ndjson")) }
+
+      assert subject.tests_passed?
+    end
+  end
 
   def with_test_files(root, *files)
     files.each do |file|

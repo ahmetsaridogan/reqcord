@@ -1,6 +1,20 @@
 # Changelog
 
-## [0.1.3] - Unreleased
+## [0.1.4] - 2026-09-16
+
+### Changed
+
+* A failing test run no longer discards the output. The docs are generated
+  from what the suite captured, the warning names the exit status and the
+  report points out that routes reached only by failing tests are listed as
+  uncovered. The previous behaviour is `test.strict: true`.
+
+### Added
+
+* `test.strict` (`REQCORD_STRICT=1`): abort on a failing suite instead of
+  documenting what it captured.
+
+## [0.1.3] - 2026-09-16
 
 ### Added
 

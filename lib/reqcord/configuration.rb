@@ -8,7 +8,11 @@ module Reqcord
       # No default command: with neither `command` nor `paths` the generator
       # falls back to `bin/rails test`, and `paths` alone must be able to win.
       "test" => {
-        "framework" => "minitest"
+        "framework" => "minitest",
+
+        # A red suite still documents what its green tests captured; strict
+        # runs abort instead, for CI that treats the docs as an artifact.
+        "strict" => false
       },
 
       "routes" => {
@@ -121,6 +125,13 @@ module Reqcord
     # Directories, files or globs the suite lives in; Reqcord picks the runner.
     def test_paths
       Array(data.dig("test", "paths")).map(&:to_s)
+    end
+
+    # Abort on a failing suite instead of documenting what was captured.
+    def strict_tests?
+      value = ENV.fetch("REQCORD_STRICT") { data.dig("test", "strict") }
+
+      [true, "true", "1"].include?(value)
     end
 
     # `prefix: /api` or `prefix: [/v1, /v2]`; a route under any of them is

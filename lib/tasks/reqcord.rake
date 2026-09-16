@@ -27,6 +27,10 @@ namespace :reqcord do
         # Or spell the command out yourself; it wins over `paths`.
         # command: bin/rails test test/integration test/api
 
+        # A failing suite still documents what it captured. Set true to abort
+        # instead (or run with REQCORD_STRICT=1).
+        # strict: false
+
       routes:
         # Only routes under this prefix are documented; a list works too
         # (`prefix: [/v1, /v2]`). Filter a single run with
