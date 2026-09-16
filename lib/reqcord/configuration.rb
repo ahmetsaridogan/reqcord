@@ -27,7 +27,7 @@ module Reqcord
         "include_uncovered" => false
       },
 
-      "exporters" => %w[curl markdown postman],
+      "exporters" => %w[curl markdown postman openapi],
 
       "variables" => {
         "base_url" => "http://localhost:3000"

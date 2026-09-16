@@ -32,6 +32,7 @@ require_relative "reqcord/exporters"
 require_relative "reqcord/exporters/curl"
 require_relative "reqcord/exporters/markdown"
 require_relative "reqcord/exporters/postman"
+require_relative "reqcord/exporters/openapi"
 require_relative "reqcord/generator"
 
 require_relative "reqcord/railtie" if defined?(Rails::Railtie)

@@ -17,6 +17,7 @@ exporters:
   - curl
   - markdown
   - postman
+  - openapi
 
 variables:
   base_url: http://localhost:3000

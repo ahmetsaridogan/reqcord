@@ -11,7 +11,7 @@ class ConfigurationTest < Minitest::Test
 
       assert_equal "minitest", config.test_framework
       assert_equal "/api", config.route_prefix
-      assert_equal %w[curl markdown postman], config.exporters
+      assert_equal %w[curl markdown postman openapi], config.exporters
       assert_equal "http://localhost:3000", config.base_url
       assert_equal File.join(directory, "docs/api"), config.output_directory.to_s
     end

@@ -45,11 +45,13 @@ namespace :reqcord do
         include_uncovered: false
 
       # markdown: pages under docs/api, curl: one runnable .sh per endpoint,
-      # postman: postman/collection.json (import into Postman or Hoppscotch).
+      # postman: postman/collection.json (import into Postman or Hoppscotch),
+      # openapi: openapi/openapi.json (rendered with Scalar by Reqcord::Web).
       exporters:
         - curl
         - markdown
         - postman
+        - openapi
 
       variables:
         # Host of every generated cURL and the Postman `base_url` variable.

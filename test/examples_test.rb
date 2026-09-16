@@ -60,6 +60,11 @@ class ExamplesTest < Minitest::Test
 
     assert_path_exists File.join(output, "postman", "collection.json")
 
+    openapi = JSON.parse(File.read(File.join(output, "openapi", "openapi.json")))
+
+    assert_equal "3.1.0", openapi["openapi"]
+    refute_empty openapi["paths"]
+
     [output, JSON.parse(File.read(File.join(output, "dataset.json")))]
   end
 
