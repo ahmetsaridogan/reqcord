@@ -28,12 +28,19 @@ Each line is one **exchange**:
 | `request.path_params` | the dynamic segments the router filled in (`id: "42"`) |
 | `request.query_params` | the query string, nested (`filter: { category: "mugs" }`) |
 | `request.headers` | the headers the test passed, plus `Content-Type` / `Accept` when they carry information (Rails' default `Accept` is dropped) |
-| `request.body`, `request.content_type` | the params the test sent, as JSON or as form fields |
+| `request.body`, `request.content_type` | the params the test sent, as JSON, form fields or multipart parts; an uploaded file becomes `{"$file": "label.png", "content_type": "image/png"}` — name and type, never the bytes |
 | `response.status`, `response.headers`, `response.body`, `response.content_type` | the response; JSON bodies parsed, others kept as text |
 | `source` | the test method or example name, its class or group, file and line |
 
-Supported request bodies are JSON and form-encoded; multipart uploads are
-not captured yet.
+Supported request bodies are JSON, form-encoded and multipart
+(`Rack::Test::UploadedFile` / `fixture_file_upload` in the params). The file
+marker is what every exporter reads: `file` in the parameter table,
+`--form name=@file` in cURL, a `formdata` file part in Postman,
+`format: binary` in OpenAPI.
+
+Exchanges are ordered by test file, line and name before the dataset is
+built, so the output does not depend on the (random) order the suite ran
+in; requests made inside one test keep their execution order.
 
 ## Sanitization
 
@@ -104,7 +111,7 @@ hashes are flattened to field paths and merged:
 | Column | Rule |
 | --- | --- |
 | `Field` | the path: `customer.name`, `order.line_items[].sku`, `filter.category` |
-| `Type` | the JSON types seen (`string`, `integer`, `number`, `boolean`, `null`, `object`, `array`), joined with `\|` when they differ |
+| `Type` | the JSON types seen (`string`, `integer`, `number`, `boolean`, `null`, `object`, `array`, `file` for an upload), joined with `\|` when they differ |
 | `Required` | `yes` only when **every** accepted request carried the field; a request accepted with no parameters at all counts, so `?status=` on a list endpoint is optional |
 | `Values` | a closed set (`"active"` \| `"passive"`) when the values look like a choice; otherwise one example |
 

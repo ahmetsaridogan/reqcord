@@ -69,7 +69,9 @@ bin/rails reqcord:generate    # runs them with capture on, writes docs/api/
 [reqcord] routes: 18 = 15 documented + 1 uncovered + 2 skipped
 ```
 
-Every route ends in exactly one bucket, so nothing goes missing quietly.
+Every route ends in exactly one bucket, so nothing goes missing quietly. In
+CI, `bin/rails reqcord:check` fails when the committed docs are behind the
+tests.
 
 Optionally, browse it inside the app with Scalar:
 

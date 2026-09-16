@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.3.0] - Unreleased
+
+### Added
+
+* Multipart uploads are documented. A `Rack::Test::UploadedFile` in a test's
+  params becomes a `file` field (shown by name, `label.png`), `--form
+  image=@label.png;type=image/png` in cURL, a `formdata` file part in Postman
+  and `type: string, format: binary` under `multipart/form-data` in OpenAPI.
+  The bytes never reach the dataset.
+* `bin/rails reqcord:check` (`Reqcord::Check`): regenerates into a scratch
+  directory and compares with the committed output, file by file; exits 1
+  with a git-status style list when the docs are behind the tests — the CI
+  guard for documentation drift.
+
+### Changed
+
+* Output is deterministic. Captured exchanges are ordered by test file, line
+  and name before the dataset is built, so "the first example" no longer
+  depends on the test run order, and `dataset.json` no longer carries a
+  `generated_at` timestamp. Regenerating without a code change produces no
+  diff.
+
+### Fixed
+
+* `routes.prefix` matches whole path segments: `/api` no longer swallows
+  `/api-docs` (which made a mounted `Reqcord::Web` show up as a skipped
+  route).
+
 ## [0.2.0] - 2026-09-16
 
 ### Added

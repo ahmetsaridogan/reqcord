@@ -76,6 +76,21 @@ the defaults). Valid names: `curl`, `markdown`, `postman`, `openapi`.
   fixtures (an `id` that exists only in the test database) the real server
   needs equivalent data.
 
+## `reqcord:check` fails but nothing changed
+
+The comparison is byte for byte, so the committed docs must come from the
+same code and configuration:
+
+* a different Reqcord version, `reqcord.yml`, `REQCORD_BASE_URL` or
+  `REQCORD_OUTPUT` between the commit and CI;
+* a `RESOURCE` / `VERSION` filter on one side only;
+* files added by hand under `docs/api` (listed as `D`), or stale files from
+  an endpoint that no longer exists — `generate` never deletes.
+
+Run `bin/rails reqcord:generate` locally with the same settings and commit
+what changes. Test order does not matter: the output is ordered by test
+file and line, not by execution.
+
 ## `/api-docs` shows "No documentation generated yet"
 
 `Reqcord::Web` only serves files; run `bin/rails reqcord:generate` first. If
