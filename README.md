@@ -21,7 +21,7 @@ Minitest Integration Tests
           ↓
    Canonical Dataset
           ↓
-   Markdown · cURL · Postman
+   Markdown · cURL · Postman · OpenAPI (Scalar)
 ```
 
 ## Why Reqcord?
@@ -172,8 +172,10 @@ The parameter tables are inferred from the requests the application
 **accepted**: two passing tests sent `"active"` and `"passive"`, a third sent
 `"inactive"` and got a `422`, so the documentation lists the two values that
 work and keeps the rejection only as a response example. The same run also
-writes a runnable `curl/api/v2/customers/create.sh` and a Postman collection
-with this request and its three saved responses.
+writes a runnable `curl/api/v2/customers/create.sh`, a Postman collection
+with this request and its three saved responses, and an OpenAPI 3.1 document
+you can browse with Scalar by mounting `Reqcord::Web` (see
+[Serve the docs in your app](#serve-the-docs-in-your-app)).
 
 ## Examples
 
@@ -205,9 +207,9 @@ Minitest ──────► Test Adapter
                        ▼
                 Reqcord Dataset
                        │
-          ┌────────────┼────────────┐
-          ▼            ▼            ▼
-      Markdown       cURL        Postman
+          ┌────────────┼────────────┬────────────┐
+          ▼            ▼            ▼            ▼
+      Markdown       cURL        Postman      OpenAPI ──► Scalar
 ```
 
 The internal dataset is framework-independent and output-independent.
@@ -277,6 +279,7 @@ exporters:
   - curl
   - markdown
   - postman
+  - openapi
 
 variables:
   base_url: http://localhost:3000
@@ -401,8 +404,10 @@ docs/api/
 │   └── api/v2/customers/
 │       ├── create.sh
 │       └── show.sh
-└── postman/
-    └── collection.json
+├── postman/
+│   └── collection.json
+└── openapi/
+    └── openapi.json
 ```
 
 `dataset.json` contains Reqcord's normalized representation of the captured
@@ -445,6 +450,50 @@ they are counted as *skipped* in the report rather than dropped.
 
 Hoppscotch imports Postman v2.1 collections directly: *Import → Postman* and
 point it at the same file.
+
+## OpenAPI
+
+`openapi/openapi.json` is an OpenAPI 3.1 document built from the same dataset:
+
+* one path item per documented route, in OpenAPI notation — `/customers/:id`
+  becomes `/customers/{id}`, and `/items(/:id)` becomes both `/items` and
+  `/items/{id}`,
+* path and query parameters from the inferred schemas, closed value sets as
+  `enum`,
+* a `requestBody` (`application/json` or `application/x-www-form-urlencoded`,
+  whichever the test sent) whose JSON Schema is rebuilt from the field paths,
+  nested objects and arrays included, `required` from what every accepted
+  request carried,
+* one response per captured status with its schema and example,
+* `bearerAuth` / `apiKeyAuth` security schemes derived from the sanitized
+  `Authorization` and `X-Api-Key` headers, applied per operation — so public
+  endpoints stay public.
+
+Anything that reads OpenAPI (Scalar, Swagger UI, Redoc, code generators) can
+consume the file as is.
+
+## Serve the docs in your app
+
+`Reqcord::Web` is a Rack application that serves the generated output from
+inside the Rails app, the way `Sidekiq::Web` does:
+
+```ruby
+# config/routes.rb
+mount Reqcord::Web => "/api-docs" if Rails.env.development?
+```
+
+* `/api-docs` renders `openapi/openapi.json` with
+  [Scalar](https://scalar.com) — a searchable reference with a *Try it*
+  client, loaded from the Scalar CDN,
+* `/api-docs/openapi/openapi.json`, `/api-docs/dataset.json`,
+  `/api-docs/postman/collection.json`, `/api-docs/api/v2/customers/create.md`,
+  `/api-docs/curl/api/v2/customers/create.sh` … serve the generated files,
+* nothing outside `output.directory` is ever served.
+
+`Reqcord::Web` only reads; run `bin/rails reqcord:generate` first (before the
+first run the page tells you so). Because the files are static, mounting it
+in production is a deployment decision, not a Reqcord one — guard it as you
+would any internal page.
 
 ## Request Capture
 
@@ -651,10 +700,13 @@ Reqcord
 │   ├── Payload          (JSON vs form, nested query flattening)
 │   └── Curl
 │
-└── Exporters
-    ├── Markdown
-    ├── Curl             (one .sh per endpoint)
-    └── Postman          (Collection v2.1, also for Hoppscotch)
+├── Exporters
+│   ├── Markdown
+│   ├── Curl             (one .sh per endpoint)
+│   ├── Postman          (Collection v2.1, also for Hoppscotch)
+│   └── Openapi          (OpenAPI 3.1)
+│
+└── Web                  (Rack app: Scalar page + generated files)
 ```
 
 Test adapters are responsible only for converting test execution into Reqcord's canonical model.
@@ -667,7 +719,7 @@ Minitest ──┐
 RSpec ─────┼──► Dataset ──► Markdown
            │             ├─► cURL
 Other ─────┘             ├─► Postman  (→ Hoppscotch)
-                         └─► OpenAPI  (0.2)
+                         └─► OpenAPI  (→ Scalar via Reqcord::Web)
 ```
 
 ## v0.1 Scope
@@ -689,6 +741,7 @@ The first Reqcord release focuses on proving the capture pipeline.
 * Markdown documentation
 * Generated cURL requests (in the Markdown and as runnable `.sh` files)
 * Postman Collection v2.1 (imports into Hoppscotch as well)
+* OpenAPI 3.1 document, browsable with Scalar through `mount Reqcord::Web`
 * The whole route table: custom actions, `match via:`, `via: :all`,
   singular resources, optional segments and globs, mounted engines
 * Resource filtering
@@ -696,32 +749,12 @@ The first Reqcord release focuses on proving the capture pipeline.
 
 ### Not included yet
 
-* OpenAPI generation
-* Scalar integration
 * Multipart requests
 * CI documentation drift detection
 
 These features belong to later releases rather than expanding the initial scope.
 
 ## Roadmap
-
-### v0.2
-
-OpenAPI 3.1 export and Scalar integration.
-
-```text
-Reqcord Dataset
-      ↓
-OpenAPI 3.1
-      ↓
-Scalar
-```
-
-This will allow a development application to expose documentation such as:
-
-```text
-http://localhost:3000/api-docs
-```
 
 ### v0.3
 
@@ -767,7 +800,7 @@ Reqcord is currently in early development.
 
 The initial goal is intentionally narrow:
 
-> Capture real Rails API requests and responses from the test suite and generate accurate, sanitized Markdown documentation, executable cURL examples and a Postman collection — without the developer writing any of them by hand.
+> Capture real Rails API requests and responses from the test suite and generate accurate, sanitized Markdown documentation, executable cURL examples, a Postman collection and an OpenAPI document — without the developer writing any of them by hand.
 
 Once that pipeline is reliable, additional adapters and exporters can be built on top of the same dataset.
 

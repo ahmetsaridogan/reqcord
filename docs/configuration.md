@@ -229,16 +229,40 @@ pages as well, each carrying a note that nothing was captured.
 
 ## `exporters`
 
-Which outputs to write. Default: all three.
+Which outputs to write. Default: all four.
 
 | Name | Writes |
 | --- | --- |
 | `markdown` | `README.md` plus one page per endpoint: headers, typed parameter tables, example request, cURL, one example and field table per response status |
 | `curl` | one runnable `.sh` per endpoint under `curl/`, built from the successful captured request |
 | `postman` | `postman/collection.json`, a Postman Collection v2.1 — folders per controller namespace, one request per endpoint, every captured status saved as an example, placeholders as collection variables, bearer auth at collection level. Hoppscotch imports the same file |
+| `openapi` | `openapi/openapi.json`, an OpenAPI 3.1 document — one path item per documented route (`/items(/:id)` becomes `/items` and `/items/{id}`), parameters and request body schemas rebuilt from the inferred fields, one response per captured status with schema and example, `bearerAuth` / `apiKeyAuth` security schemes from the sanitized headers. `servers` comes from `variables.base_url` |
 
 `dataset.json` is always written. An unknown name raises
 `Reqcord::ConfigurationError` before any test runs.
+
+### Browsing the output: `Reqcord::Web`
+
+The generated directory can be served from the application itself:
+
+```ruby
+# config/routes.rb
+mount Reqcord::Web => "/api-docs" if Rails.env.development?
+```
+
+`/api-docs` renders the OpenAPI document with Scalar (loaded from
+`cdn.jsdelivr.net`); every other path under the mount is a file from
+`output.directory` — `openapi/openapi.json`, `dataset.json`,
+`postman/collection.json`, the Markdown pages, the cURL scripts. Requests
+that resolve outside that directory get a `404`. Nothing is generated on the
+fly: run `bin/rails reqcord:generate` first, and again after the tests change.
+
+`Reqcord::Web` reads `output.directory` from `reqcord.yml` (and
+`REQCORD_OUTPUT`). To serve a different directory, mount an instance instead:
+
+```ruby
+mount Reqcord::Web.new(root: Rails.root.join("public/api-docs")) => "/api-docs"
+```
 
 ---
 

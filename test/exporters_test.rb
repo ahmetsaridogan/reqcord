@@ -12,9 +12,9 @@ class ExportersTest < Minitest::Test
   end
 
   def test_an_unknown_name_names_the_alternatives
-    error = assert_raises(Reqcord::ConfigurationError) { Reqcord::Exporters.fetch("openapi") }
+    error = assert_raises(Reqcord::ConfigurationError) { Reqcord::Exporters.fetch("graphql") }
 
-    assert_match(/unknown exporter "openapi"/, error.message)
+    assert_match(/unknown exporter "graphql"/, error.message)
     assert_match(/markdown/, error.message)
   end
 
@@ -39,6 +39,13 @@ class PostmanExporterRegistrationTest < Minitest::Test
   def test_postman_registers_itself
     assert Reqcord::Exporters.registered?("postman")
     assert_equal Reqcord::Exporters::Postman, Reqcord::Exporters.fetch("postman")
-    assert_equal %w[curl markdown postman], Reqcord::Exporters.names
+    assert_equal %w[curl markdown openapi postman], Reqcord::Exporters.names
+  end
+end
+
+class OpenapiExporterRegistrationTest < Minitest::Test
+  def test_openapi_registers_itself
+    assert Reqcord::Exporters.registered?("openapi")
+    assert_equal Reqcord::Exporters::Openapi, Reqcord::Exporters.fetch("openapi")
   end
 end

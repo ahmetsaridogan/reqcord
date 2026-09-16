@@ -23,7 +23,7 @@ Namespace: `api/v1`
 
 ```bash
 curl --request GET \
-  --url "http://localhost:3000/api/v1/products?filter%5Bcategory%5D=tea" \
+  --url "http://localhost:3000/api/v1/products?filter%5Bcategory%5D=mugs" \
   --header "Accept: application/json"
 ```
 
@@ -35,11 +35,11 @@ curl --request GET \
 
 | Field | Type | Required | Values |
 | --- | --- | --- | --- |
-| `data[].id` | integer | yes | `2` |
-| `data[].sku` | string | yes | `"TEA-002"` |
-| `data[].name` | string | yes | `"Sencha"` |
+| `data[].id` | integer | yes | `4` |
+| `data[].sku` | string | yes | `"MUG-002"` |
+| `data[].name` | string | yes | `"Travel Mug"` |
 | `data[].category` | string | yes | `"mugs"` \| `"tea"` |
-| `data[].price_cents` | integer | yes | `1500` |
+| `data[].price_cents` | integer | yes | `3200` |
 | `data[].tags[]` | string | yes | `"ceramic"` \| `"green"` \| `"insulated"` |
 | `meta.page` | integer | yes | `1` |
 | `meta.per_page` | integer | yes | `2` |
@@ -49,24 +49,24 @@ curl --request GET \
 {
   "data": [
     {
-      "id": 1,
-      "sku": "TEA-001",
-      "name": "Earl Grey",
-      "category": "tea",
-      "price_cents": 1200,
+      "id": 3,
+      "sku": "MUG-001",
+      "name": "Stoneware Mug",
+      "category": "mugs",
+      "price_cents": 2400,
       "tags": [
-        "black",
-        "bergamot"
+        "ceramic"
       ]
     },
     {
-      "id": 2,
-      "sku": "TEA-002",
-      "name": "Sencha",
-      "category": "tea",
-      "price_cents": 1500,
+      "id": 4,
+      "sku": "MUG-002",
+      "name": "Travel Mug",
+      "category": "mugs",
+      "price_cents": 3200,
       "tags": [
-        "green"
+        "steel",
+        "insulated"
       ]
     }
   ],

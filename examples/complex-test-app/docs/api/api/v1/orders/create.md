@@ -16,10 +16,10 @@ Namespace: `api/v1`
 
 | Field | Type | Required | Values |
 | --- | --- | --- | --- |
-| `order.line_items[].sku` | string | yes | `"MUG-001"` |
+| `order.line_items[].sku` | string | yes | `"MUG-002"` |
 | `order.line_items[].quantity` | integer | yes | `1` |
-| `order.shipping_address.line1` | string | yes | `"1 Analytical Engine Way"` |
-| `order.shipping_address.city` | string | yes | `"London"` |
+| `order.shipping_address.line1` | string | yes | `"Piazza"` |
+| `order.shipping_address.city` | string | yes | `"Rome"` |
 | `order.shipping_address.country` | string | yes | `"GB"` \| `"IT"` |
 
 ## Example Request
@@ -29,18 +29,14 @@ Namespace: `api/v1`
   "order": {
     "line_items": [
       {
-        "sku": "TEA-001",
-        "quantity": 2
-      },
-      {
-        "sku": "MUG-001",
+        "sku": "MUG-002",
         "quantity": 1
       }
     ],
     "shipping_address": {
-      "line1": "1 Analytical Engine Way",
-      "city": "London",
-      "country": "GB"
+      "line1": "Piazza",
+      "city": "Rome",
+      "country": "IT"
     }
   }
 }
@@ -58,18 +54,14 @@ curl --request POST \
   "order": {
     "line_items": [
       {
-        "sku": "TEA-001",
-        "quantity": 2
-      },
-      {
-        "sku": "MUG-001",
+        "sku": "MUG-002",
         "quantity": 1
       }
     ],
     "shipping_address": {
-      "line1": "1 Analytical Engine Way",
-      "city": "London",
-      "country": "GB"
+      "line1": "Piazza",
+      "city": "Rome",
+      "country": "IT"
     }
   }
 }'
@@ -86,14 +78,14 @@ curl --request POST \
 | `id` | integer | yes | `4` |
 | `status` | string | yes | `"pending"` |
 | `currency` | string | yes | `"USD"` |
-| `total_cents` | integer | yes | `4800` |
-| `line_items[].sku` | string | yes | `"MUG-001"` |
-| `line_items[].name` | string | yes | `"Stoneware Mug"` |
+| `total_cents` | integer | yes | `3200` |
+| `line_items[].sku` | string | yes | `"MUG-002"` |
+| `line_items[].name` | string | yes | `"Travel Mug"` |
 | `line_items[].quantity` | integer | yes | `1` |
-| `line_items[].unit_price_cents` | integer | yes | `2400` |
-| `line_items[].subtotal_cents` | integer | yes | `2400` |
-| `shipping_address.line1` | string | yes | `"1 Analytical Engine Way"` |
-| `shipping_address.city` | string | yes | `"London"` |
+| `line_items[].unit_price_cents` | integer | yes | `3200` |
+| `line_items[].subtotal_cents` | integer | yes | `3200` |
+| `shipping_address.line1` | string | yes | `"Piazza"` |
+| `shipping_address.city` | string | yes | `"Rome"` |
 | `shipping_address.country` | string | yes | `"GB"` \| `"IT"` |
 
 ```json
@@ -101,27 +93,20 @@ curl --request POST \
   "id": 4,
   "status": "pending",
   "currency": "USD",
-  "total_cents": 4800,
+  "total_cents": 3200,
   "line_items": [
     {
-      "sku": "TEA-001",
-      "name": "Earl Grey",
-      "quantity": 2,
-      "unit_price_cents": 1200,
-      "subtotal_cents": 2400
-    },
-    {
-      "sku": "MUG-001",
-      "name": "Stoneware Mug",
+      "sku": "MUG-002",
+      "name": "Travel Mug",
       "quantity": 1,
-      "unit_price_cents": 2400,
-      "subtotal_cents": 2400
+      "unit_price_cents": 3200,
+      "subtotal_cents": 3200
     }
   ],
   "shipping_address": {
-    "line1": "1 Analytical Engine Way",
-    "city": "London",
-    "country": "GB"
+    "line1": "Piazza",
+    "city": "Rome",
+    "country": "IT"
   }
 }
 ```

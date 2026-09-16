@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0] - Unreleased
+
+### Added
+
+* OpenAPI 3.1 exporter (`openapi/openapi.json`, on by default): one path item
+  per documented route (`/items(/:id)` becomes `/items` and `/items/{id}`),
+  parameters and request bodies from the inferred schemas, one response per
+  captured status with its example, bearer / API-key security schemes from
+  the sanitized headers.
+* `Reqcord::Web`: `mount Reqcord::Web => "/api-docs"` serves the OpenAPI
+  document with Scalar and every other generated file (`dataset.json`, the
+  Postman collection, Markdown pages, cURL scripts) from inside the
+  application, Sidekiq::Web style.
+
 ## [0.1.4] - 2026-09-16
 
 ### Changed

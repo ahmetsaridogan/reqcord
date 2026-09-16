@@ -118,7 +118,7 @@ class GeneratorTest < Minitest::Test
 
   def test_rejects_an_unknown_exporter
     Dir.mktmpdir do |root|
-      subject = generator(root, yaml: "exporters:\n  - openapi\n")
+      subject = generator(root, yaml: "exporters:\n  - graphql\n")
 
       error = assert_raises(Reqcord::ConfigurationError) { subject.send(:validate!) }
 
