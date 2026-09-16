@@ -108,6 +108,7 @@ module Reqcord
           root to: "home#index"
           resource :cart, only: %i[show update]
           get "/items(/:id)", to: "items#show"
+          get "/items-archive", to: "items#show", as: :items_archive
           get "/files/*path", to: "files#show", as: :file_download
           namespace :admin do
             resources :customers, only: :index

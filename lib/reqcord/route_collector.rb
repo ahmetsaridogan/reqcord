@@ -216,7 +216,16 @@ module Reqcord
       prefixes = Array(prefix).map(&:to_s).reject(&:empty?)
       return true if prefixes.empty?
 
-      prefixes.any? { |candidate| path.start_with?(candidate) }
+      # Segment-wise: `/api` covers `/api`, `/api/v1/…` and `/api(/:id)`, not
+      # `/api-docs`.
+      prefixes.any? do |candidate|
+        candidate = candidate.chomp("/")
+        next true if candidate.empty?
+        next false unless path.start_with?(candidate)
+
+        rest = path.delete_prefix(candidate)
+        rest.empty? || rest.start_with?("/", "(")
+      end
     end
 
     # `RESOURCE=customers`, `RESOURCE=cart` (a singular resource is served by
