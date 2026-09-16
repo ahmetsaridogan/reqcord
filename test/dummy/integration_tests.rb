@@ -117,4 +117,14 @@ class OtherRoutesTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
   end
+
+  test "uploads an avatar" do
+    post "/api/uploads",
+         params: {
+           title: "Profile picture",
+           avatar: Rack::Test::UploadedFile.new(File.expand_path("fixtures/avatar.png", __dir__), "image/png")
+         }
+
+    assert_response :created
+  end
 end

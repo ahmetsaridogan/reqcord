@@ -153,12 +153,22 @@ module Reqcord
       def request_body(endpoint, example)
         return nil if endpoint.body_schema.empty?
 
-        content_type = Renderers::Payload.json?(example) ? "application/json" : "application/x-www-form-urlencoded"
+        content_type =
+          if Renderers::Payload.multipart?(example)
+            "multipart/form-data"
+          elsif Renderers::Payload.json?(example)
+            "application/json"
+          else
+            "application/x-www-form-urlencoded"
+          end
+
+        # A file part is shown by name in the example; the bytes are not data.
+        body = Renderers::Payload.display_body(example) { |file| FileValue.filename(file) }
 
         {
           required: true,
           content: {
-            content_type => { schema: json_schema(endpoint.body_schema), example: example.body }.compact
+            content_type => { schema: json_schema(endpoint.body_schema), example: body }.compact
           }
         }
       end
@@ -224,6 +234,8 @@ module Reqcord
 
       def scalar_schema(field)
         types = field.types.to_a.sort
+        return { type: "string", format: "binary" } if types == ["file"]
+
         schema = { type: types.size == 1 ? types.first : types }
         schema[:enum] = field.listed_values if field.enum?
         schema[:example] = field.example unless field.example.nil?

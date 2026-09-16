@@ -11,6 +11,7 @@ require "pathname"
 require_relative "reqcord/version"
 require_relative "reqcord/errors"
 require_relative "reqcord/support"
+require_relative "reqcord/file_value"
 require_relative "reqcord/configuration"
 
 require_relative "reqcord/request_example"

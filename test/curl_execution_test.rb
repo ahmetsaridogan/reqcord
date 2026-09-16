@@ -21,14 +21,15 @@ class CurlExecutionTest < Minitest::Test
 
   # The command as documented, pointed at the test server with the placeholder
   # filled in, exactly as a reader would do by hand.
-  def run_curl(command)
+  def run_curl(command, chdir: Dir.pwd)
     runnable = command
                .gsub("{{token}}", DummyServer::TOKEN)
                .gsub("http://localhost:3000", DummyServer.base_url)
                .gsub(" \\\n  ", " ")
 
     stdout, status = Open3.capture2e(
-      "#{runnable} --silent --output /dev/null --write-out '%{http_code}'"
+      "#{runnable} --silent --output /dev/null --write-out '%{http_code}'",
+      chdir: chdir
     )
 
     assert status.success?, "curl failed: #{stdout}"
@@ -69,6 +70,17 @@ class CurlExecutionTest < Minitest::Test
     assert_includes command, "--request PATCH"
     assert_includes command, "cart%5Bcoupon%5D=SAVE10"
     assert_equal "200", run_curl(command)
+  end
+
+  # An upload is `--form name=@file`, run from wherever the file is.
+  def test_documented_multipart_upload_runs
+    command = curl_from("api", "uploads", "create.md")
+
+    assert_includes command, "--form 'avatar=@avatar.png;type=image/png'"
+    assert_includes command, "--form 'title=Profile picture'"
+    refute_includes command, "--data"
+    refute_includes command, "Content-Type"
+    assert_equal "201", run_curl(command, chdir: File.expand_path("dummy/fixtures", __dir__))
   end
 
   # Without the placeholder replaced, the documented request is unauthorized:

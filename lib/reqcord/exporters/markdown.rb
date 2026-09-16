@@ -234,12 +234,15 @@ module Reqcord
 
         lines = ["## Example Request", ""]
 
-        unless Renderers::Payload.json?(example) || example.content_type.to_s.empty?
+        if Renderers::Payload.multipart?(example)
+          lines << "Sent as `multipart/form-data`; file parts are shown by name, the cURL below attaches them with `--form`."
+          lines << ""
+        elsif !Renderers::Payload.json?(example) && !example.content_type.to_s.empty?
           lines << "Sent as `#{example.content_type}`; the cURL below carries it in that encoding."
           lines << ""
         end
 
-        lines.concat([*code_block(example.body, example.content_type), ""])
+        lines.concat([*code_block(Renderers::Payload.display_body(example), example.content_type), ""])
       end
 
       def curl_section(example)

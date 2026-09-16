@@ -48,13 +48,13 @@ class PipelineTest < Minitest::Test
 
   def test_the_run_succeeds_and_reports_coverage
     assert @status.success?, @stdout
-    assert_includes @stdout, "16 runs, 16 assertions, 0 failures"
-    assert_includes @stdout, "endpoints=14 documented=13"
+    assert_includes @stdout, "17 runs, 17 assertions, 0 failures"
+    assert_includes @stdout, "endpoints=15 documented=14"
   end
 
   # Every route lands in exactly one bucket, and the report proves the sum.
   def test_the_report_reconciles_the_route_table
-    assert_includes @stdout, "routes: 16 = 13 documented + 1 uncovered + 2 skipped"
+    assert_includes @stdout, "routes: 17 = 14 documented + 1 uncovered + 2 skipped"
     assert_includes @stdout, "skipped 2 route(s) that cannot be documented: 1 redirect, 1 mount"
   end
 

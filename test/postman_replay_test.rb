@@ -69,6 +69,17 @@ class PostmanReplayTest < Minitest::Test
       http_request["Content-Type"] ||= "application/json"
     when "urlencoded"
       http_request.set_form_data(body["urlencoded"].to_h { |pair| [pair["key"], pair["value"]] })
+    when "formdata"
+      # File parts name a file next to the tests, as they would in Postman.
+      parts = body["formdata"].map do |part|
+        if part["type"] == "file"
+          [part["key"], File.open(File.expand_path("dummy/fixtures/#{part['src']}", __dir__))]
+        else
+          [part["key"], part["value"]]
+        end
+      end
+
+      http_request.set_form(parts, "multipart/form-data")
     end
   end
 end

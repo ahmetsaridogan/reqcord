@@ -110,7 +110,7 @@ module Reqcord
           )
 
           field.types |= [type_of(value)]
-          field.values |= [value] unless value.nil? || value.is_a?(Hash) || value.is_a?(Array)
+          field.values |= [example_value(value)] unless value.nil? || value.is_a?(Array) || (value.is_a?(Hash) && !FileValue.file?(value))
           field.present_count += 1
         end
       end
@@ -159,6 +159,9 @@ module Reqcord
     def flatten(value, prefix = nil, result = {})
       case value
       when Hash
+        # An upload is one field of type "file", not an object with two keys.
+        return result[prefix] = value if FileValue.file?(value) && prefix
+
         value.each { |key, nested| flatten(nested, prefix ? "#{prefix}.#{key}" : key.to_s, result) }
       when Array
         # An empty array still tells the reader the field is a list.
@@ -171,7 +174,14 @@ module Reqcord
       result
     end
 
+    # The file name stands for an upload in the Values column.
+    def example_value(value)
+      FileValue.file?(value) ? FileValue.filename(value) : value
+    end
+
     def type_of(value)
+      return "file" if FileValue.file?(value)
+
       case value
       when String then "string"
       when Integer then "integer"

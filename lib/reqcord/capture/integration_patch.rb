@@ -120,12 +120,15 @@ module Reqcord
         result
       end
 
+      # The media type without parameters: a multipart boundary is noise that
+      # would make every upload request look different.
       def reqcord_content_type(body, request_format)
         return nil unless body
 
         return "application/json" if request_format.to_s == "json"
+        return nil unless request
 
-        request&.content_type
+        request.respond_to?(:media_type) ? request.media_type : request.content_type
       end
 
       def reqcord_header_name(key)
@@ -173,7 +176,11 @@ module Reqcord
         when Array
           value.map { |item| reqcord_normalize_value(item) }
         else
-          if value.respond_to?(:to_unsafe_h)
+          # Rack::Test::UploadedFile / ActionDispatch::Http::UploadedFile: the
+          # bytes stay out of the documentation, the name and type go in.
+          if value.respond_to?(:original_filename)
+            Reqcord::FileValue.marker(value.original_filename, value.respond_to?(:content_type) ? value.content_type : nil)
+          elsif value.respond_to?(:to_unsafe_h)
             reqcord_normalize_value(value.to_unsafe_h)
           elsif value.respond_to?(:to_h)
             reqcord_normalize_value(value.to_h)
